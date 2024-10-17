@@ -339,63 +339,15 @@
 	/delete-property/dma-names;
 	/* USER CODE END timers1 */
 
-	/* Set the desired PWM name */
-	pwm10: pwm {
-		pinctrl-names = "default", "sleep";
-		pinctrl-0 = <&ccmp25_timers1_ch3_pwm_pins>;
-		pinctrl-1 = <&ccmp25_timers1_ch3_pwm_sleep_pins>;
+	
+	counter_DI_1_2:  {                                          /* remove pwm10,pwm11 and add this */
+      	pinctrl-names = "default", "sleep";
+		pinctrl-0 = <&ccmp25_timers1_ch3_4_pins>;
+		pinctrl-1 = <&ccmp25_timers1_ch3_4_sleep_pins>;
 		status = "okay";
-	};
+    };
 
-	/*
-	 * Uncomment to enable timer trigger on STANDARD TIMER.
-	 *
-	 * Set <TRIGGER_INDEX> to (timer_index - 1)
-	 */
-	//timer@<TRIGGER_INDEX> {
-	//	status = "okay";
-	//};
 
-	/*
-	 * Uncomment to enable timer trigger on LPTIMER only.
-	 *
-	 * Set <TRIGGER_INDEX> to (lptimer_index - 1)
-	 */
-	//trigger@<TRIGGER_INDEX> {
-	//	status = "okay";
-	//};
-
-	/* USER CODE BEGIN timers1 */
-	/* USER CODE END timers1 */
-
-	/* Set the desired PWM name */
-	pwm11: pwm {
-		pinctrl-names = "default", "sleep";
-		pinctrl-0 = <&ccmp25_timers1_ch4_pwm_pins>;
-		pinctrl-1 = <&ccmp25_timers1_ch4_pwm_sleep_pins>;
-		status = "okay";
-	};
-
-	/*
-	 * Uncomment to enable timer trigger on STANDARD TIMER.
-	 *
-	 * Set <TRIGGER_INDEX> to (timer_index - 1)
-	 */
-	//timer@<TRIGGER_INDEX> {
-	//	status = "okay";
-	//};
-
-	/*
-	 * Uncomment to enable timer trigger on LPTIMER only.
-	 *
-	 * Set <TRIGGER_INDEX> to (lptimer_index - 1)
-	 */
-	//trigger@<TRIGGER_INDEX> {
-	//	status = "okay";
-	//};
-
-	/* USER CODE BEGIN timers1 */
-	/* USER CODE END timers1 */
 
 	/* Set the desired PWM name */
 	pwm8: pwm {
@@ -1413,35 +1365,21 @@
 		};
 	};
 
-	ccmp25_timers1_ch3_pwm_pins: ccmp25-timers1-ch3-pwm {
+	ccmp25_timers1_ch3_4_pins: ccmp25-timers1-ch3_4 {
 		pins {
 			pinmux = <STM32_PINMUX('D',  9,  AF8)>; /* TIM1_CH3_PWM */
-			drive-push-pull;
+                        pinmux = <STM32_PINMUX('D',  8,  AF8)>; /* TIM1_CH4_PWM */
 			bias-disable;
-			slew-rate = <0>;
 		};
 	};
 
-	ccmp25_timers1_ch3_pwm_sleep_pins: ccmp25-timers1-ch3-pwm-sleep {
+	ccmp25_timers1_ch3_4_sleep_pins: ccmp25-timers1-ch3_4 {
 		pins {
 			pinmux = <STM32_PINMUX('D',  9, ANALOG)>; /* TIM1_CH3_PWM */
+                        pinmux = <STM32_PINMUX('D',  8, ANALOG)>; /* TIM1_CH4_PWM */
 		};
 	};
-
-	ccmp25_timers1_ch4_pwm_pins: ccmp25-timers1-ch4-pwm {
-		pins {
-			pinmux = <STM32_PINMUX('D',  8,  AF8)>; /* TIM1_CH4_PWM */
-			drive-push-pull;
-			bias-disable;
-			slew-rate = <0>;
-		};
-	};
-
-	ccmp25_timers1_ch4_pwm_sleep_pins: ccmp25-timers1-ch4-pwm-sleep {
-		pins {
-			pinmux = <STM32_PINMUX('D',  8, ANALOG)>; /* TIM1_CH4_PWM */
-		};
-	};
+	
 
 	ccmp25_timers20_ch4_pwm_pins: ccmp25-timers20-ch4-pwm {
 		pins {
