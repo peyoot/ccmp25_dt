@@ -1227,6 +1227,9 @@ ccmp25_timers5_ch3_4_pins: ccmp25-timers5-ch3_4 {
 					 <STM32_PINMUX('A',  4, ANALOG)>; /* USART2_TX */
 		};
 	};
+};
+
+&pinctrl_z {
 	ccmp25_gpio_z_pins: ccmp25-gpio {
 		pins {
 			pinmux = <STM32_PINMUX('Z',  6, GPIO)>, /* 3V3_RF_EN/PZ6_GPIO */
@@ -1267,7 +1270,4 @@ ccmp25_timers5_ch3_4_pins: ccmp25-timers5-ch3_4 {
 			pinmux = <STM32_PINMUX('Z',  7, ANALOG)>; /* LPTIM3_CH2_PWM */
 		};
 	};
-
 };
-
-/* &pinctrl_z { move all z stuff into pinctrl to test };  */
