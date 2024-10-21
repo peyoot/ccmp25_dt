@@ -328,7 +328,7 @@
 	/delete-property/dma-names;
 	/* USER CODE END timers2 */
 
-	counter_DI_3_4:  {                                          /* remove pwm10,pwm11 and add this */
+	counter_DI_3_4  {                                          /* remove pwm10,pwm11 and add this */
       	pinctrl-names = "default", "sleep";
 		pinctrl-0 = <&ccmp25_timers2_ch3_4_pins>;
 		pinctrl-1 = <&ccmp25_timers2_ch3_4_sleep_pins>;
@@ -434,7 +434,7 @@
 	/delete-property/dma-names;
 	/* USER CODE END timers3 */
 
-	counter_DI_5_6:  {                                          /* remove pwm18,pwm19 and add this */
+	counter_DI_5_6  {                                          /* remove pwm18,pwm19 and add this */
       	pinctrl-names = "default", "sleep";
 		pinctrl-0 = <&ccmp25_timers3_ch3_4_pins>;
 		pinctrl-1 = <&ccmp25_timers3_ch3_4_sleep_pins>;
@@ -451,7 +451,7 @@
 	/delete-property/dma-names;
 	/* USER CODE END timers4 */
 
-	counter_DI_7_8:  {                                          /* remove pwm22,pwm23 and add this */
+	counter_DI_7_8  {                                          /* remove pwm22,pwm23 and add this */
       	pinctrl-names = "default", "sleep";
 		pinctrl-0 = <&ccmp25_timers4_ch3_4_pins>;
 		pinctrl-1 = <&ccmp25_timers4_ch3_4_sleep_pins>;
@@ -523,7 +523,7 @@
 	/delete-property/dma-names;
 	/* USER CODE END timers5 */
 
-	counter_DI_9_10:  {                                          /* remove pwm26,pwm27 and add this */
+	counter_DI_9_10  {                                          /* remove pwm26,pwm27 and add this */
       	pinctrl-names = "default", "sleep";
 		pinctrl-0 = <&ccmp25_timers5_ch3_4_pins>;
 		pinctrl-1 = <&ccmp25_timers5_ch3_4_sleep_pins>;
@@ -595,7 +595,7 @@
 	/delete-property/dma-names;
 	/* USER CODE END timers8 */
 
-	counter_DI_11_12:  {                                          /* remove pwm30,pwm4 and add this */
+	counter_DI_11_12  {                                          /* remove pwm30,pwm4 and add this */
       	pinctrl-names = "default", "sleep";
 		pinctrl-0 = <&ccmp25_timers8_ch3_lptimers3_ch1_pins>;
 		pinctrl-1 = <&ccmp25_timers8_ch3_lptimers3_ch1_sleep_pins>;
