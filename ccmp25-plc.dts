@@ -749,134 +749,12 @@
 		};
 	};
 
-	ccmp25_ethernet1_pins: ccmp25-ethernet1 {
-		pins1 {
-			pinmux = <STM32_PINMUX('F',  0, AF10)>; /* MDIO1_MDC */
-			drive-push-pull;
-			bias-disable;
-			slew-rate = <2>;
-		};
-		pins2 {
-			pinmux = <STM32_PINMUX('F',  2, AF10)>; /* MDIO1_MDIO */
-			drive-push-pull;
-			bias-disable;
-			slew-rate = <0>;
-		};
-		pins3 {
-			pinmux = <STM32_PINMUX('A', 11, AF10)>, /* ETHERNET1_RX_DV */
-					 <STM32_PINMUX('A', 14, AF10)>, /* ETHERNET1_RX_CLK */
-					 <STM32_PINMUX('F',  1, AF10)>, /* ETHERNET1_RXD0 */
-					 <STM32_PINMUX('C',  2, AF10)>, /* ETHERNET1_RXD1 */
-					 <STM32_PINMUX('H', 12, AF10)>, /* ETHERNET1_RXD2 */
-					 <STM32_PINMUX('H', 13, AF11)>; /* ETHERNET1_RXD3 */
-			bias-disable;
-		};
-		pins4 {
-			pinmux = <STM32_PINMUX('A', 13, AF10)>, /* ETHERNET1_TX_EN */
-					 <STM32_PINMUX('C',  0, AF12)>, /* ETHERNET1_TXC */
-					 <STM32_PINMUX('A', 15, AF10)>, /* ETHERNET1_TXD0 */
-					 <STM32_PINMUX('C',  1, AF10)>, /* ETHERNET1_TXD1 */
-					 <STM32_PINMUX('H', 10, AF10)>, /* ETHERNET1_TXD2 */
-					 <STM32_PINMUX('H', 11, AF10)>, /* ETHERNET1_TXD3 */
-					 <STM32_PINMUX('H',  9, AF10)>; /* ETHERNET1_REFCLK_125M */
-			drive-push-pull;
-			bias-disable;
-			slew-rate = <3>;
-		};
-	};
-
-	ccmp25_ethernet1_sleep_pins: ccmp25-ethernet1-sleep {
-		pins {
-			pinmux = <STM32_PINMUX('F',  0, ANALOG)>, /* MDIO1_MDC */
-					 <STM32_PINMUX('F',  2, ANALOG)>, /* MDIO1_MDIO */
-					 <STM32_PINMUX('A', 11, ANALOG)>, /* ETHERNET1_RX_DV */
-					 <STM32_PINMUX('A', 14, ANALOG)>, /* ETHERNET1_RX_CLK */
-					 <STM32_PINMUX('F',  1, ANALOG)>, /* ETHERNET1_RXD0 */
-					 <STM32_PINMUX('C',  2, ANALOG)>, /* ETHERNET1_RXD1 */
-					 <STM32_PINMUX('H', 12, ANALOG)>, /* ETHERNET1_RXD2 */
-					 <STM32_PINMUX('H', 13, ANALOG)>, /* ETHERNET1_RXD3 */
-					 <STM32_PINMUX('A', 13, ANALOG)>, /* ETHERNET1_TX_EN */
-					 <STM32_PINMUX('C',  0, ANALOG)>, /* ETHERNET1_TXC */
-					 <STM32_PINMUX('A', 15, ANALOG)>, /* ETHERNET1_TXD0 */
-					 <STM32_PINMUX('C',  1, ANALOG)>, /* ETHERNET1_TXD1 */
-					 <STM32_PINMUX('H', 10, ANALOG)>, /* ETHERNET1_TXD2 */
-					 <STM32_PINMUX('H', 11, ANALOG)>, /* ETHERNET1_TXD3 */
-					 <STM32_PINMUX('H',  9, ANALOG)>; /* ETHERNET1_REFCLK_125M */
-		};
-	};
-
-	ccmp25_ethernet2_pins: ccmp25-ethernet2 {
-		pins1 {
-			pinmux = <STM32_PINMUX('C',  6, AF10)>; /* MDIO2_MDC */
-			drive-push-pull;
-			bias-disable;
-			slew-rate = <2>;
-		};
-		pins2 {
-			pinmux = <STM32_PINMUX('C',  5, AF10)>; /* MDIO2_MDIO */
-			drive-push-pull;
-			bias-disable;
-			slew-rate = <0>;
-		};
-		pins3 {
-			pinmux = <STM32_PINMUX('C',  3, AF10)>, /* ETHERNET2_RX_DV */
-					 <STM32_PINMUX('F',  6, AF10)>, /* ETHERNET2_RX_CLK */
-					 <STM32_PINMUX('G',  0, AF10)>, /* ETHERNET2_RXD0 */
-					 <STM32_PINMUX('C', 12, AF10)>, /* ETHERNET2_RXD1 */
-					 <STM32_PINMUX('F',  9, AF10)>, /* ETHERNET2_RXD2 */
-					 <STM32_PINMUX('C', 11, AF10)>; /* ETHERNET2_RXD3 */
-			bias-disable;
-		};
-		pins4 {
-			pinmux = <STM32_PINMUX('C',  4, AF10)>, /* ETHERNET2_TX_EN */
-					 <STM32_PINMUX('F',  7, AF10)>, /* ETHERNET2_TXC */
-					 <STM32_PINMUX('C',  7, AF10)>, /* ETHERNET2_TXD0 */
-					 <STM32_PINMUX('C',  8, AF10)>, /* ETHERNET2_TXD1 */
-					 <STM32_PINMUX('C',  9, AF10)>, /* ETHERNET2_TXD2 */
-					 <STM32_PINMUX('C', 10, AF10)>, /* ETHERNET2_TXD3 */
-					 <STM32_PINMUX('F',  8, AF10)>; /* ETHERNET2_REFCLK_125M */
-			drive-push-pull;
-			bias-disable;
-			slew-rate = <3>;
-		};
-	};
-
-	ccmp25_ethernet2_sleep_pins: ccmp25-ethernet2-sleep {
-		pins {
-			pinmux = <STM32_PINMUX('C',  6, ANALOG)>, /* MDIO2_MDC */
-					 <STM32_PINMUX('C',  5, ANALOG)>, /* MDIO2_MDIO */
-					 <STM32_PINMUX('C',  3, ANALOG)>, /* ETHERNET2_RX_DV */
-					 <STM32_PINMUX('F',  6, ANALOG)>, /* ETHERNET2_RX_CLK */
-					 <STM32_PINMUX('G',  0, ANALOG)>, /* ETHERNET2_RXD0 */
-					 <STM32_PINMUX('C', 12, ANALOG)>, /* ETHERNET2_RXD1 */
-					 <STM32_PINMUX('F',  9, ANALOG)>, /* ETHERNET2_RXD2 */
-					 <STM32_PINMUX('C', 11, ANALOG)>, /* ETHERNET2_RXD3 */
-					 <STM32_PINMUX('C',  4, ANALOG)>, /* ETHERNET2_TX_EN */
-					 <STM32_PINMUX('F',  7, ANALOG)>, /* ETHERNET2_TXC */
-					 <STM32_PINMUX('C',  7, ANALOG)>, /* ETHERNET2_TXD0 */
-					 <STM32_PINMUX('C',  8, ANALOG)>, /* ETHERNET2_TXD1 */
-					 <STM32_PINMUX('C',  9, ANALOG)>, /* ETHERNET2_TXD2 */
-					 <STM32_PINMUX('C', 10, ANALOG)>, /* ETHERNET2_TXD3 */
-					 <STM32_PINMUX('F',  8, ANALOG)>; /* ETHERNET2_REFCLK_125M */
-		};
-	};
+	
 
 	ccmp25_gpio_pins: ccmp25-gpio {
 		pins1 {
 			pinmux = <STM32_PINMUX('B',  2, GPIO)>, /* ETH1_RST_GPIO */
 					 <STM32_PINMUX('G',  6, GPIO)>, /* ETH2_RST_GPIO */
-					 <STM32_PINMUX('H',  2, GPIO)>, /* PH2_GPIO */
-					 <STM32_PINMUX('A',  3, GPIO)>, /* PA3_GPIO */
-					 <STM32_PINMUX('A',  6, GPIO)>, /* PA6_GPIO */
-					 <STM32_PINMUX('A',  7, GPIO)>, /* PA7_GPIO */
-					 <STM32_PINMUX('H',  6, GPIO)>, /* PH6_GPIO */
-					 <STM32_PINMUX('H',  3, GPIO)>, /* PH3_GPIO */
-					 <STM32_PINMUX('A',  5, GPIO)>, /* PA5_GPIO */
-					 <STM32_PINMUX('A',  2, GPIO)>, /* PA2_GPIO */
-					 <STM32_PINMUX('A',  9, GPIO)>, /* PA9_GPIO */
-					 <STM32_PINMUX('A', 10, GPIO)>, /* PA10_GPIO */
-					 <STM32_PINMUX('H',  7, GPIO)>, /* PH7_GPIO */
-					 <STM32_PINMUX('H',  8, GPIO)>, /* PH8_GPIO */
 					 <STM32_PINMUX('B',  6, GPIO)>, /* PB6_GPIO */
 					 <STM32_PINMUX('D', 11, GPIO)>, /* SDMMC1_D4_GPIO */
 					 <STM32_PINMUX('F', 10, GPIO)>, /* PF10_GPIO */
@@ -909,18 +787,6 @@
 		pins {
 			pinmux = <STM32_PINMUX('B',  2, ANALOG)>, /* ETH1_RST_GPIO */
 					 <STM32_PINMUX('G',  6, ANALOG)>, /* ETH2_RST_GPIO */
-					 <STM32_PINMUX('H',  2, ANALOG)>, /* PH2_GPIO */
-					 <STM32_PINMUX('A',  3, ANALOG)>, /* PA3_GPIO */
-					 <STM32_PINMUX('A',  6, ANALOG)>, /* PA6_GPIO */
-					 <STM32_PINMUX('A',  7, ANALOG)>, /* PA7_GPIO */
-					 <STM32_PINMUX('H',  6, ANALOG)>, /* PH6_GPIO */
-					 <STM32_PINMUX('H',  3, ANALOG)>, /* PH3_GPIO */
-					 <STM32_PINMUX('A',  5, ANALOG)>, /* PA5_GPIO */
-					 <STM32_PINMUX('A',  2, ANALOG)>, /* PA2_GPIO */
-					 <STM32_PINMUX('A',  9, ANALOG)>, /* PA9_GPIO */
-					 <STM32_PINMUX('A', 10, ANALOG)>, /* PA10_GPIO */
-					 <STM32_PINMUX('H',  7, ANALOG)>, /* PH7_GPIO */
-					 <STM32_PINMUX('H',  8, ANALOG)>, /* PH8_GPIO */
 					 <STM32_PINMUX('B',  6, ANALOG)>, /* PB6_GPIO */
 					 <STM32_PINMUX('D', 11, ANALOG)>, /* SDMMC1_D4_GPIO */
 					 <STM32_PINMUX('F', 10, ANALOG)>, /* PF10_GPIO */
