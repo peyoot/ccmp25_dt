@@ -39,127 +39,71 @@
 	//st,ssc-on;
 };
 
+&switch0 {
+	status = "disabled";
+	pinctrl-0 = <&eth1_rgmii_pins_a>, <&eth3_rgmii_pins_a>;
+	pinctrl-1 = <&eth1_rgmii_sleep_pins_a>, <&eth3_rgmii_sleep_pins_a>;
+	pinctrl-names = "default", "sleep";
+	phy-mode = "rgmii";
+	st,ethsw-internal-125;
+};
+
+
 &eth1 {
-	/* USER CODE BEGIN ethernet (mdio) */
+
+	status = "okay";
+	pinctrl-0 = <&eth1_rgmii_pins_a &eth1_mdio_pins_a>;
+	pinctrl-1 = <&eth1_rgmii_sleep_pins_a &eth1_mdio_sleep_pins_a>;
+	pinctrl-names = "default", "sleep";
+	phy-mode = "rgmii-id";
+	max-speed = <1000>;
+	phy-handle = <&phy1_eth1>;
+	st,eth-clk-sel;
+	snps,ext-systime;
+
 	mdio1 {
 		#address-cells = <1>;
 		#size-cells = <0>;
 		compatible = "snps,dwmac-mdio";
-
-		/*
-		 * Reference block.
-		 *
-		 * Add your custom PHY, reset and interrupts
-		 * configuration.
-		 */
 		phy1_eth1: ethernet-phy@4 {
-		//	compatible = "ethernet-phy-id0141.0dd0"; /* PHY ID for Marvell 88E1512 */
-		//	reset-gpios =  <&gpiob 3 GPIO_ACTIVE_LOW>; /* ETH1_RST */
-		//	reset-assert-us = <1000>;
-		//	reset-deassert-us = <2000>;
-		//	reg = <4>;
+			compatible = "ethernet-phy-id001c.c916";
+			reset-gpios =  <&gpiob 2 GPIO_ACTIVE_LOW>;
+			reset-assert-us = <10000>;
+			reset-deassert-us = <80000>;
+			realtek,eee-disable;
+			reg = <4>;
 		};
-
-		/*
-		 * This is a reference block to add an additional
-		 * Ethernet interface to the same MDIO bus.
-		 */
-		//phy2_eth1: ethernet-phy@5 {
-		//	compatible = "ethernet-phy-id0141.0dd0"; /* PHY ID for Marvell 88E1512 */
-		//	reset-gpios =  <&gpiob 15 GPIO_ACTIVE_LOW>; /* ETHN_RST */
-		//	reset-assert-us = <1000>;
-		//	reset-deassert-us = <2000>;
-		//	reg = <5>;
-		//};
 	};
-	/* USER CODE END ethernet (mdio) */
-	status = "okay";
-
-	pinctrl-names = "default", "sleep";
-	pinctrl-0 = <&ccmp25_ethernet1_pins>;
-	pinctrl-1 = <&ccmp25_ethernet1_sleep_pins>;
-
-	/* USER CODE BEGIN ethernet1 */
-	phy-mode = "rgmii";
-
-	//max-speed = <100>;               // Only for rmii
-	//max-speed = <1000>;              // Only for rgmii
-	//st,eth-ref-clk-sel;              // Only for rmii
-	//st,ext-phyclk;                   // Only for rmii
-	//st,eth-ptp-from-rcc;             // Set when PTP (IEEE1588) clock selection is from RCC
-	//snps,ext-systime;                // Set when HW sync (using an HW bus between the GMac and the switch)
-	//phy-supply = <&reg_3v3_eth_pwr>; // Set the appropriate PHY power
-	//phy-handle = <&phy1_eth1>;       // Set the appropriate PHY handler
-
-	///* Set a fixed speed. */
-	//fixed_link: fixed-link {
-	//	speed = <100>;              // Only for rmii
-	//	speed = <1000>;             // Only for rgmii
-	//	full-duplex;
-	//};
-	/* USER CODE END ethernet1 */
 };
 
 &eth2 {
-	/* USER CODE BEGIN ethernet (mdio) */
+
+	status = "okay";
+	pinctrl-0 = <&eth2_rgmii_pins_a>;
+	pinctrl-1 = <&eth2_rgmii_sleep_pins_a>;
+	pinctrl-names = "default", "sleep";
+	phy-mode = "rgmii-id";
+	max-speed = <1000>;
+	phy-handle = <&phy1_eth2>;
+	st,eth-ptp-from-rcc;
+
 	mdio1 {
 		#address-cells = <1>;
 		#size-cells = <0>;
 		compatible = "snps,dwmac-mdio";
-
-		/*
-		 * Reference block.
-		 *
-		 * Add your custom PHY, reset and interrupts
-		 * configuration.
-		 */
-		phy1_eth2: ethernet-phy@4 {
-		//	compatible = "ethernet-phy-id0141.0dd0"; /* PHY ID for Marvell 88E1512 */
-		//	reset-gpios =  <&gpiob 3 GPIO_ACTIVE_LOW>; /* ETH1_RST */
-		//	reset-assert-us = <1000>;
-		//	reset-deassert-us = <2000>;
-		//	reg = <4>;
+		phy1_eth2: ethernet-phy@1 {
+			compatible = "ethernet-phy-id001c.c916";
+			reset-gpios =  <&gpiog 6 GPIO_ACTIVE_LOW>;
+			reset-assert-us = <10000>;
+			reset-deassert-us = <80000>;
+			realtek,eee-disable;
+			reg = <1>;
 		};
-
-		/*
-		 * This is a reference block to add an additional
-		 * Ethernet interface to the same MDIO bus.
-		 */
-		//phy2_eth2: ethernet-phy@5 {
-		//	compatible = "ethernet-phy-id0141.0dd0"; /* PHY ID for Marvell 88E1512 */
-		//	reset-gpios =  <&gpiob 15 GPIO_ACTIVE_LOW>; /* ETHN_RST */
-		//	reset-assert-us = <1000>;
-		//	reset-deassert-us = <2000>;
-		//	reg = <5>;
-		//};
 	};
-	/* USER CODE END ethernet (mdio) */
-	status = "okay";
 
-	pinctrl-names = "default", "sleep";
-	pinctrl-0 = <&ccmp25_ethernet2_pins>;
-	pinctrl-1 = <&ccmp25_ethernet2_sleep_pins>;
 
-	/* USER CODE BEGIN ethernet2 */
-	phy-mode = "rgmii-id";
-
-	//max-speed = <100>;               // Only for rmii
-	//max-speed = <1000>;              // Only for rgmii
-	//st,eth-ref-clk-sel;              // Only for rmii
-	//st,ext-phyclk;                   // Only for rmii
-	//st,eth-ptp-from-rcc;             // Set when PTP (IEEE1588) clock selection is from RCC
-	//snps,ext-systime;                // Set when HW sync (using an HW bus between the GMac and the switch)
-	//phy-supply = <&reg_3v3_eth_pwr>; // Set the appropriate PHY power
-	//phy-handle = <&phy1_eth1>;       // Set the appropriate PHY handler
-
-	///* Set a fixed speed. */
-	//fixed_link: fixed-link {
-	//	speed = <100>;              // Only for rmii
-	//	speed = <1000>;             // Only for rgmii
-	//	full-duplex;
-	//};
-	/* USER CODE END ethernet2 */
 };
+
 
 &i2c1 {
 	pinctrl-names = "default", "sleep";
@@ -220,35 +164,6 @@
 	/* USER CODE BEGIN lptimer3 */
 	/delete-property/dmas;
 	/delete-property/dma-names;
-	/* USER CODE END lptimer3 */
-
-	/* Set the desired PWM name */
-	pwm4: pwm {
-		pinctrl-names = "default", "sleep";
-		pinctrl-0 = <&ccmp25_lptimer3_ch1_pwm_z_pins>;
-		pinctrl-1 = <&ccmp25_lptimer3_ch1_pwm_z_sleep_pins>;
-		status = "okay";
-	};
-
-	/*
-	 * Uncomment to enable timer trigger on STANDARD TIMER.
-	 *
-	 * Set <TRIGGER_INDEX> to (timer_index - 1)
-	 */
-	//timer@<TRIGGER_INDEX> {
-	//	status = "okay";
-	//};
-
-	/*
-	 * Uncomment to enable timer trigger on LPTIMER only.
-	 *
-	 * Set <TRIGGER_INDEX> to (lptimer_index - 1)
-	 */
-	//trigger@<TRIGGER_INDEX> {
-	//	status = "okay";
-	//};
-
-	/* USER CODE BEGIN lptimer3 */
 	/* USER CODE END lptimer3 */
 
 	/* Set the desired PWM name */
@@ -680,34 +595,14 @@
 	/delete-property/dma-names;
 	/* USER CODE END timers8 */
 
-	/* Set the desired PWM name */
-	pwm30: pwm {
-		pinctrl-names = "default", "sleep";
-		pinctrl-0 = <&ccmp25_timers8_ch3_pwm_pins>;
-		pinctrl-1 = <&ccmp25_timers8_ch3_pwm_sleep_pins>;
+	counter_DI_11_12:  {                                          /* remove pwm30,pwm4 and add this */
+      	pinctrl-names = "default", "sleep";
+		pinctrl-0 = <&ccmp25_timers8_ch3_lptimers3_ch1_pins>;
+		pinctrl-1 = <&ccmp25_timers8_ch3_lptimers3_ch1_sleep_pins>;
 		status = "okay";
-	};
+    };
 
-	/*
-	 * Uncomment to enable timer trigger on STANDARD TIMER.
-	 *
-	 * Set <TRIGGER_INDEX> to (timer_index - 1)
-	 */
-	//timer@<TRIGGER_INDEX> {
-	//	status = "okay";
-	//};
-
-	/*
-	 * Uncomment to enable timer trigger on LPTIMER only.
-	 *
-	 * Set <TRIGGER_INDEX> to (lptimer_index - 1)
-	 */
-	//trigger@<TRIGGER_INDEX> {
-	//	status = "okay";
-	//};
-
-	/* USER CODE BEGIN timers8 */
-	/* USER CODE END timers8 */
+	
 
 	/* Set the desired PWM name */
 	pwm28: pwm {
@@ -1175,7 +1070,7 @@
 		};
 	};
 
-	ccmp25_timers1_ch3_4_sleep_pins: ccmp25-timers1-ch3_4 {
+	ccmp25_timers1_ch3_4_sleep_pins: ccmp25-timers1-ch3_4_sleep {
 		pins {
 			pinmux = <STM32_PINMUX('D',  9, ANALOG)>; /* TIM1_CH3_PWM */
             pinmux = <STM32_PINMUX('D',  8, ANALOG)>; /* TIM1_CH4_PWM */
@@ -1236,7 +1131,7 @@
 		};
 	};
 
-	ccmp25_timers2_ch3_4_sleep_pins: ccmp25-timers2-ch3_4 {
+	ccmp25_timers2_ch3_4_sleep_pins: ccmp25-timers2-ch3_4_sleep {
 		pins {
 			pinmux = <STM32_PINMUX('G',  5, ANALOG)>; /* TIM1_CH3_PWM */
             pinmux = <STM32_PINMUX('F',  11, ANALOG)>; /* TIM1_CH4_PWM */
@@ -1252,7 +1147,7 @@
 		};
 	};
 
-	ccmp25_timers3_ch3_4_sleep_pins: ccmp25-timers3-ch3_4 {
+	ccmp25_timers3_ch3_4_sleep_pins: ccmp25-timers3-ch3_4_sleep {
 		pins {
 			pinmux = <STM32_PINMUX('F',  13, ANALOG)>; /* TIM3_CH3_PWM */
             pinmux = <STM32_PINMUX('F',  3, ANALOG)>; /* TIM3_CH4_PWM */
@@ -1299,7 +1194,7 @@
 		};
 	};
 
-	ccmp25_timers4_ch3_4_sleep_pins: ccmp25-timers4-ch3_4 {
+	ccmp25_timers4_ch3_4_sleep_pins: ccmp25-timers4-ch3_4_sleep {
 		pins {
 			pinmux = <STM32_PINMUX('D',  6, ANALOG)>; /* TIM4_CH3_PWM */
             pinmux = <STM32_PINMUX('F',  4, ANALOG)>; /* TIM4_CH4_PWM */
@@ -1345,7 +1240,7 @@ ccmp25_timers5_ch3_4_pins: ccmp25-timers5-ch3_4 {
 		};
 	};
 
-	ccmp25_timers5_ch3_4_sleep_pins: ccmp25-timers5-ch3_4 {
+	ccmp25_timers5_ch3_4_sleep_pins: ccmp25-timers5-ch3_4_sleep {
 		pins {
 			pinmux = <STM32_PINMUX('G',  2, ANALOG)>; /* TIM5_CH3_PWM */
             pinmux = <STM32_PINMUX('G',  1, ANALOG)>; /* TIM5_CH4_PWM */
@@ -1383,20 +1278,23 @@ ccmp25_timers5_ch3_4_pins: ccmp25-timers5-ch3_4 {
 		};
 	};
 
-	ccmp25_timers8_ch3_pwm_pins: ccmp25-timers8-ch3-pwm {
+
+
+	ccmp25_timers8_ch3_lptimers3_ch1_pins: ccmp25_timers8_ch3_lptimers3_ch1 {
 		pins {
-			pinmux = <STM32_PINMUX('I',  4,  AF8)>; /* TIM8_CH3_PWM */
-			drive-push-pull;
+			pinmux = <STM32_PINMUX('I',  4,  AF8)>; /* TIM1_CH3_PWM */
+            pinmux = <STM32_PINMUX('Z',  2,  AF2)>; /* TIM1_CH4_PWM */
 			bias-disable;
-			slew-rate = <0>;
 		};
 	};
 
-	ccmp25_timers8_ch3_pwm_sleep_pins: ccmp25-timers8-ch3-pwm-sleep {
+	ccmp25_timers8_ch3_lptimers3_ch1_sleep_pins: ccmp25_timers8_ch3_lptimers3_ch1_sleep {
 		pins {
-			pinmux = <STM32_PINMUX('I',  4, ANALOG)>; /* TIM8_CH3_PWM */
+			pinmux = <STM32_PINMUX('I',  4, ANALOG)>; /* TIM1_CH3_PWM */
+            pinmux = <STM32_PINMUX('Z',  2, ANALOG)>; /* TIM1_CH4_PWM */
 		};
 	};
+
 
 	ccmp25_uart5_pins: ccmp25-uart5 {
 		pins1 {
@@ -1494,8 +1392,7 @@ ccmp25_timers5_ch3_4_pins: ccmp25-timers5-ch3_4 {
 
 	ccmp25_lptimer3_pwm_z_pins: ccmp25-lptimer3-pwm {
 		pins {
-			pinmux = <STM32_PINMUX('Z',  2,  AF2)>, /* LPTIM3_CH1_PWM */
-					 <STM32_PINMUX('Z',  7, AF10)>; /* LPTIM3_CH2_PWM */
+			pinmux = <STM32_PINMUX('Z',  7, AF10)>; /* LPTIM3_CH2_PWM */
 			drive-push-pull;
 			bias-disable;
 			slew-rate = <0>;
@@ -1504,8 +1401,7 @@ ccmp25_timers5_ch3_4_pins: ccmp25-timers5-ch3_4 {
 
 	ccmp25_lptimer3_pwm_z_sleep_pins: ccmp25-lptimer3-pwm-sleep {
 		pins {
-			pinmux = <STM32_PINMUX('Z',  2, ANALOG)>, /* LPTIM3_CH1_PWM */
-					 <STM32_PINMUX('Z',  7, ANALOG)>; /* LPTIM3_CH2_PWM */
+			pinmux = <STM32_PINMUX('Z',  7, ANALOG)>; /* LPTIM3_CH2_PWM */
 		};
 	};
 };
