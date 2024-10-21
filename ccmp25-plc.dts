@@ -930,16 +930,16 @@
 
 	ccmp25_timers1_ch3_4_pins: ccmp25-timers1-ch3_4 {
 		pins {
-			pinmux = <STM32_PINMUX('D',  9,  AF8)>; /* TIM1_CH3_PWM */
-            pinmux = <STM32_PINMUX('D',  8,  AF8)>; /* TIM1_CH4_PWM */
+			pinmux = <STM32_PINMUX('D',  9,  AF8)>, /* TIM1_CH3_PWM */
+            		 <STM32_PINMUX('D',  8,  AF8)>; /* TIM1_CH4_PWM */
 			bias-disable;
 		};
 	};
 
 	ccmp25_timers1_ch3_4_sleep_pins: ccmp25-timers1-ch3_4_sleep {
 		pins {
-			pinmux = <STM32_PINMUX('D',  9, ANALOG)>; /* TIM1_CH3_PWM */
-            pinmux = <STM32_PINMUX('D',  8, ANALOG)>; /* TIM1_CH4_PWM */
+			pinmux = <STM32_PINMUX('D',  9, ANALOG)>, /* TIM1_CH3_PWM */
+            		 <STM32_PINMUX('D',  8, ANALOG)>; /* TIM1_CH4_PWM */
 		};
 	};
 	
@@ -991,32 +991,32 @@
 
 	ccmp25_timers2_ch3_4_pins: ccmp25-timers2-ch3_4 {
 		pins {
-			pinmux = <STM32_PINMUX('G',  5,  AF8)>; /* TIM1_CH3_PWM */
-            pinmux = <STM32_PINMUX('F',  11,  AF8)>; /* TIM1_CH4_PWM */
+			pinmux = <STM32_PINMUX('G',  5,  AF8)>, /* TIM2_CH3_PWM */
+                     <STM32_PINMUX('F',  11,  AF8)>; /* TIM2_CH4_PWM */
 			bias-disable;
 		};
 	};
 
 	ccmp25_timers2_ch3_4_sleep_pins: ccmp25-timers2-ch3_4_sleep {
 		pins {
-			pinmux = <STM32_PINMUX('G',  5, ANALOG)>; /* TIM1_CH3_PWM */
-            pinmux = <STM32_PINMUX('F',  11, ANALOG)>; /* TIM1_CH4_PWM */
+			pinmux = <STM32_PINMUX('G',  5, ANALOG)>, /* TIM1_CH3_PWM */
+                     <STM32_PINMUX('F',  11, ANALOG)>; /* TIM1_CH4_PWM */
 		};
 	};
 
 
 	ccmp25_timers3_ch3_4_pins: ccmp25-timers3-ch3_4 {
 		pins {
-			pinmux = <STM32_PINMUX('F',  13,  AF8)>; /* TIM3_CH3_PWM */
-            pinmux = <STM32_PINMUX('F',  3,  AF7)>; /* TIM3_CH4_PWM */
+			pinmux = <STM32_PINMUX('F',  13,  AF8)>, /* TIM3_CH3_PWM */
+                     <STM32_PINMUX('F',  3,  AF7)>; /* TIM3_CH4_PWM */
 			bias-disable;
 		};
 	};
 
 	ccmp25_timers3_ch3_4_sleep_pins: ccmp25-timers3-ch3_4_sleep {
 		pins {
-			pinmux = <STM32_PINMUX('F',  13, ANALOG)>; /* TIM3_CH3_PWM */
-            pinmux = <STM32_PINMUX('F',  3, ANALOG)>; /* TIM3_CH4_PWM */
+			pinmux = <STM32_PINMUX('F',  13, ANALOG)>, /* TIM3_CH3_PWM */
+                     <STM32_PINMUX('F',  3, ANALOG)>; /* TIM3_CH4_PWM */
 		};
 	};
 
@@ -1054,16 +1054,16 @@
 
 	ccmp25_timers4_ch3_4_pins: ccmp25-timers4-ch3_4 {
 		pins {
-			pinmux = <STM32_PINMUX('D',  6,  AF9)>; /* TIM4_CH3_PWM */
-            pinmux = <STM32_PINMUX('F',  4,  AF9)>; /* TIM4_CH4_PWM */
+			pinmux = <STM32_PINMUX('D',  6,  AF9)>, /* TIM4_CH3_PWM */
+                     <STM32_PINMUX('F',  4,  AF9)>; /* TIM4_CH4_PWM */
 			bias-disable;
 		};
 	};
 
 	ccmp25_timers4_ch3_4_sleep_pins: ccmp25-timers4-ch3_4_sleep {
 		pins {
-			pinmux = <STM32_PINMUX('D',  6, ANALOG)>; /* TIM4_CH3_PWM */
-            pinmux = <STM32_PINMUX('F',  4, ANALOG)>; /* TIM4_CH4_PWM */
+			pinmux = <STM32_PINMUX('D',  6, ANALOG)>, /* TIM4_CH3_PWM */
+                     <STM32_PINMUX('F',  4, ANALOG)>; /* TIM4_CH4_PWM */
 		};
 	};
 
@@ -1100,16 +1100,16 @@
 
 ccmp25_timers5_ch3_4_pins: ccmp25-timers5-ch3_4 {
 		pins {
-			pinmux = <STM32_PINMUX('G',  2,  AF9)>; /* TIM5_CH3_PWM */
-            pinmux = <STM32_PINMUX('G',  1,  AF9)>; /* TIM5_CH4_PWM */
+			pinmux = <STM32_PINMUX('G',  2,  AF9)>, /* TIM5_CH3_PWM */
+                     <STM32_PINMUX('G',  1,  AF9)>; /* TIM5_CH4_PWM */
 			bias-disable;
 		};
 	};
 
 	ccmp25_timers5_ch3_4_sleep_pins: ccmp25-timers5-ch3_4_sleep {
 		pins {
-			pinmux = <STM32_PINMUX('G',  2, ANALOG)>; /* TIM5_CH3_PWM */
-            pinmux = <STM32_PINMUX('G',  1, ANALOG)>; /* TIM5_CH4_PWM */
+			pinmux = <STM32_PINMUX('G',  2, ANALOG)>, /* TIM5_CH3_PWM */
+                     <STM32_PINMUX('G',  1, ANALOG)>; /* TIM5_CH4_PWM */
 		};
 	};
 
@@ -1148,16 +1148,16 @@ ccmp25_timers5_ch3_4_pins: ccmp25-timers5-ch3_4 {
 
 	ccmp25_timers8_ch3_lptimers3_ch1_pins: ccmp25_timers8_ch3_lptimers3_ch1 {
 		pins {
-			pinmux = <STM32_PINMUX('I',  4,  AF8)>; /* TIM1_CH3_PWM */
-            pinmux = <STM32_PINMUX('Z',  2,  AF2)>; /* TIM1_CH4_PWM */
+			pinmux = <STM32_PINMUX('I',  4,  AF8)>, /* TIM1_CH3_PWM */
+                     <STM32_PINMUX('Z',  2,  AF2)>; /* TIM1_CH4_PWM */
 			bias-disable;
 		};
 	};
 
 	ccmp25_timers8_ch3_lptimers3_ch1_sleep_pins: ccmp25_timers8_ch3_lptimers3_ch1_sleep {
 		pins {
-			pinmux = <STM32_PINMUX('I',  4, ANALOG)>; /* TIM1_CH3_PWM */
-            pinmux = <STM32_PINMUX('Z',  2, ANALOG)>; /* TIM1_CH4_PWM */
+			pinmux = <STM32_PINMUX('I',  4, ANALOG)>, /* TIM1_CH3_PWM */
+                     <STM32_PINMUX('Z',  2, ANALOG)>; /* TIM1_CH4_PWM */
 		};
 	};
 
