@@ -255,7 +255,7 @@
 	/* USER CODE END timers1 */
 
 	
-	counter_DI_1_2:  {                                          /* remove pwm10,pwm11 and add this */
+	counter_DI_1_2  {                                          /* remove pwm10,pwm11 and add this */
       	pinctrl-names = "default", "sleep";
 		pinctrl-0 = <&ccmp25_timers1_ch3_4_pins>;
 		pinctrl-1 = <&ccmp25_timers1_ch3_4_sleep_pins>;
