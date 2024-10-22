@@ -1256,7 +1256,7 @@ ccmp25_timers5_ch3_4_pins: ccmp25-timers5-ch3_4 {
 		};
 	};
 
-	ccmp25_lptimer3_pwm_z_pins: ccmp25-lptimer3-pwm {
+	ccmp25_lptimer3_ch2_pwm_z_pins: ccmp25-lptimer3-pwm {
 		pins {
 			pinmux = <STM32_PINMUX('Z',  7, AF10)>; /* LPTIM3_CH2_PWM */
 			drive-push-pull;
@@ -1265,7 +1265,7 @@ ccmp25_timers5_ch3_4_pins: ccmp25-timers5-ch3_4 {
 		};
 	};
 
-	ccmp25_lptimer3_pwm_z_sleep_pins: ccmp25-lptimer3-pwm-sleep {
+	ccmp25_lptimer3_ch2_pwm_z_sleep_pins: ccmp25-lptimer3-pwm-sleep {
 		pins {
 			pinmux = <STM32_PINMUX('Z',  7, ANALOG)>; /* LPTIM3_CH2_PWM */
 		};
