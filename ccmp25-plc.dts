@@ -1227,6 +1227,45 @@ ccmp25_timers5_ch3_4_pins: ccmp25-timers5-ch3_4 {
 					 <STM32_PINMUX('A',  4, ANALOG)>; /* USART2_TX */
 		};
 	};
+
+	eth2_rgmii_sleep_pins_a: ccmp25-ethernet2-sleep {
+		pins {
+			pinmux = <STM32_PINMUX('C',  6, ANALOG)>, /* MDIO2_MDC */
+					 <STM32_PINMUX('C',  5, ANALOG)>, /* MDIO2_MDIO */
+					 <STM32_PINMUX('C',  3, ANALOG)>, /* ETHERNET2_RX_DV */
+					 <STM32_PINMUX('F',  6, ANALOG)>, /* ETHERNET2_RX_CLK */
+					 <STM32_PINMUX('G',  0, ANALOG)>, /* ETHERNET2_RXD0 */
+					 <STM32_PINMUX('C', 12, ANALOG)>, /* ETHERNET2_RXD1 */
+					 <STM32_PINMUX('F',  9, ANALOG)>, /* ETHERNET2_RXD2 */
+					 <STM32_PINMUX('C', 11, ANALOG)>, /* ETHERNET2_RXD3 */
+					 <STM32_PINMUX('C',  4, ANALOG)>, /* ETHERNET2_TX_EN */
+					 <STM32_PINMUX('F',  7, ANALOG)>, /* ETHERNET2_TXC */
+					 <STM32_PINMUX('C',  7, ANALOG)>, /* ETHERNET2_TXD0 */
+					 <STM32_PINMUX('C',  8, ANALOG)>, /* ETHERNET2_TXD1 */
+					 <STM32_PINMUX('C',  9, ANALOG)>, /* ETHERNET2_TXD2 */
+					 <STM32_PINMUX('C', 10, ANALOG)>, /* ETHERNET2_TXD3 */
+					 <STM32_PINMUX('F',  8, ANALOG)>; /* ETHERNET2_REFCLK_125M */
+		};
+	};
+
+	eth3_rgmii_sleep_pins_a: eth3-rgmii-sleep-0 {
+		pins1 {
+			pinmux = <STM32_PINMUX('A', 6, ANALOG)>, /* ETH_RGMII_TXD0 */
+				 <STM32_PINMUX('A', 7, ANALOG)>, /* ETH_RGMII_TXD1 */
+				 <STM32_PINMUX('H', 6, ANALOG)>, /* ETH_RGMII_TXD2 */
+				 <STM32_PINMUX('H', 3, ANALOG)>, /* ETH_RGMII_TXD3 */
+				 <STM32_PINMUX('A', 3, ANALOG)>, /* ETH_RGMII_TX_CTL */
+				 <STM32_PINMUX('H', 2, ANALOG)>, /* ETH_RGMII_GTX_CLK */
+				 <STM32_PINMUX('A', 9, ANALOG)>, /* ETH_RGMII_RXD0 */
+				 <STM32_PINMUX('A', 10, ANALOG)>, /* ETH_RGMII_RXD1 */
+				 <STM32_PINMUX('H', 7, ANALOG)>, /* ETH_RGMII_RXD2 */
+				 <STM32_PINMUX('H', 8, ANALOG)>, /* ETH_RGMII_RXD3 */
+				 <STM32_PINMUX('A', 2, ANALOG)>, /* ETH_RGMII_RX_CTL */
+				 <STM32_PINMUX('A', 5, ANALOG)>; /* ETH_RGMII_RX_CLK */
+		};
+	};
+
+
 };
 
 &pinctrl_z {
