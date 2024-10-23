@@ -203,6 +203,7 @@ setenv bootcmd "
 		echo \"\";
 		echo \"\";
 		update linux_a mmc ${INSTALL_MMCDEV} ${INSTALL_LINUX_FILENAME};
+		updatefile linux_a mmc ${INSTALL_MMCDEV} ccmp25-plc.dtb； 
 		if test \$? -eq 1; then
 			echo \"[ERROR] Failed to update linux_a!\";
 			echo \"\";
@@ -216,6 +217,7 @@ setenv bootcmd "
 			echo \"\";
 			echo \"\";
 			update linux_b mmc ${INSTALL_MMCDEV} ${INSTALL_LINUX_FILENAME};
+			updatefile linux_b mmc ${INSTALL_MMCDEV} ccmp25-plc.dtb；
 			if test \$? -eq 1; then
 				echo \"[ERROR] Failed to update linux_b!\";
 				echo \"\";
@@ -257,6 +259,7 @@ setenv bootcmd "
 		echo \"\";
 		echo \"\";
 		update linux mmc ${INSTALL_MMCDEV} ${INSTALL_LINUX_FILENAME};
+		updatefile linux mmc ${INSTALL_MMCDEV} ccmp25-plc.dtb；
 		if test \$? -eq 1; then
 			echo \"[ERROR] Failed to update linux!\";
 			echo \"\";
