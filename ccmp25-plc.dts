@@ -12,7 +12,7 @@
 /dts-v1/;
 
 /* STM32MP25 CPU */
-#include "../st/stm32mp257.dtsi"
+#include "../st/stm32mp255.dtsi"
 #include "../st/stm32mp25xf.dtsi"
 #include "../st/stm32mp25-pinctrl.dtsi"
 #include "../st/stm32mp25xxai-pinctrl.dtsi"
@@ -31,6 +31,11 @@
 	model = "ConnectCore MP255";
 	// Add here your compatible platform.
 	compatible = "digi,ccmp25-dvk", "digi,ccmp25", "st,stm32mp257";
+
+	dummy-node {
+        compatible = "plcv0-device";
+        status = "okay";
+    };
 };
 
 &combophy {
