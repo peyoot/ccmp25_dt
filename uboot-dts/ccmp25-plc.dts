@@ -15,8 +15,13 @@
 #include "ccmp25.dtsi"
 
 / {
-	model = "Digi International ConnectCore MP25 Development Kit";
+	model = "Digi International ConnectCore MP25 PLC";
 	compatible = "digi,ccmp25-dvk", "digi,ccmp25", "st,stm32mp255";
+
+	dummy-node {
+        compatible = "uboot plcv1";
+        status = "okay";
+    };
 
 	aliases {
 		ethernet0 = &eth1;
