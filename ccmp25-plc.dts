@@ -35,6 +35,8 @@
 	aliases {
 		ethernet0 = &eth1;
 		ethernet1 = &eth2;
+		serial5 = &uart5;
+        serial6 = &uart7;
 	};
 
 	chosen {

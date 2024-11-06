@@ -46,7 +46,7 @@
 	u-boot,dm-pre-reloc;
 };
 
-&usart2_pins_a {
+&ccmp25_usart2_pins_a {
 	u-boot,dm-pre-reloc;
 	pins1 {
 		u-boot,dm-pre-reloc;
