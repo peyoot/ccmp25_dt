@@ -697,6 +697,12 @@
 	status = "okay";
 };
 
+&combophy {
+	clocks = <&rcc CK_BUS_USB3PCIEPHY>, <&rcc CK_KER_USB3PCIEPHY>, <&pad_clk>;
+	clock-names = "apb-clk", "ker-clk", "pad-clk";
+	status = "okay";
+};
+
 &usb2_phy1 {
 	status = "okay";
 };
@@ -715,12 +721,11 @@
 
 &usb3dr {
 	status = "okay";
-	dwc2: usb@48300000 {
+	dwc3: usb@48300000 {
 		maximum-speed = "high-speed";
 		dr_mode = "host"; 
 	};
 };
-
 
 
 &pinctrl {
