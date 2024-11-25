@@ -707,10 +707,22 @@
 
 &usb2h {
 	status = "okay";
-	dr_mode = "otg";            /* enable OTG */
-	phys = <&usb2_phy2>;        /* bind to PHY2 */
-	phy-names = "usb2-phy";
+
+	usb2h_ohci: usb@482e0000 {
+		status = "disabled";
+	};
 };
+
+&usb3h {
+	status = "okay";
+	dwc3: usb@48300000 {
+		maximum-speed = "high-speed";
+		dr_mode = "host"; 
+
+		};
+	};
+};
+
 
 
 &pinctrl {
