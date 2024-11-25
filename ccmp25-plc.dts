@@ -45,7 +45,7 @@
 
 
 	dummy-node {
-        compatible = "plcv1-dualeth-s-device";
+        compatible = "plcv1.1-dualeth-s-device";
         status = "okay";
     };
 };
@@ -707,29 +707,11 @@
 
 &usb2h {
 	status = "okay";
-	
-	/* USER CODE BEGIN usbh */
-	usb2h_ohci: usb@482e0000 {
-		status = "disabled";
-	};
-	/* USER CODE END usbh */
+	dr_mode = "otg";            /* enable OTG */
+	phys = <&usb2_phy2>;        /* bind to PHY2 */
+	phy-names = "usb2-phy";
 };
 
-&usb3dr {
-	status = "okay";
-	
-	/* USER CODE BEGIN usb3dr */
-	//dwc3: usb@48300000 {
-	//	maximum-speed = "high-speed";
-	//	usb-role-switch;
-	//	port {
-	//		dwc3_ep: endpoint {
-	//			remote-endpoint = <&typec_ep>;
-	//		};
-	//	};
-	//};
-	/* USER CODE END usb3dr */
-};
 
 &pinctrl {
 	ccmp25_can1_pins: ccmp25-can1 {
