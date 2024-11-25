@@ -715,7 +715,7 @@
 
 &usb3h {
 	status = "okay";
-	dwc3: usb@48300000 {
+	dwc2: usb@48300000 {
 		maximum-speed = "high-speed";
 		dr_mode = "host"; 
 	};
