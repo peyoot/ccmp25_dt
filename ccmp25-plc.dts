@@ -713,7 +713,7 @@
 	};
 };
 
-&usb3h {
+&usb3dr {
 	status = "okay";
 	dwc2: usb@48300000 {
 		maximum-speed = "high-speed";
