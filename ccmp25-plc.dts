@@ -45,7 +45,7 @@
 
 
 	dummy-node {
-        compatible = "plcv1.1-dualeth-s-device";
+        compatible = "plcv1.2-dualeth-s-device";
         status = "okay";
     };
 };
