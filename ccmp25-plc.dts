@@ -49,15 +49,6 @@
         status = "okay";
     };
 
-	clocks {
-
-		pad_clk: pad-clk {
-			#clock-cells = <0>;
-			compatible = "fixed-clock";
-			clock-frequency = <100000000>;
-		};
-	};
-
 };
 
 
@@ -213,21 +204,20 @@
 	status = "okay";
 };
 
+/* Micro SD */
 &sdmmc3 {
-	pinctrl-names = "default", "sleep";
-	pinctrl-0 = <&ccmp25_sdmmc3_pins>;
-	pinctrl-1 = <&ccmp25_sdmmc3_sleep_pins>;
-	status = "okay";
-	
-	/* USER CODE BEGIN sdmmc3 */
+	pinctrl-names = "default", "opendrain", "sleep";
+	pinctrl-0 = <&sdmmc3_b4_pins_a>;
+	pinctrl-1 = <&sdmmc3_b4_od_pins_a>;
+	pinctrl-2 = <&sdmmc3_b4_sleep_pins_a>;
+	cd-gpios = <&gpioi 6 GPIO_ACTIVE_HIGH>;
+	disable-wp;
+	st,neg-edge;
+	no-1-8-v;
 	bus-width = <4>;
-	//cd-gpios = <&gpioi 6 GPIO_ACTIVE_HIGH>;
-	//disable-wp;
-	//st,neg-edge;
-	//no-1-8-v;
-	//vmmc-supply = <&reg_3v3_board>; /* card's VDD pin */
-	//vqmmc-supply = <&scmi_vddio3>;
-	/* USER CODE BEGIN sdmmc3 */
+	vmmc-supply = <&reg_3v3_board>; /* card's VDD pin */
+	vqmmc-supply = <&scmi_vddio3>;
+	status = "okay";
 };
 
 &spi3 {
@@ -707,11 +697,6 @@
 	status = "okay";
 };
 
-&combophy {
-	clocks = <&rcc CK_BUS_USB3PCIEPHY>, <&rcc CK_KER_USB3PCIEPHY>, <&pad_clk>;
-	clock-names = "apb-clk", "ker-clk", "pad-clk";
-	status = "okay";
-};
 
 &usb2_phy1 {
 	status = "okay";
@@ -733,7 +718,7 @@
 	status = "okay";
 	dwc3: usb@48300000 {
 		maximum-speed = "high-speed";
-		dr_mode = "host"; 
+		dr_mode = "peripheral";
 	};
 };
 
