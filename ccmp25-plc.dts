@@ -215,7 +215,6 @@
 	st,neg-edge;
 	no-1-8-v;
 	bus-width = <4>;
-	vmmc-supply = <&reg_3v3_board>; /* card's VDD pin */
 	vqmmc-supply = <&scmi_vddio3>;
 	status = "okay";
 };
