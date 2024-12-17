@@ -19,7 +19,7 @@
 	compatible = "digi,ccmp25-dvk", "digi,ccmp25", "st,stm32mp255";
 
 	dummy-node {
-        compatible = "uboot plcv1";
+        compatible = "uboot plcv1.4";
         status = "okay";
     };
 
@@ -42,33 +42,33 @@
 	};
 
 	regulators {
-		compatible = "simple-bus";
-		#address-cells = <1>;
-		#size-cells = <0>;
+    	compatible = "simple-bus";
+    	#address-cells = <1>;
+    	#size-cells = <0>;
 
-		reg_3v3_board: regulator-board@1 {
-			compatible = "regulator-fixed";
-			reg = <1>;
-			regulator-name = "3v3_board";
-			regulator-min-microvolt = <3300000>;
-			regulator-max-microvolt = <3300000>;
-			gpio = <&gpioa 12 GPIO_ACTIVE_HIGH>; /* 3V3_BOARD_EN */
-			enable-active-high;
-			status = "okay";
-		};
+	    // 5V由L6981NDR提供，不需要GPIO控制使能
+    	reg_5v_board: regulator-5v@0 {
+        	compatible = "regulator-fixed";
+        	reg = <0>;
+        	regulator-name = "5v_board";
+        	regulator-min-microvolt = <5000000>;
+        	regulator-max-microvolt = <5000000>;
+        	// 省略了gpio和enable-active-high，因为直接使能
+        	status = "okay";
+    	};
 
-		reg_5v_board: regulator-board@2 {
-			compatible = "regulator-fixed";
-			reg = <2>;
-			regulator-name = "5v_board";
-			regulator-min-microvolt = <5000000>;
-			regulator-max-microvolt = <5000000>;
-			gpio = <&gpiob 3 GPIO_ACTIVE_HIGH>; /* 5V_BOARD_EN */
-			enable-active-high;
-			status = "okay";
-		};
+    	// 3.3V由LDO提供，同样不需要GPIO控制使能
+    	reg_3v3_board: regulator-3v3@1 {
+        	compatible = "regulator-fixed";
+        	reg = <1>;
+        	regulator-name = "3v3_board";
+        	regulator-min-microvolt = <3300000>;
+        	regulator-max-microvolt = <3300000>;
+        	// 省略了gpio和enable-active-high，因为直接使能
+       		status = "okay";
+    	};
 	};
-
+	
 	panel_lvds: panel-lvds {
 		compatible = "auo,g101evn010", "panel-lvds";
 		power-supply = <&reg_3v3_board>;
