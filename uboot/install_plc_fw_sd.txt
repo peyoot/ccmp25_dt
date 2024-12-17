@@ -295,6 +295,7 @@ setenv bootcmd "
 		setenv recovery_command wipe_update;
 	fi;
 	setenv otf-update;
+	setenv fdt_file ccmp25-plc.dtb
 	saveenv;
 	echo \"\";
 	echo \"\";
