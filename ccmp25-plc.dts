@@ -80,7 +80,7 @@
 	};
 
 	dummy-node {
-        compatible = "plcv1.4-dualeth-s-device-regulator-emmc";
+        compatible = "plcv1.4-dualeth-s-device-usb2h-ehci";
         status = "okay";
     };
 
