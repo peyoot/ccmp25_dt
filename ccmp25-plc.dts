@@ -80,7 +80,7 @@
 	};
 
 	dummy-node {
-        compatible = "plcv1.4-dualeth-s-device-usb2h-ehci";
+        compatible = "plcv1.5-dualeth-s-device-mmc-active-low";
         status = "okay";
     };
 
@@ -245,7 +245,7 @@
 	pinctrl-0 = <&sdmmc3_b4_pins_a>;
 	pinctrl-1 = <&sdmmc3_b4_od_pins_a>;
 	pinctrl-2 = <&sdmmc3_b4_sleep_pins_a>;
-	cd-gpios = <&gpioi 6 GPIO_ACTIVE_HIGH>;
+	cd-gpios = <&gpioi 6 GPIO_ACTIVE_LOW>;
 	disable-wp;
 	st,neg-edge;
 	no-1-8-v;
