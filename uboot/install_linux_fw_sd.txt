@@ -7,9 +7,9 @@
 install_abort=0
 BASEFILENAME=0
 
-setenv INSTALL_ATF_FILENAME tf-a-##MACHINE##-emmc.stm32
+setenv INSTALL_ATF_FILENAME tf-a-##MACHINE##-optee-emmc.stm32
 setenv INSTALL_METADATA_FILENAME metadata-##MACHINE##.bin
-setenv INSTALL_FIP_FILENAME fip-##MACHINE##-optee.bin
+setenv INSTALL_FIP_FILENAME fip-##MACHINE##-optee-emmc.bin
 setenv INSTALL_MMCDEV 2
 
 if test -z "${image-name}"; then
@@ -196,12 +196,106 @@ setenv bootcmd "
 		echo \"Aborted.\";
 		exit;
 	fi;
-
+	if test \"\$\{dualboot\}\" = yes; then
+		echo \"\";
+		echo \"\";
+		echo \">> Installing file ${INSTALL_LINUX_FILENAME} on linux_a\";
+		echo \"\";
+		echo \"\";
+		update linux_a mmc ${INSTALL_MMCDEV} ${INSTALL_LINUX_FILENAME};
+		if test \$? -eq 1; then
+			echo \"[ERROR] Failed to update linux_a!\";
+			echo \"\";
+			echo \"Aborted.\";
+			exit;
+		fi;
+		if test \"\$\{install_dualboot\}\" = yes; then
+			echo \"\";
+			echo \"\";
+			echo \">> Installing file ${INSTALL_LINUX_FILENAME} on linux_b\";
+			echo \"\";
+			echo \"\";
+			update linux_b mmc ${INSTALL_MMCDEV} ${INSTALL_LINUX_FILENAME};
+			if test \$? -eq 1; then
+				echo \"[ERROR] Failed to update linux_b!\";
+				echo \"\";
+				echo \"Aborted.\";
+				exit;
+			fi;
+		fi;
+		echo \"\";
+		echo \"\";
+		echo \">> Installing file ${INSTALL_ROOTFS_FILENAME} on rootfs_a\";
+		echo \"\";
+		echo \"\";
+		update rootfs_a mmc ${INSTALL_MMCDEV} ${INSTALL_ROOTFS_FILENAME};
+		if test \$? -eq 1; then
+			echo \"[ERROR] Failed to update rootfs_a partition!\";
+			echo \"\";
+			echo \"Aborted.\";
+			exit;
+		fi;
+		if test \"\$\{install_dualboot\}\" = yes; then
+			echo \"\";
+			echo \"\";
+			echo \">> Installing file ${INSTALL_ROOTFS_FILENAME} on rootfs_b\";
+			echo \"\";
+			echo \"\";
+			update rootfs_b mmc ${INSTALL_MMCDEV} ${INSTALL_ROOTFS_FILENAME};
+			if test \$? -eq 1; then
+				echo \"[ERROR] Failed to update rootfs_b partition!\";
+				echo \"\";
+				echo \"Aborted.\";
+				exit;
+			fi;
+		fi;
+		setenv bootlimit 3;
+	else
+		echo \"\";
+		echo \"\";
+		echo \">> Installing file ${INSTALL_LINUX_FILENAME} on linux\";
+		echo \"\";
+		echo \"\";
+		update linux mmc ${INSTALL_MMCDEV} ${INSTALL_LINUX_FILENAME};
+		if test \$? -eq 1; then
+			echo \"[ERROR] Failed to update linux!\";
+			echo \"\";
+			echo \"Aborted.\";
+			exit;
+		fi;
+		echo \"\";
+		echo \"\";
+		echo \">> Installing file ${INSTALL_RECOVERY_FILENAME} on recovery\";
+		echo \"\";
+		echo \"\";
+		update recovery mmc ${INSTALL_MMCDEV} ${INSTALL_RECOVERY_FILENAME};
+		if test \$? -eq 1; then
+			echo \"[ERROR] Failed to update recovery partition!\";
+			echo \"\";
+			echo \"Aborted.\";
+			exit;
+		fi;
+		echo \"\";
+		echo \"\";
+		echo \">> Installing file ${INSTALL_ROOTFS_FILENAME} on rootfs\";
+		echo \"\";
+		echo \"\";
+		update rootfs mmc ${INSTALL_MMCDEV} ${INSTALL_ROOTFS_FILENAME};
+		if test \$? -eq 1; then
+			echo \"[ERROR] Failed to update rootfs partition!\";
+			echo \"\";
+			echo \"Aborted.\";
+			exit;
+		fi;
+		echo \"\";
+		setenv boot_recovery yes;
+		setenv recovery_command wipe_update;
+	fi;
 	setenv otf-update;
 	saveenv;
 	echo \"\";
 	echo \"\";
-	echo \">> U-Boot installation complete.\";
+	echo \">> Firmware installation complete.\";
 	if test \"\$\{dualboot\}\" != yes; then
 		echo \"Rebooting into recovery mode for final deployment.\";
 	fi;
