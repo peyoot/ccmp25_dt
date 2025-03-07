@@ -108,6 +108,13 @@
 
 	};
 
+	dummy-node {
+	        compatible = "plcv1.6-scarthgap";
+		status = "okay";
+    };
+
+
+
 };
 
 
