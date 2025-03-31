@@ -468,14 +468,6 @@
 	/* USER CODE BEGIN timers4 */
 	/* USER CODE END timers4 */
 
-	/* Set the desired PWM name */
-	pwm21: pwm {
-		pinctrl-names = "default", "sleep";
-		pinctrl-0 = <&ccmp25_timers4_ch2_pwm_pins>;
-		pinctrl-1 = <&ccmp25_timers4_ch2_pwm_sleep_pins>;
-		status = "okay";
-	};
-
 	/*
 	 * Uncomment to enable timer trigger on STANDARD TIMER.
 	 *
@@ -944,22 +936,6 @@
 			pinmux = <STM32_PINMUX('I', 10, ANALOG)>; /* TIM4_CH1_PWM */
 		};
 	};
-
-	ccmp25_timers4_ch2_pwm_pins: ccmp25-timers4-ch2-pwm {
-		pins {
-			pinmux = <STM32_PINMUX('A',  1,  AF9)>; /* TIM4_CH2_PWM */
-			drive-push-pull;
-			bias-disable;
-			slew-rate = <0>;
-		};
-	};
-
-	ccmp25_timers4_ch2_pwm_sleep_pins: ccmp25-timers4-ch2-pwm-sleep {
-		pins {
-			pinmux = <STM32_PINMUX('A',  1, ANALOG)>; /* TIM4_CH2_PWM */
-		};
-	};
-
 
 	ccmp25_timers4_ch3_4_pins: ccmp25-timers4-ch3_4 {
 		pins {
