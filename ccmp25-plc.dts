@@ -278,10 +278,19 @@
 
 	
 	counter_DI_1_2  {                                          /* remove pwm10,pwm11 and add this */
+		compatible = "st,stm32mp25-timer-counter";
 		pinctrl-names = "default", "sleep";
 		pinctrl-0 = <&ccmp25_timers1_ch3_4_pins>;
 		pinctrl-1 = <&ccmp25_timers1_ch3_4_sleep_pins>;
 		status = "okay";
+		st,counter-mode = "encoder";
+        st,encoder-mode = <3>;
+        st,prescaler = <0>;
+        st,channel-config {
+            ch3-mode = "input";
+            ch4-mode = "input";
+		};
+    
     };
 
 
@@ -830,15 +839,17 @@
 		};
 	};
 
-	ccmp25_timers1_ch3_4_pins: ccmp25-timers1-ch3_4 {
+	ccmp25_timers1_ch3_4_pins: ccmp25-timers1-ch3_4-encoder {
 		pins {
-			pinmux = <STM32_PINMUX('D',  9,  AF8)>, /* TIM1_CH3_PWM */
-			 <STM32_PINMUX('D',  8,  AF8)>; /* TIM1_CH4_PWM */
-			bias-disable;
+			pinmux = <STM32_PINMUX('D',  9,  AF2)>, /* TIM1_CH3_PWM */
+			 <STM32_PINMUX('D',  8,  AF2)>; /* TIM1_CH4_PWM */
+			bias-pull-up;
+            drive-push-pull;
+            slew-rate = <1>;
 		};
 	};
 
-	ccmp25_timers1_ch3_4_sleep_pins: ccmp25-timers1-ch3_4_sleep {
+	ccmp25_timers1_ch3_4_sleep_pins: ccmp25-timers1-ch3_4_sleep-encoder {
 		pins {
 			pinmux = <STM32_PINMUX('D',  9, ANALOG)>, /* TIM1_CH3_PWM */
 			 <STM32_PINMUX('D',  8, ANALOG)>; /* TIM1_CH4_PWM */
