@@ -1206,7 +1206,6 @@ ccmp25_timers5_ch3_4_pins: ccmp25-timers5-ch3_4 {
 					 <STM32_PINMUX('Z',  0, GPIO)>, /* PZ0_GPIO */
 					 <STM32_PINMUX('Z',  4, GPIO)>, /* PZ4_GPIO */
 					 <STM32_PINMUX('Z',  3, GPIO)>; /* PZ3_GPIO */
-					 <STM32_PINMUX('Z',  7, GPIO)>; /* PZ7_GPIO */
 			bias-disable;
 			slew-rate = <0>;
 		};
@@ -1221,7 +1220,6 @@ ccmp25_timers5_ch3_4_pins: ccmp25-timers5-ch3_4 {
 					 <STM32_PINMUX('Z',  0, ANALOG)>, /* PZ0_GPIO */
 					 <STM32_PINMUX('Z',  4, ANALOG)>, /* PZ4_GPIO */
 					 <STM32_PINMUX('Z',  3, ANALOG)>; /* PZ3_GPIO */
-					 <STM32_PINMUX('Z',  7, ANALOG)>; /* PZ7_GPIO */ 
 		};
 	};
 
