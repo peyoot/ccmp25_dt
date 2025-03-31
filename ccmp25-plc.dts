@@ -109,7 +109,7 @@
 	};
 
 	dummy-node {
-	        compatible = "plcv1.6-scarthgap";
+	        compatible = "plcv1.6.1-scarthgap-gpio";
 		status = "okay";
     };
 
@@ -1206,7 +1206,7 @@ ccmp25_timers5_ch3_4_pins: ccmp25-timers5-ch3_4 {
 					 <STM32_PINMUX('Z',  0, GPIO)>, /* PZ0_GPIO */
 					 <STM32_PINMUX('Z',  4, GPIO)>, /* PZ4_GPIO */
 					 <STM32_PINMUX('Z',  3, GPIO)>; /* PZ3_GPIO */
-					 <STM32_PINMUX('Z',  7, GPIO)>; /* PZ3_GPIO */
+					 <STM32_PINMUX('Z',  7, GPIO)>; /* PZ7_GPIO */
 			bias-disable;
 			slew-rate = <0>;
 		};
