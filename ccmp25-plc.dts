@@ -550,6 +550,7 @@
 					 <STM32_PINMUX('Z',  0, GPIO)>, /* PZ0_GPIO */
 					 <STM32_PINMUX('Z',  4, GPIO)>, /* PZ4_GPIO */
 					 <STM32_PINMUX('Z',  3, GPIO)>; /* PZ3_GPIO */
+					 <STM32_PINMUX('Z',  2, GPIO)>; /* PZ2_GPIO */
 			bias-disable;
 			slew-rate = <0>;
 		};
@@ -564,6 +565,7 @@
 					 <STM32_PINMUX('Z',  0, ANALOG)>, /* PZ0_GPIO */
 					 <STM32_PINMUX('Z',  4, ANALOG)>, /* PZ4_GPIO */
 					 <STM32_PINMUX('Z',  3, ANALOG)>; /* PZ3_GPIO */
+					 <STM32_PINMUX('Z',  2, ANALOG)>; /* PZ2_GPIO */
 		};
 	};
 
