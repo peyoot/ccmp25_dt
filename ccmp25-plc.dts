@@ -380,10 +380,8 @@
 					 <STM32_PINMUX('G', 10, GPIO)>, /* UART5_RX_GPIO */
 					 <STM32_PINMUX('I',  8, GPIO)>, /* PI8/LPO32_GPIO */
 					 <STM32_PINMUX('G',  4, GPIO)>, /* PG4_GPIO */
-					 <STM32_PINMUX('F',  5, GPIO)>, /* PF5_GPIO */
-					 <STM32_PINMUX('H',  4, GPIO)>; /* PH4_GPIO */
+					 <STM32_PINMUX('F',  5, GPIO)>; /* PF5_GPIO */
 			bias-disable;
-			gpio-hog;
 			slew-rate = <0>;
 		};
 		pins2 {
@@ -392,6 +390,12 @@
 			bias-disable;
 			slew-rate = <0>;
 		};
+		pins3 {
+            pinmux = <STM32_PINMUX('H', 4, GPIO)>;  /* PH4_GPIO */
+            bias-disable;
+            output-low;
+            gpio-hog;
+        };
 	};
 
 	ccmp25_gpio_sleep_pins: ccmp25-gpio-sleep {
@@ -550,18 +554,21 @@
 
 &pinctrl_z {
 	ccmp25_gpio_z_pins: ccmp25-gpio {
-		pins {
+		pins1 {
 			pinmux = <STM32_PINMUX('Z',  6, GPIO)>, /* 3V3_RF_EN/PZ6_GPIO */
 					 <STM32_PINMUX('Z',  9, GPIO)>, /* PZ9_GPIO */
 					 <STM32_PINMUX('Z',  8, GPIO)>, /* PZ8_GPIO */
 					 <STM32_PINMUX('Z',  1, GPIO)>, /* PZ1_GPIO */
 					 <STM32_PINMUX('Z',  0, GPIO)>, /* PZ0_GPIO */
 					 <STM32_PINMUX('Z',  4, GPIO)>, /* PZ4_GPIO */
-					 <STM32_PINMUX('Z',  3, GPIO)>, /* PZ3_GPIO */
-					 <STM32_PINMUX('Z',  2, GPIO)>; /* PZ2_GPIO */
+					 <STM32_PINMUX('Z',  3, GPIO)>; /* PZ3_GPIO */
 			bias-disable;
-			gpio-hog;
 			slew-rate = <0>;
+		};
+		pins2 {
+            pinmux = <STM32_PINMUX('Z', 2, GPIO)>; /* PZ2_GPIO */
+            bias-disable;
+            gpio-hog;
 		};
 	};
 
