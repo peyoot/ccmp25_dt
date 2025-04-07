@@ -109,7 +109,7 @@
 	};
 
 	dummy-node {
-	    compatible = "plcv1.6.2-scarthgap-allgpio";
+	    compatible = "plcv1.6.3-scarthgap-allgpio";
 		status = "okay";
     };
 
