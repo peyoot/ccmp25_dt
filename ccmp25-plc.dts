@@ -376,6 +376,7 @@
 					 <STM32_PINMUX('I',  8, GPIO)>, /* PI8/LPO32_GPIO */
 					 <STM32_PINMUX('G',  4, GPIO)>, /* PG4_GPIO */
 					 <STM32_PINMUX('F',  5, GPIO)>; /* PF5_GPIO */
+					 <STM32_PINMUX('H',  4, GPIO)>; /* PH4_GPIO */
 			bias-disable;
 			slew-rate = <0>;
 		};
@@ -409,6 +410,7 @@
 					 <STM32_PINMUX('I',  8, ANALOG)>, /* PI8/LPO32_GPIO */
 					 <STM32_PINMUX('G',  4, ANALOG)>, /* PG4_GPIO */
 					 <STM32_PINMUX('F',  5, ANALOG)>; /* PF5_GPIO */
+					 <STM32_PINMUX('H',  4, ANALOG)>; /* PH4_GPIO */
 		};
 	};
 
