@@ -378,6 +378,7 @@
 					 <STM32_PINMUX('F',  5, GPIO)>, /* PF5_GPIO */
 					 <STM32_PINMUX('H',  4, GPIO)>; /* PH4_GPIO */
 			bias-disable;
+			gpio-hog;
 			slew-rate = <0>;
 		};
 		pins2 {
@@ -554,6 +555,7 @@
 					 <STM32_PINMUX('Z',  3, GPIO)>, /* PZ3_GPIO */
 					 <STM32_PINMUX('Z',  2, GPIO)>; /* PZ2_GPIO */
 			bias-disable;
+			gpio-hog;
 			slew-rate = <0>;
 		};
 	};
