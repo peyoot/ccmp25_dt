@@ -124,7 +124,7 @@
 
 
 &switch0 {
-	status = "disabled";
+	status = "ok";
 	pinctrl-0 = <&eth1_rgmii_pins_a>, <&eth3_rgmii_pins_a>;
 	pinctrl-1 = <&eth1_rgmii_sleep_pins_a>, <&eth3_rgmii_sleep_pins_a>;
 	pinctrl-names = "default", "sleep";
