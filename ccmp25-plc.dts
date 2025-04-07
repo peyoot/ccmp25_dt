@@ -109,11 +109,16 @@
 	};
 
 	dummy-node {
-	        compatible = "plcv1.6.2-scarthgap-allgpio";
+	    compatible = "plcv1.6.2-scarthgap-allgpio";
 		status = "okay";
     };
 
-
+	digital-io {
+    	status = "okay";
+    	pinctrl-names = "default", "sleep";
+    	pinctrl-0 = <&ccmp25_gpio_pins &ccmp25_gpio_z_pins>;
+    	pinctrl-1 = <&ccmp25_gpio_sleep_pins &ccmp25_gpio_z_sleep_pins>;
+	};
 
 };
 
