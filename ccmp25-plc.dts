@@ -130,6 +130,18 @@
 	pinctrl-names = "default", "sleep";
 	phy-mode = "rgmii";
 	st,ethsw-internal-125;
+	
+	ports {
+        port@0 {
+            label = "cpu";
+            ethernet = <&eth1>;
+        };
+
+        port@1 {
+            label = "eth3";
+            ethernet = <&eth3>;
+        };
+    };
 };
 
 
