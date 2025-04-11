@@ -109,7 +109,7 @@
 	};
 
 	dummy-node {
-	    compatible = "plcv1.6.3-scarthgap-allgpio";
+	    compatible = "plcv1.6.4-scarthgap-add-eth3";
 		status = "okay";
     };
 
@@ -139,7 +139,7 @@
 
         port@1 {
             label = "eth3";
-            ethernet = <&eth3>;
+            ethernet = <&eth2>;
         };
     };
 };
