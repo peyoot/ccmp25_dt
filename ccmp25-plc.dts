@@ -139,7 +139,7 @@
 
         port@1 {
             label = "eth3";
-            ethernet = <&eth2>;
+            ethernet = <&eth1>;
         };
     };
 };
