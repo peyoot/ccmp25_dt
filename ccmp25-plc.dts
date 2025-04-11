@@ -38,8 +38,7 @@
 	aliases {
 		ethernet0 = &eth1;
 		ethernet1 = &eth2;
-		ethernet2 = &switch0_port1;
-        eth3 = &switch0_port1;
+		ethernet2 = &eth3;
 		serial5 = &uart5; 
 		serial6 = &uart7;
 	};
@@ -139,7 +138,7 @@
             ethernet = <&eth1>;
         };
 
-        port@1 {
+        eth3: port@1 {
             label = "eth3";
             ethernet = <&eth1>;
         };
