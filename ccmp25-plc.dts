@@ -125,7 +125,7 @@
 
 
 &switch0 {
-	status = "ok";
+	status = "okay";
 	pinctrl-0 = <&eth1_rgmii_pins_a>, <&eth3_rgmii_pins_a>;
 	pinctrl-1 = <&eth1_rgmii_sleep_pins_a>, <&eth3_rgmii_sleep_pins_a>;
 	pinctrl-names = "default", "sleep";
@@ -404,9 +404,29 @@
 			slew-rate = <0>;
 		};
 		pins3 {
-            pinmux = <STM32_PINMUX('H', 4, GPIO)>;  /* PH4_GPIO */
+            pinmux = <STM32_PINMUX('D',  9, GPIO)>,  /* PD9_GPIO */
+					 <STM32_PINMUX('D',  8, GPIO)>,  /* PD8_GPIO */
+					 <STM32_PINMUX('G',  5, GPIO)>,  /* PG5_GPIO */
+					 <STM32_PINMUX('F',  11, GPIO)>,  /* PF11_GPIO */
+					 <STM32_PINMUX('F',  13, GPIO)>,  /* PF13_GPIO */
+					 <STM32_PINMUX('F',  3, GPIO)>,  /* PF3_GPIO */
+					 <STM32_PINMUX('D',  6, GPIO)>,  /* PD6_GPIO */
+					 <STM32_PINMUX('F',  4, GPIO)>,  /* PF4_GPIO */
+					 <STM32_PINMUX('G',  2, GPIO)>,  /* PG2_GPIO */
+					 <STM32_PINMUX('G',  1, GPIO)>,  /* PG1_GPIO */
+					 <STM32_PINMUX('I',  4, GPIO)>,  /* PGI4_GPIO */
+					 <STM32_PINMUX('D',  7, GPIO)>,  /* PD7_GPIO */ 
+					 <STM32_PINMUX('D',  10, GPIO)>,  /* PD10_GPIO */ 
+					 <STM32_PINMUX('H',  5, GPIO)>,  /* PH5_GPIO */
+					 <STM32_PINMUX('F',  15, GPIO)>,  /* PF15_GPIO */  
+					 <STM32_PINMUX('I',  10, GPIO)>,  /* PI10_GPIO */ 
+					 <STM32_PINMUX('A',  1, GPIO)>,  /* PA1_GPIO */ 
+					 <STM32_PINMUX('F',  12, GPIO)>,  /* PF12_GPIO */
+					 <STM32_PINMUX('H',  4, GPIO)>,  /* PH4_GPIO */ 
+					 <STM32_PINMUX('I',  2, GPIO)>,  /* PI2_GPIO */ 
+					 <STM32_PINMUX('I',  3, GPIO)>,  /* PI3_GPIO */   
+					 <STM32_PINMUX('B',  0, GPIO)>;  /* PB0_GPIO */
             bias-disable;
-            output-low;
             gpio-hog;
         };
 	};
@@ -433,7 +453,27 @@
 					 <STM32_PINMUX('I',  8, ANALOG)>, /* PI8/LPO32_GPIO */
 					 <STM32_PINMUX('G',  4, ANALOG)>, /* PG4_GPIO */
 					 <STM32_PINMUX('F',  5, ANALOG)>, /* PF5_GPIO */
-					 <STM32_PINMUX('H',  4, ANALOG)>; /* PH4_GPIO */
+					 <STM32_PINMUX('D',  8, ANALOG)>,  /* PD8_GPIO */
+					 <STM32_PINMUX('G',  5, ANALOG)>,  /* PG5_GPIO */
+					 <STM32_PINMUX('F',  11, ANALOG)>,  /* PF11_GPIO */
+					 <STM32_PINMUX('F',  13, ANALOG)>,  /* PF13_GPIO */
+					 <STM32_PINMUX('F',  3, ANALOG)>,  /* PF3_GPIO */
+					 <STM32_PINMUX('D',  6, ANALOG)>,  /* PD6_GPIO */
+					 <STM32_PINMUX('F',  4, ANALOG)>,  /* PF4_GPIO */
+					 <STM32_PINMUX('G',  2, ANALOG)>,  /* PG2_GPIO */
+					 <STM32_PINMUX('G',  1, ANALOG)>,  /* PG1_GPIO */
+					 <STM32_PINMUX('I',  4, ANALOG)>,  /* PGI4_GPIO */
+					 <STM32_PINMUX('D',  7, ANALOG)>,  /* PD7_GPIO */ 
+					 <STM32_PINMUX('D',  10, ANALOG)>,  /* PD10_GPIO */ 
+					 <STM32_PINMUX('H',  5, ANALOG)>,  /* PH5_GPIO */
+					 <STM32_PINMUX('F',  15, ANALOG)>,  /* PF15_GPIO */  
+					 <STM32_PINMUX('I',  10, ANALOG)>,  /* PI10_GPIO */ 
+					 <STM32_PINMUX('A',  1, ANALOG)>,  /* PA1_GPIO */ 
+					 <STM32_PINMUX('F',  12, ANALOG)>,  /* PF12_GPIO */
+					 <STM32_PINMUX('H',  4, ANALOG)>,  /* PH4_GPIO */ 
+					 <STM32_PINMUX('I',  2, ANALOG)>,  /* PI2_GPIO */ 
+					 <STM32_PINMUX('I',  3, ANALOG)>,  /* PI3_GPIO */   
+					 <STM32_PINMUX('B',  0, ANALOG)>;  /* PB0_GPIO */
 		};
 	};
 
