@@ -21,7 +21,7 @@
 	dummy-node {
         compatible = "uboot plcv1.6 mmc active low";
         status = "okay";
-	}
+	};
 
 	aliases {
 		ethernet0 = &eth1;
