@@ -79,7 +79,7 @@
 		compatible = "auo,g101evn010", "panel-lvds";
 		power-supply = <&reg_3v3_board>;
 		backlight = <&panel_lvds_gpio_backlight>;
-		status = "disabled";
+		status = "okay";
 
 		width-mm = <216>;
 		height-mm = <135>;
@@ -110,7 +110,7 @@
 		gpios = <&gpiob 0 GPIO_ACTIVE_HIGH>; /* LVDS_BCKL_PWM */
 		default-on;
 		default-brightness-level = <0>;
-		status = "disabled";
+		status = "okay";
 	};
 };
 
@@ -204,7 +204,7 @@
 
 &ltdc {
 	rotation-memory = <&ltdc_sec_rotation>;
-	status = "disabled";
+	status = "okay";
 
 	port {
 		#address-cells = <1>;
@@ -218,7 +218,7 @@
 };
 
 &lvds {
-	status = "disabled";
+	status = "okay";
 
 	ports {
 		#address-cells = <1>;
