@@ -62,8 +62,6 @@
 			regulator-name = "3v3_board";
 			regulator-min-microvolt = <3300000>;
 			regulator-max-microvolt = <3300000>;
-			gpio = <&gpioa 12 GPIO_ACTIVE_HIGH>; /* 3V3_BOARD_EN */
-			enable-active-high;
 			status = "okay";
 		};
 
@@ -73,8 +71,6 @@
 			regulator-name = "5v_board";
 			regulator-min-microvolt = <5000000>;
 			regulator-max-microvolt = <5000000>;
-			gpio = <&gpiob 3 GPIO_ACTIVE_HIGH>; /* 5V_BOARD_EN */
-			enable-active-high;
 			status = "okay";
 		};
 	};
@@ -83,7 +79,7 @@
 		compatible = "auo,g101evn010", "panel-lvds";
 		power-supply = <&reg_3v3_board>;
 		backlight = <&panel_lvds_gpio_backlight>;
-		status = "okay";
+		status = "disabled";
 
 		width-mm = <216>;
 		height-mm = <135>;
@@ -114,7 +110,7 @@
 		gpios = <&gpiob 0 GPIO_ACTIVE_HIGH>; /* LVDS_BCKL_PWM */
 		default-on;
 		default-brightness-level = <0>;
-		status = "okay";
+		status = "disabled";
 	};
 };
 
@@ -125,7 +121,9 @@
 	status = "okay";
 };
 
+
 &eth1 {
+
 	status = "okay";
 	pinctrl-0 = <&eth1_rgmii_pins_a &eth1_mdio_pins_a>;
 	pinctrl-1 = <&eth1_rgmii_sleep_pins_a &eth1_mdio_sleep_pins_a>;
@@ -136,23 +134,23 @@
 	st,eth-clk-sel;
 	snps,ext-systime;
 
-	/* ETH1 connected to the mdio bus ETH1_MDIO */
 	mdio1 {
 		#address-cells = <1>;
 		#size-cells = <0>;
 		compatible = "snps,dwmac-mdio";
-
-		phy1_eth1: ethernet-phy@0 {
-			compatible = "ethernet-phy-id0141.0dd0"; /* PHY ID for Marvell 88E1512 */
-			reset-gpios =  <&gpiob 2 GPIO_ACTIVE_LOW>; /* ETH1_RST */
-			reset-assert-us = <1000>;
-			reset-deassert-us = <2000>;
-			reg = <0>;
+		phy1_eth1: ethernet-phy@4 {
+			compatible = "ethernet-phy-id001c.c916";
+			reset-gpios =  <&gpiob 2 GPIO_ACTIVE_LOW>;
+			reset-assert-us = <10000>;
+			reset-deassert-us = <80000>;
+			realtek,eee-disable;
+			reg = <4>;
 		};
 	};
 };
 
 &eth2 {
+
 	status = "okay";
 	pinctrl-0 = <&eth2_rgmii_pins_a>;
 	pinctrl-1 = <&eth2_rgmii_sleep_pins_a>;
@@ -167,13 +165,15 @@
 		#size-cells = <0>;
 		compatible = "snps,dwmac-mdio";
 		phy1_eth2: ethernet-phy@1 {
-			compatible = "ethernet-phy-id0141.0dd0"; /* PHY ID for Marvell 88E1512 */
-			reset-gpios =  <&gpiog 6 GPIO_ACTIVE_LOW>; /* ETH2_RST */
-			reset-assert-us = <1000>;
-			reset-deassert-us = <2000>;
+			compatible = "ethernet-phy-id001c.c916";
+			reset-gpios =  <&gpiog 6 GPIO_ACTIVE_LOW>;
+			reset-assert-us = <10000>;
+			reset-deassert-us = <80000>;
+			realtek,eee-disable;
 			reg = <1>;
 		};
 	};
+
 };
 
 &i2c1 {
@@ -204,7 +204,7 @@
 
 &ltdc {
 	rotation-memory = <&ltdc_sec_rotation>;
-	status = "okay";
+	status = "disabled";
 
 	port {
 		#address-cells = <1>;
@@ -218,7 +218,7 @@
 };
 
 &lvds {
-	status = "okay";
+	status = "disabled";
 
 	ports {
 		#address-cells = <1>;
