@@ -18,6 +18,11 @@
 	model = "Digi International ConnectCore MP25 Development Kit";
 	compatible = "digi,ccmp25-dvk", "digi,ccmp25", "st,stm32mp255";
 
+	dummy-node {
+        compatible = "uboot plcv1.6 mmc active low";
+        status = "okay";
+	}
+
 	aliases {
 		ethernet0 = &eth1;
 		ethernet1 = &eth2;
@@ -276,7 +281,7 @@
 	pinctrl-0 = <&sdmmc3_b4_pins_a>;
 	pinctrl-1 = <&sdmmc3_b4_od_pins_a>;
 	pinctrl-2 = <&sdmmc3_b4_sleep_pins_a>;
-	cd-gpios = <&gpioi 6 GPIO_ACTIVE_HIGH>;
+	cd-gpios = <&gpioi 6 GPIO_ACTIVE_LOW>;
 	disable-wp;
 	st,neg-edge;
 	no-1-8-v;
