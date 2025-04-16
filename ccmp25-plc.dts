@@ -43,7 +43,6 @@
 	aliases {
 		ethernet0 = &eth1;
 		ethernet1 = &eth2;
-		ethernet2 = &switch_port3;  /* Switch physical port (eth3) */
 		serial5 = &uart5; 
 		serial6 = &uart7;
 	};
