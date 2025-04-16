@@ -35,10 +35,14 @@
 	compatible = "digi,ccmp25-dvk", "digi,ccmp25", "digi,ccmp2", "st,stm32mp255";
 	digi,machine,name = "ccmp255-dvk";
 
+	dummy-node {
+	    compatible = "plcv1.6.5-scarthgap-add-eth3";
+		status = "okay";
+    };
+
 	aliases {
 		ethernet0 = &eth1;
 		ethernet1 = &eth2;
-		ethernet2 = &eth3;
 		serial5 = &uart5; 
 		serial6 = &uart7;
 	};
@@ -109,11 +113,6 @@
 
 	};
 
-	dummy-node {
-	    compatible = "plcv1.6.4-scarthgap-add-eth3";
-		status = "okay";
-    };
-
 	digital-io {
     	status = "okay";
     	pinctrl-names = "default", "sleep";
@@ -123,81 +122,122 @@
 
 };
 
+/*=======================================================*\
+*                    Ethernet Configuration               *
+\*=======================================================*/
 
-&switch0 {
-	status = "okay";
-	pinctrl-0 = <&eth1_rgmii_pins_a>, <&eth3_rgmii_pins_a>;
-	pinctrl-1 = <&eth1_rgmii_sleep_pins_a>, <&eth3_rgmii_sleep_pins_a>;
-	pinctrl-names = "default", "sleep";
-	phy-mode = "rgmii";
-	st,ethsw-internal-125;
-	
-	ports {
-        port@0 {
-            label = "cpu";
-            ethernet = <&eth1>;
+&eth1 {
+    status = "okay";
+    pinctrl-0 = <&eth1_rgmii_pins_a &eth1_mdio_pins_a>;  /* RGMII + MDIO pins */
+    pinctrl-1 = <&eth1_rgmii_sleep_pins_a &eth1_mdio_sleep_pins_a>;
+    pinctrl-names = "default", "sleep";
+    phy-mode = "rgmii-id";
+    max-speed = <1000>;
+    st,eth-clk-sel;  /* Clock source selection */
+
+    /*-------------------------------------------------
+     * Shared MDIO Bus (for both eth1 & eth3 PHYs)
+     * PHY reset GPIO is shared between eth1 & eth3
+     *-------------------------------------------------*/
+    mdio1 {
+        #address-cells = <1>;
+        #size-cells = <0>;
+        compatible = "snps,dwmac-mdio";
+
+        /* ETH1 PHY (Address 4) */
+        phy1: ethernet-phy@4 {
+            compatible = "ethernet-phy-id001c.c916";  /* RTL8211F-CG */
+            reg = <4>;  /* Hardware PHY address */
+            reset-gpios = <&gpiob 2 GPIO_ACTIVE_LOW>;  /* Shared reset GPIO */
+            reset-assert-us = <10000>;  /* 10ms assert time */
+            reset-deassert-us = <80000>;  /* 80ms deassert time */
+            realtek,leds-config = <0x0c>;  /* Custom LED behavior */
         };
 
-        eth3: port@1 {
-            label = "eth3";
-            ethernet = <&eth1>;
+        /* ETH3 PHY (Address 5) */
+        phy3: ethernet-phy@5 {
+            compatible = "ethernet-phy-id001c.c916";
+            reg = <5>;  /* Hardware PHY address */
+            reset-gpios = <&gpiob 2 GPIO_ACTIVE_LOW>;  /* Shared reset GPIO */
+            reset-assert-us = <10000>;
+            reset-deassert-us = <80000>;
         };
     };
 };
 
+/*-------------------------------------------------------
+ * Switch Module Configuration
+ * eth1 acts as CPU port, eth3 as physical port
+ *-------------------------------------------------------*/
+&switch0 {
+    status = "okay";
+    pinctrl-0 = <&eth1_rgmii_pins_a>, <&eth3_rgmii_pins_a>;  /* Port pins */
+    pinctrl-names = "default";
+    phy-mode = "rgmii";
+    st,ethsw-internal-125;  /* Use internal 125MHz clock */
 
-&eth1 {
+    ports {
+        #address-cells = <1>;
+        #size-cells = <0>;
 
-	status = "okay";
-	pinctrl-0 = <&eth1_rgmii_pins_a &eth1_mdio_pins_a>;
-	pinctrl-1 = <&eth1_rgmii_sleep_pins_a &eth1_mdio_sleep_pins_a>;
-	pinctrl-names = "default", "sleep";
-	phy-mode = "rgmii-id";
-	max-speed = <1000>;
-	phy-handle = <&phy1_eth1>;
-	st,eth-clk-sel;
-	snps,ext-systime;
+        /* CPU Port (Connected to eth1) */
+        port@0 {
+            reg = <0>;
+            label = "cpu";
+            ethernet = <&eth1>;  /* Bind to eth1 MAC */
+            phy-mode = "rgmii";
+            fixed-link {  /* Fixed link to switch core */
+                speed = <1000>;
+                full-duplex;
+            };
+        };
 
-	mdio1 {
-		#address-cells = <1>;
-		#size-cells = <0>;
-		compatible = "snps,dwmac-mdio";
-		phy1_eth1: ethernet-phy@4 {
-			compatible = "ethernet-phy-id001c.c916";
-			reset-gpios =  <&gpiob 2 GPIO_ACTIVE_LOW>;
-			reset-assert-us = <10000>;
-			reset-deassert-us = <80000>;
-			realtek,eee-disable;
-			reg = <4>;
-		};
-	};
+        /* Physical Port 1 (eth1) */
+        port@1 {
+            reg = <1>;
+            label = "eth1";
+            phy-handle = <&phy1>;  /* Reference eth1 PHY */
+            phy-mode = "rgmii-id";  /* RGMII with internal delay */
+        };
+
+        /* Physical Port 3 (eth3) */
+        port@3 {
+            reg = <3>;
+            label = "eth3";
+            phy-handle = <&phy3>;  /* Reference eth3 PHY */
+            phy-mode = "rgmii-id";
+        };
+    };
 };
 
+/*-------------------------------------------------------
+ * Independent MAC Controller (eth2 for EtherCAT)
+ *-------------------------------------------------------*/
 &eth2 {
+    status = "okay";
+    pinctrl-0 = <&eth2_rgmii_pins_a>;
+    pinctrl-names = "default";
+    phy-mode = "rgmii-id";
+    phy-handle = <&phy2>;
+    max-speed = <1000>;
+    
+    /* EtherCAT Optimizations */
+    snps,ps-speed = <1000>;  /* Force 1Gbps mode */
+    snps,reset-active-low;
+    snps,force_thresh_dma_mode;  /* Improve real-time performance */
+};
 
-	status = "okay";
-	pinctrl-0 = <&eth2_rgmii_pins_a>;
-	pinctrl-1 = <&eth2_rgmii_sleep_pins_a>;
-	pinctrl-names = "default", "sleep";
-	phy-mode = "rgmii-id";
-	max-speed = <1000>;
-	phy-handle = <&phy1_eth2>;
-	st,eth-ptp-from-rcc;
-
-	mdio1 {
-		#address-cells = <1>;
-		#size-cells = <0>;
-		compatible = "snps,dwmac-mdio";
-		phy1_eth2: ethernet-phy@1 {
-			compatible = "ethernet-phy-id001c.c916";
-			reset-gpios =  <&gpiog 6 GPIO_ACTIVE_LOW>;
-			reset-assert-us = <10000>;
-			reset-deassert-us = <80000>;
-			realtek,eee-disable;
-			reg = <1>;
-		};
-	};
-
+/*-------------------------------------------------------
+ * Dedicated MDIO Bus for eth2 (isolated from Switch)
+ *-------------------------------------------------------*/
+&mdio0 {
+    phy2: ethernet-phy@1 {
+        compatible = "ethernet-phy-id001c.c916";
+        reg = <1>;  /* PHY address */
+        reset-gpios = <&gpiog 6 GPIO_ACTIVE_LOW>;
+        reset-assert-us = <10000>;
+        reset-deassert-us = <80000>;
+    };
 };
 
 
