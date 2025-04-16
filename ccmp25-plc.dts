@@ -170,7 +170,7 @@
  * eth1 acts as CPU port, eth3 as physical port
  *-------------------------------------------------------*/
 &switch0 {
-    status = "okay";
+    status = "disabled";
     pinctrl-0 = <&eth1_rgmii_pins_a>, <&eth3_rgmii_pins_a>;  /* Port pins */
     pinctrl-names = "default";
     phy-mode = "rgmii";
