@@ -43,6 +43,7 @@
 	aliases {
 		ethernet0 = &eth1;
 		ethernet1 = &eth2;
+		ethernet2 = &switch_port3;  /* Switch physical port (eth3) */
 		serial5 = &uart5; 
 		serial6 = &uart7;
 	};
@@ -210,34 +211,31 @@
     };
 };
 
-/*-------------------------------------------------------
- * Independent MAC Controller (eth2 for EtherCAT)
- *-------------------------------------------------------*/
 &eth2 {
-    status = "okay";
-    pinctrl-0 = <&eth2_rgmii_pins_a>;
-    pinctrl-names = "default";
-    phy-mode = "rgmii-id";
-    phy-handle = <&phy2>;
-    max-speed = <1000>;
-    
-    /* EtherCAT Optimizations */
-    snps,ps-speed = <1000>;  /* Force 1Gbps mode */
-    snps,reset-active-low;
-    snps,force_thresh_dma_mode;  /* Improve real-time performance */
-};
 
-/*-------------------------------------------------------
- * Dedicated MDIO Bus for eth2 (isolated from Switch)
- *-------------------------------------------------------*/
-&mdio0 {
-    phy2: ethernet-phy@1 {
-        compatible = "ethernet-phy-id001c.c916";
-        reg = <1>;  /* PHY address */
-        reset-gpios = <&gpiog 6 GPIO_ACTIVE_LOW>;
-        reset-assert-us = <10000>;
-        reset-deassert-us = <80000>;
-    };
+	status = "okay";
+	pinctrl-0 = <&eth2_rgmii_pins_a>;
+	pinctrl-1 = <&eth2_rgmii_sleep_pins_a>;
+	pinctrl-names = "default", "sleep";
+	phy-mode = "rgmii-id";
+	max-speed = <1000>;
+	phy-handle = <&phy2>;
+	st,eth-ptp-from-rcc;
+
+	mdio1 {
+		#address-cells = <1>;
+		#size-cells = <0>;
+		compatible = "snps,dwmac-mdio";
+		phy2: ethernet-phy@1 {
+			compatible = "ethernet-phy-id001c.c916";
+			reset-gpios =  <&gpiog 6 GPIO_ACTIVE_LOW>;
+			reset-assert-us = <10000>;
+			reset-deassert-us = <80000>;
+			realtek,eee-disable;
+			reg = <1>;
+		};
+	};
+
 };
 
 
