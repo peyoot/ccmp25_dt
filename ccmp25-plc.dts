@@ -41,9 +41,8 @@
     };
 
 	aliases {
-		ethernet0 = &eth1;
-		ethernet1 = &eth2;
-		ethernet2 = "switch0-port3";
+		ethernet1 = &eth1;
+		ethernet2 = &eth2;
 		serial5 = &uart5; 
 		serial6 = &uart7;
 	};
