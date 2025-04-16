@@ -43,6 +43,7 @@
 	aliases {
 		ethernet0 = &eth1;
 		ethernet1 = &eth2;
+		ethernet2 = "switch0-port3";
 		serial5 = &uart5; 
 		serial6 = &uart7;
 	};
@@ -139,7 +140,7 @@
      * Shared MDIO Bus (for both eth1 & eth3 PHYs)
      * PHY reset GPIO is shared between eth1 & eth3
      *-------------------------------------------------*/
-    mdio1 {
+    mdio0 {
         #address-cells = <1>;
         #size-cells = <0>;
         compatible = "snps,dwmac-mdio";
@@ -170,7 +171,7 @@
  * eth1 acts as CPU port, eth3 as physical port
  *-------------------------------------------------------*/
 &switch0 {
-    status = "disabled";
+    status = "okay";
     pinctrl-0 = <&eth1_rgmii_pins_a>, <&eth3_rgmii_pins_a>;  /* Port pins */
     pinctrl-names = "default";
     phy-mode = "rgmii";
