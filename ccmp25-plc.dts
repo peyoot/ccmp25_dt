@@ -351,6 +351,13 @@
         status = "okay";
     };
 
+    pwm9: pwm {
+        pinctrl-names = "default", "sleep";
+        pinctrl-0 = <&ccmp25_timers1_ch2_pwm_pins>;
+        pinctrl-1 = <&ccmp25_timers1_ch2_pwm_sleep_pins>;
+        status = "okay";
+    };
+
     /*
      * Uncomment to enable timer trigger on STANDARD TIMER.
      *
@@ -436,8 +443,7 @@
 					 <STM32_PINMUX('F',  4, GPIO)>,  /* PF4_GPIO */
 					 <STM32_PINMUX('G',  2, GPIO)>,  /* PG2_GPIO */
 					 <STM32_PINMUX('G',  1, GPIO)>,  /* PG1_GPIO */
-					 <STM32_PINMUX('I',  4, GPIO)>,  /* PGI4_GPIO */
-					 <STM32_PINMUX('D',  10, GPIO)>,  /* PD10_GPIO */ 
+					 <STM32_PINMUX('I',  4, GPIO)>,  /* PGI4_GPIO */ 
 					 <STM32_PINMUX('H',  5, GPIO)>,  /* PH5_GPIO */
 					 <STM32_PINMUX('F',  15, GPIO)>,  /* PF15_GPIO */  
 					 <STM32_PINMUX('I',  10, GPIO)>,  /* PI10_GPIO */ 
@@ -484,7 +490,6 @@
 					 <STM32_PINMUX('G',  2, ANALOG)>,  /* PG2_GPIO */
 					 <STM32_PINMUX('G',  1, ANALOG)>,  /* PG1_GPIO */
 					 <STM32_PINMUX('I',  4, ANALOG)>,  /* PGI4_GPIO */ 
-					 <STM32_PINMUX('D',  10, ANALOG)>,  /* PD10_GPIO */ 
 					 <STM32_PINMUX('H',  5, ANALOG)>,  /* PH5_GPIO */
 					 <STM32_PINMUX('F',  15, ANALOG)>,  /* PF15_GPIO */  
 					 <STM32_PINMUX('I',  10, ANALOG)>,  /* PI10_GPIO */ 
@@ -509,6 +514,21 @@
     ccmp25_timers1_ch1_pwm_sleep_pins: ccmp25-timers1-ch1-pwm-sleep {
         pins {
             pinmux = <STM32_PINMUX('D',  7, ANALOG)>; /* TIM1_CH1_PWM */
+        };
+    };
+
+    ccmp25_timers1_ch2_pwm_pins: ccmp25-timers1-ch2-pwm {
+        pins {
+            pinmux = <STM32_PINMUX('D', 10,  GPIO)>; /* TIM1_CH2_PWM */
+            drive-push-pull;
+            bias-disable;
+            slew-rate = <0>;
+        };
+    };
+
+    ccmp25_timers1_ch2_pwm_sleep_pins: ccmp25-timers1-ch2-pwm-sleep {
+        pins {
+            pinmux = <STM32_PINMUX('D', 10, ANALOG)>; /* TIM1_CH2_PWM */
         };
     };
 
