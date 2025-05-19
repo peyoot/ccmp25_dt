@@ -1,0 +1,41 @@
+/dts-v1/;
+/plugin/;
+
+#include <dt-bindings/pinctrl/stm32-pinfunc.h>
+
+/ {
+
+    fragment@0 {
+        target-path = "/";
+        __overlay__ {
+            overlay-description = "ccmp25plc: GPIO DO_HS1 to PWM Overlay (TIM1_CH1 on PD7)";
+        };
+    };
+
+    fragment@1 {
+        target = <&timers1>; 
+        __overlay__ {
+            status = "okay"; 
+            /delete-property/ dmas; 
+            /delete-property/ dma-names;
+
+            pwm8: pwm {
+                status = "okay";
+                pinctrl-names = "default", "sleep";
+                pinctrl-0 = <&ccmp25_timers1_ch1_pwm_pins>;
+                pinctrl-1 = <&ccmp25_timers1_ch1_pwm_sleep_pins>;
+            };
+        };
+    };
+
+    fragment@2 {
+        target = <&ccmp25_timers1_ch1_pwm_pins>; 
+        __overlay__ {
+            pins {
+                /* convert to pwm ：GPIO -> AF8 */
+                pinmux = <STM32_PINMUX('D', 7, AF8)>;  
+                
+            };
+        };
+    };
+};
