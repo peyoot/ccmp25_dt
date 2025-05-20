@@ -16,7 +16,6 @@
         target = <&timers1>; 
         __overlay__ {
             status = "okay"; 
-            /delete-property/ dmas; 
         };
     };
 
