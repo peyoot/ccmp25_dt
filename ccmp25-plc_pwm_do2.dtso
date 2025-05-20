@@ -20,7 +20,7 @@
     };
 
     fragment@2 {
-        target = <&ccmp25_timers1_ch1_pwm_pins>; 
+        target = <&ccmp25_timers1_ch2_pwm_pins>; 
         __overlay__ {
             pins {
                 /* convert to pwm ：GPIO -> AF8 */
