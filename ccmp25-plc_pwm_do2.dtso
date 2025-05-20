@@ -13,14 +13,14 @@
     };
 
     fragment@1 {
-        target = <&timers1>; 
+        target = <0xc2>;
         __overlay__ {
             status = "okay"; 
         };
     };
 
-    fragment@2 {
-        target = <&ccmp25_timers1_ch2_pwm_pins>; 
+    fragment@2 { 
+        target = <0x2b>;
         __overlay__ {
             pins {
                 /* convert to pwm ：GPIO -> AF8 */
