@@ -13,19 +13,20 @@
     };
 
     fragment@1 {
-        target = <0xc2>;
+        target = <&timers1>;
         __overlay__ {
             status = "okay"; 
         };
     };
 
     fragment@2 { 
-        target = <0x2b>;
-        __overlay__ {
-            pins {
-                /* convert to pwm ：GPIO -> AF8 */
-                pinmux = <STM32_PINMUX('D', 10, AF8)>;  
-                
+        target = <&pinctrl>;
+        ccmp25-timers1-ch2-pwm {
+            __overlay__ {
+                pins {
+                    /* convert to pwm ：GPIO -> AF8 */
+                    pinmux = <STM32_PINMUX('D', 10, AF8)>;                
+                };
             };
         };
     };
