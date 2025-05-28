@@ -482,8 +482,8 @@
 
     ccmp25_timers1ch1_2_pwm_pins: ccmp25-timers1ch1_2-pwm {
         pins {
-            pinmux = <STM32_PINMUX('D', 7, AF8)>,  /* TIM1_CH1 */
-                     <STM32_PINMUX('D', 10, AF8)>; /* TIM1_CH2 */
+            pinmux = <STM32_PINMUX('D', 7, GPIO)>,  /* TIM1_CH1 */
+                     <STM32_PINMUX('D', 10, GPIO)>; /* TIM1_CH2 */
             drive-push-pull;
             bias-disable;
             slew-rate = <1>;  // high speed 
