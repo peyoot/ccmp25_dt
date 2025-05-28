@@ -32,11 +32,11 @@
 
 / {
 	model = "Digi International ConnectCore MP25 ST PLC kit";
-	compatible = "digi,ccmp25-dvk", "digi,ccmp25", "digi,ccmp2", "st,stm32mp255";
+	compatible = "digi,ccmp25-dvk", "digi,ccmp25", "digi,ccmp2", "st,stm32mp257";
 	digi,machine,name = "ccmp255-dvk";
 
 	dummy-node {
-	    compatible = "plcv1.6.5-scarthgap-add-eth3";
+	    compatible = "plcv1.6.5-scarthgap-add-eth3-pwm-tim1-ch1-ch2";
 		status = "okay";
     };
 
@@ -344,39 +344,17 @@
     /* USER CODE END timers1 */
 
     /* Set the desired PWM name */
+
     pwm8: pwm {
         pinctrl-names = "default", "sleep";
-        pinctrl-0 = <&ccmp25_timers1_ch1_pwm_pins>;
-        pinctrl-1 = <&ccmp25_timers1_ch1_pwm_sleep_pins>;
+        pinctrl-0 = <&ccmp25_timers1ch1_2_pwm_pins>;
+        pinctrl-1 = <&ccmp25_timers1ch1_2_pwm_sleep_pins>;
+        #pwm-cells = <3>; 
         status = "okay";
+ 
     };
 
-    pwm9: pwm {
-        pinctrl-names = "default", "sleep";
-        pinctrl-0 = <&ccmp25_timers1_ch2_pwm_pins>;
-        pinctrl-1 = <&ccmp25_timers1_ch2_pwm_sleep_pins>;
-        status = "okay";
-    };
-
-    /*
-     * Uncomment to enable timer trigger on STANDARD TIMER.
-     *
-     * Set <TRIGGER_INDEX> to (timer_index - 1)
-     */
-    timer@0 {
-        status = "okay";
-    };
-
-    /*
-     * Uncomment to enable timer trigger on LPTIMER only.
-     *
-     * Set <TRIGGER_INDEX> to (lptimer_index - 1)
-     */
-    //trigger@<TRIGGER_INDEX> {
-    //    status = "okay";
-    //};
 };
-
 
 
 &pinctrl {
@@ -502,33 +480,20 @@
 		};
 	};
 
-    ccmp25_timers1_ch1_pwm_pins: ccmp25-timers1-ch1-pwm {
+    ccmp25_timers1ch1_2_pwm_pins: ccmp25-timers1ch1_2-pwm {
         pins {
-            pinmux = <STM32_PINMUX('D',  7,  GPIO)>; /* change to AF8 if pwm enable */
+            pinmux = <STM32_PINMUX('D', 7, AF8)>,  /* TIM1_CH1 */
+                     <STM32_PINMUX('D', 10, AF8)>; /* TIM1_CH2 */
             drive-push-pull;
             bias-disable;
-            slew-rate = <0>;
+            slew-rate = <1>;  // high speed 
         };
     };
 
-    ccmp25_timers1_ch1_pwm_sleep_pins: ccmp25-timers1-ch1-pwm-sleep {
+    ccmp25_timers1ch1_2_pwm_sleep_pins: ccmp25-timers1ch1_2-pwm-sleep {
         pins {
-            pinmux = <STM32_PINMUX('D',  7, ANALOG)>; /* TIM1_CH1_PWM */
-        };
-    };
-
-    ccmp25_timers1_ch2_pwm_pins: ccmp25-timers1-ch2-pwm {
-        pins {
-            pinmux = <STM32_PINMUX('D', 10,  GPIO)>; /* TIM1_CH2_PWM */
-            drive-push-pull;
-            bias-disable;
-            slew-rate = <0>;
-        };
-    };
-
-    ccmp25_timers1_ch2_pwm_sleep_pins: ccmp25-timers1-ch2-pwm-sleep {
-        pins {
-            pinmux = <STM32_PINMUX('D', 10, ANALOG)>; /* TIM1_CH2_PWM */
+			pinmux = <STM32_PINMUX('D', 7, ANALOG)>, /* TIM1_CH1_PWM */
+                     <STM32_PINMUX('D', 10, ANALOG)>;  /* TIM1_CH2_PWM */
         };
     };
 
