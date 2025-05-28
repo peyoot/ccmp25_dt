@@ -363,9 +363,9 @@
      *
      * Set <TRIGGER_INDEX> to (timer_index - 1)
      */
-    //timer@<TRIGGER_INDEX> {
-    //    status = "okay";
-    //};
+    timer@0 {
+        status = "okay";
+    };
 
     /*
      * Uncomment to enable timer trigger on LPTIMER only.
