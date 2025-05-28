@@ -349,7 +349,6 @@
         pinctrl-names = "default", "sleep";
         pinctrl-0 = <&ccmp25_timers1ch1_2_pwm_pins>;
         pinctrl-1 = <&ccmp25_timers1ch1_2_pwm_sleep_pins>;
-        #pwm-cells = <3>; 
         status = "okay";
  
     };
