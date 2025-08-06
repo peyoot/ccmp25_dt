@@ -1,0 +1,13 @@
+/dts-v1/;
+/plugin/;
+
+/* overwrite eth2 */
+&eth2 {
+    max-speed = <100>; 
+};
+
+/* over write phy1_eth2 */
+&phy1_eth2 {
+    max-speed = <100>; 
+    ethernet-phy-no-auto-negotiation; 
+};
