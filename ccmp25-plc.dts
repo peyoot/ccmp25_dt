@@ -319,6 +319,10 @@
 	status = "okay";
 };
 
+&usbh_ohci {
+    status = "okay";
+};
+
 /* USB 2.0/3.0 Host/Device */
 &usb2_phy2 {
 	vdd33-supply = <&scmi_vdd3v3_usb>;
