@@ -276,21 +276,6 @@
 };
 
 
-&timers1 {
-	/delete-property/dmas;
-	/delete-property/dma-names;
-	status = "okay";
-	pwm_mipi_bckl: pwm {
-		pinctrl-0 = <&ccmp25_pwm1_pins>;
-		pinctrl-1 = <&ccmp25_pwm1_sleep_pins>;
-		pinctrl-names = "default", "sleep";
-		status = "okay";
-	};
-	timer@0 {
-		status = "okay";
-	};
-};
-
 &timers2 {
 	/delete-property/dmas;
 	/delete-property/dma-names;
@@ -302,21 +287,6 @@
 		status = "okay";
 	};
 	timer@1 {
-		status = "okay";
-	};
-};
-
-&timers20 {
-	/delete-property/dmas;
-	/delete-property/dma-names;
-	status = "okay";
-	pwm_lvds_bckl: pwm {
-		pinctrl-0 = <&ccmp25_pwm20_pins>;
-		pinctrl-1 = <&ccmp25_pwm20_sleep_pins>;
-		pinctrl-names = "default", "sleep";
-		status = "okay";
-	};
-	timer@19 {
 		status = "okay";
 	};
 };
@@ -428,40 +398,6 @@
 		};
 	};
 
-	ccmp25_m_can2_pins: ccmp25-m-can2-0 {
-		pins1 {
-			pinmux = <STM32_PINMUX('I', 9, AF4)>; /* FDCAN2_TX */
-			slew-rate = <1>;
-			drive-push-pull;
-			bias-disable;
-		};
-		pins2 {
-			pinmux = <STM32_PINMUX('I', 10, AF4)>; /* FDCAN2_RX */
-			bias-disable;
-		};
-	};
-
-	ccmp25_m_can2_sleep_pins: ccmp25-m-can2-sleep-0 {
-		pins {
-			pinmux = <STM32_PINMUX('I', 9, ANALOG)>, /* FDCAN2_TX */
-				 <STM32_PINMUX('I', 10, ANALOG)>; /* FDCAN2_RX */
-		};
-	};
-
-	ccmp25_pwm1_pins: ccmp25-pwm1-0 {
-		pins {
-			pinmux = <STM32_PINMUX('D', 9, AF8)>; /* TIM1_CH3 */
-			bias-disable;
-			drive-push-pull;
-			slew-rate = <0>;
-		};
-	};
-
-	ccmp25_pwm1_sleep_pins: ccmp25-pwm1-sleep-0 {
-		pins {
-			pinmux = <STM32_PINMUX('D', 9, ANALOG)>; /* TIM1_CH3 */
-		};
-	};
 
 	ccmp25_pwm2_pins: ccmp25-pwm2-0 {
 		pins {
@@ -478,21 +414,7 @@
 		};
 	};
 
-	ccmp25_pwm20_pins: ccmp25-pwm20-0 {
-		pins {
-			pinmux = <STM32_PINMUX('B', 0, AF8)>; /* TIM20_CH4N */
-			bias-disable;
-			drive-push-pull;
-			slew-rate = <0>;
-		};
-	};
-
-	ccmp25_pwm20_sleep_pins: ccmp25-pwm20-sleep-0 {
-		pins {
-			pinmux = <STM32_PINMUX('B', 0, ANALOG)>; /* TIM20_CH4N */
-		};
-	};
-
+	
 	ccmp25_uart5_pins: ccmp25-uart5-0 {
 		pins1 {
 			pinmux = <STM32_PINMUX('G', 9, AF5)>; /* UART5_TX */
