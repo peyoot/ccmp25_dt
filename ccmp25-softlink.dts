@@ -67,7 +67,7 @@
 		clk_ext_camera: clk-ext-camera {
 			#clock-cells = <0>;
 			compatible = "fixed-clock";
-			clock-frequency = <24000000>;
+			clock-frequency = <19200000>;
 		};
 
 		pad_clk: pad-clk {
@@ -100,6 +100,27 @@
 			enable-active-high;
 			status = "okay";
 		};
+
+		reg_2v8: regulator-2v8 {  /* 从3.3V转换 */
+    		compatible = "regulator-fixed";
+    		regulator-name = "2v8";
+    		regulator-min-microvolt = <2800000>;
+    		regulator-max-microvolt = <2800000>;
+    		vin-supply = <&reg_3v3_board>;  /* 指明父电源 */
+    		enable-active-high;
+		};
+
+		reg_1v2: regulator-1v2 {  /* 从3.3V转换 */
+    		compatible = "regulator-fixed";
+    		regulator-name = "1v2";
+    		regulator-min-microvolt = <1200000>;
+    		regulator-max-microvolt = <1200000>;
+    		vin-supply = <&reg_3v3_board>;  /* 指明父电源 */
+    		enable-active-high;
+		};
+
+
+
 
 		reg_5v_board: regulator-board@2 {
 			compatible = "regulator-fixed";
@@ -185,7 +206,7 @@
 		port@0 {
 			reg = <0>;
 			csi_sink: endpoint {
-				remote-endpoint = <&imx335_ep>;
+				remote-endpoint = <&ov2740_mipi_ep>;
 				data-lanes = <0 1>;
 				bus-type = <4>;
 			};
@@ -232,22 +253,24 @@
 	 */
 
 	/* MIPI-CSI camera */
-	ov5640_mipi: ov5640_mipi@3c {
-		compatible = "ovti,ov5640";
-		reg = <0x3c>;
+	ov2740_mipi: ov2740_mipi@6c {
+		compatible = "ovti,ov2740";
+		reg = <0x6c>;
 		clocks = <&clk_ext_camera>;
 		clock-names = "xclk";
 		csi_id = <0>;
 		DOVDD-supply = <&reg_3v3_board>;
+		AVDD-supply = <&reg_2v8>;         /* 模拟电源 */
+    	DVDD-supply = <&reg_1v2>;        /* 数字电源 */
 		powerdown-gpios = <&gpiog 7 (GPIO_ACTIVE_LOW | GPIO_PUSH_PULL)>; /* CSI_RESET */
 		status = "okay";
 
 		port {
-			ov5640_mipi_ep: endpoint {
+			ov2740_mipi_ep: endpoint {
 				remote-endpoint = <&csi_sink>;
 				clock-lanes = <0>;
 				data-lanes = <1 2>;
-				link-frequencies = /bits/ 64 <594000000>;
+				link-frequencies = /bits/ 64 <360000000>;
 			};
 		};
 	};
