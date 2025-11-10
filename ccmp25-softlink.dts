@@ -67,7 +67,7 @@
 		clk_ext_camera: clk-ext-camera {
 			#clock-cells = <0>;
 			compatible = "fixed-clock";
-			clock-frequency = <19200000>;
+			clock-frequency = <24000000>;
 		};
 
 		pad_clk: pad-clk {
@@ -106,7 +106,7 @@
     		regulator-name = "2v8";
     		regulator-min-microvolt = <2800000>;
     		regulator-max-microvolt = <2800000>;
-    		vin-supply = <&reg_3v3_board>;  /* 指明父电源 */
+    		vin-supply = <&scmi_v3v3>;  /* 指明父电源 */
     		enable-active-high;
 		};
 
@@ -115,7 +115,7 @@
     		regulator-name = "1v2";
     		regulator-min-microvolt = <1200000>;
     		regulator-max-microvolt = <1200000>;
-    		vin-supply = <&reg_3v3_board>;  /* 指明父电源 */
+    		vin-supply = <&scmi_v3v3>;  /* 指明父电源 */
     		enable-active-high;
 		};
 
@@ -253,13 +253,13 @@
 	 */
 
 	/* MIPI-CSI camera */
-	ov2740_mipi: ov2740_mipi@6c {
+	ov2740_mipi: ov2740_mipi@36 {
 		compatible = "ovti,ov2740";
-		reg = <0x6c>;
+		reg = <0x36>;
 		clocks = <&clk_ext_camera>;
 		clock-names = "xclk";
 		csi_id = <0>;
-		DOVDD-supply = <&reg_3v3_board>;
+		DOVDD-supply = <&scmi_v3v3>;
 		AVDD-supply = <&reg_2v8>;         /* 模拟电源 */
     	DVDD-supply = <&reg_1v2>;        /* 数字电源 */
 		powerdown-gpios = <&gpiog 7 (GPIO_ACTIVE_LOW | GPIO_PUSH_PULL)>; /* CSI_RESET */
@@ -281,6 +281,19 @@
 		interrupt-parent = <&gpiof>;
 		interrupts = <4 IRQ_TYPE_EDGE_FALLING>; /* RTC_INT_N */
 	};
+    /* BQ27427电量计 */
+    bq27427: battery@21 {
+        compatible = "ti,bq27427";  /* 或 "ti,bq27xxx" */
+        reg = <0x21>;               /* 7位I2C地址，U-Boot探测到的0x21 */
+        
+        /* 电池参数配置 */
+        ti,design-capacity = <3400>;    /* 电池设计容量(mAh) */
+        ti,design-voltage = <3700>;     /* 电池设计电压(mV) */
+        ti,cur-sense = <10>;            /* 检流电阻(mΩ) */
+        
+        status = "okay";
+    };
+
 };
 
 
