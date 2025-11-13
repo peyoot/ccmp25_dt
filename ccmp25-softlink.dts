@@ -207,7 +207,7 @@
 			reg = <0>;
 			csi_sink: endpoint {
 				remote-endpoint = <&ov2740_mipi_ep>;
-				data-lanes = <0 1>;
+				data-lanes = <1 2>;
 				bus-type = <4>;
 			};
 		};
@@ -258,17 +258,18 @@
 		reg = <0x36>;
 		clocks = <&clk_ext_camera>;
 		clock-names = "xclk";
-		csi_id = <0>;
+		clock-frequency = <24000000>;
+		
 		DOVDD-supply = <&scmi_v3v3>;
 		AVDD-supply = <&reg_2v8>;         /* 模拟电源 */
     	DVDD-supply = <&reg_1v2>;        /* 数字电源 */
-		powerdown-gpios = <&gpiog 7 (GPIO_ACTIVE_LOW | GPIO_PUSH_PULL)>; /* CSI_RESET */
+		/* CSI_RESET */
+	/*	powerdown-gpios = <&gpiog 7 (GPIO_ACTIVE_LOW | GPIO_PUSH_PULL)>; */
 		status = "okay";
 
 		port {
 			ov2740_mipi_ep: endpoint {
 				remote-endpoint = <&csi_sink>;
-				clock-lanes = <0>;
 				data-lanes = <1 2>;
 				link-frequencies = /bits/ 64 <360000000>;
 			};
