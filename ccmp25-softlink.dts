@@ -206,7 +206,6 @@
 		port@0 {
 			reg = <0>;
 			csi_sink: endpoint {
-				remote-endpoint = <&ov2740_mipi_ep>;
 				data-lanes = <1 2>;
 				bus-type = <4>;
 			};
