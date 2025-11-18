@@ -260,7 +260,7 @@
 		clocks = <&clk_ext_camera>;
 		clock-names = "xclk";
 		clock-frequency = <24000000>;
-		link-frequencies = /bits/ 64 <360000000>;
+		link-frequencies = <360000000>;
 		
 		DOVDD-supply = <&scmi_v3v3>;
 		AVDD-supply = <&reg_2v8>;         /* 模拟电源 */
