@@ -35,6 +35,11 @@
 	compatible = "digi,ccmp25-dvk", "digi,ccmp25", "digi,ccmp2", "st,stm32mp255";
 	digi,machine,name = "ccmp255-dvk";
 
+	dummy-node {
+	    compatible = "softlinkv1.0-scarthgap";
+		status = "okay";
+    };
+
 	aliases {
 		ethernet0 = &eth1;
 		ethernet1 = &eth2;
