@@ -265,18 +265,19 @@
 		clocks = <&clk_ext_camera>;
 		clock-names = "xclk";
 		clock-frequency = <24000000>;
-		link-frequencies = <360000000>;
 		
 		DOVDD-supply = <&scmi_v3v3>;
-		AVDD-supply = <&reg_2v8>;         /* 模拟电源 */
-    	DVDD-supply = <&reg_1v2>;        /* 数字电源 */
+		AVDD-supply = <&reg_2v8>;
+    	DVDD-supply = <&reg_1v2>;
 		/* CSI_RESET */
-	/*	powerdown-gpios = <&gpiog 7 (GPIO_ACTIVE_LOW | GPIO_PUSH_PULL)>; */
+		/* reset-gpios or	powerdown-gpios = <&gpiog 7 (GPIO_ACTIVE_LOW | GPIO_PUSH_PULL)>; */
 		status = "okay";
 
 		port {
 			ov2740_mipi_ep: endpoint {
 				remote-endpoint = <&csi_sink>;
+				link-frequencies = /bits/ 64 <360000000>;
+				clock-lanes = <0>;
 				data-lanes = <1 2>;
 			};
 		};
