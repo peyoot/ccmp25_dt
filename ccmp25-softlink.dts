@@ -35,14 +35,14 @@
 	compatible = "digi,ccmp25-dvk", "digi,ccmp25", "digi,ccmp2", "st,stm32mp255";
 	digi,machine,name = "ccmp255-dvk";
 
-	dummy-node {
-	    compatible = "softlinkv1.0-scarthgap";
-		status = "okay";
-    };
+	system-info {
+    	compatible = "Softlink,system-info";
+		product-id = "WIRELESS-ENDOSCOPE-CCMP25";
+    	pcb-revision = "Rev 1.0";
+    	firmware-version = "DEY5.0r2-20251123";
+	};
 
 	aliases {
-		ethernet0 = &eth1;
-		ethernet1 = &eth2;
 		serial2 = &uart5; /* Console M33 / XBEE */
 		serial3 = &usart6; /* Connector J11 */
 		serial5 = &lpuart1; /* Cortex-M0+ UART */
