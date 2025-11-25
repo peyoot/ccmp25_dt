@@ -259,7 +259,7 @@
 
 	/* MIPI-CSI camera */
 	ov2740_mipi: ov2740_mipi@36 {
-		compatible = "ovti,ov2740v2";
+		compatible = "omnivision,ov2740v2";
 		reg = <0x36>;
 		clocks = <&clk_ext_camera>;
 		clock-names = "xclk";
