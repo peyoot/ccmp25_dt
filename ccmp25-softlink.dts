@@ -213,7 +213,6 @@
 			csi_sink: endpoint {
 				remote-endpoint = <&ov2740_mipi_ep>;
 				data-lanes = <0 1>;
-				clock-lanes = <0>;
 				bus-type = <4>;
 			};
 		};
