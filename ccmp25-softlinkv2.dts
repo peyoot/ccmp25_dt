@@ -1,0 +1,524 @@
+// SPDX-License-Identifier: (GPL-2.0-or-later OR BSD-3-Clause)
+/*
+ * Copyright (C) 2024,2025, Digi International Inc.
+ *
+ * Permission to use, copy, modify, and/or distribute this software for any
+ * purpose with or without fee is hereby granted, provided that the above
+ * copyright notice and this permission notice appear in all copies.
+ * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
+ * WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
+ * MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR
+ * ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
+ * WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
+ * ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
+ * OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+ */
+
+/dts-v1/;
+
+/* STM32MP25 CPU */
+#include "../st/stm32mp255.dtsi"
+#include "../st/stm32mp25xf.dtsi"
+#include "../st/stm32mp25-pinctrl.dtsi"
+#include "../st/stm32mp25xxai-pinctrl.dtsi"
+/* Digi ConnectCore MP25 (SOM) */
+#include "ccmp25.dtsi"
+
+#include <dt-bindings/gpio/gpio.h>
+#include <dt-bindings/input/input.h>
+#include <dt-bindings/leds/common.h>
+#include <dt-bindings/regulator/st,stm32mp25-regulator.h>
+#include "dt-bindings/pwm/pwm.h"
+
+/ {
+	model = "Digi International ConnectCore MP25 based wireless endoscope";
+	compatible = "digi,ccmp25-dvk", "digi,ccmp25", "digi,ccmp2", "st,stm32mp255";
+	digi,machine,name = "ccmp255-dvk";
+
+	system-info {
+    	compatible = "Softlink,system-info";
+		product-id = "WIRELESS-ENDOSCOPE-CCMP25";
+    	pcb-revision = "Rev 1.0";
+    	firmware-version = "DEY5.0r2-20251123";
+	};
+
+	aliases {
+		serial2 = &uart5; /* Console M33 / XBEE */
+		serial3 = &usart6; /* Connector J11 */
+		serial5 = &lpuart1; /* Cortex-M0+ UART */
+	};
+
+	chosen {
+		stdout-path = "serial0:115200n8";
+		#address-cells = <2>;
+		#size-cells = <2>;
+		ranges;
+
+		framebuffer {
+			compatible = "simple-framebuffer";
+			clocks = <&rcc CK_BUS_LTDC>, <&rcc CK_KER_LTDC>,
+				 <&rcc CK_BUS_LVDS>, <&rcc CK_KER_LVDSPHY>;
+			status = "disabled";
+		};
+	};
+
+	clocks {
+		cec_clock: cec-clock {
+			compatible = "fixed-clock";
+			#clock-cells = <0>;
+			clock-frequency = <12000000>;
+		};
+
+		clk_ext_camera: clk-ext-camera {
+			#clock-cells = <0>;
+			compatible = "fixed-clock";
+			clock-frequency = <24000000>;
+		};
+
+		pad_clk: pad-clk {
+			#clock-cells = <0>;
+			compatible = "fixed-clock";
+			clock-frequency = <100000000>;
+		};
+	};
+
+	
+	power_button {
+		compatible = "digi,stpmic-pwrkey";
+		interrupts-extended = <&optee 0>, <&optee 1>;
+		interrupt-names = "stpmic_pwrkey_fall", "stpmic_pwrkey_rise";
+		status = "okay";
+	};
+
+	regulators {
+		compatible = "simple-bus";
+		#address-cells = <1>;
+		#size-cells = <0>;
+
+		reg_3v3_board: regulator-board@1 {
+			compatible = "regulator-fixed";
+			reg = <1>;
+			regulator-name = "3v3_board";
+			regulator-min-microvolt = <3300000>;
+			regulator-max-microvolt = <3300000>;
+			gpio = <&gpioa 12 GPIO_ACTIVE_HIGH>; /* 3V3_BOARD_EN */
+			enable-active-high;
+			status = "okay";
+		};
+
+		reg_2v8: regulator-2v8 {  /* 从3.3V转换 */
+    		compatible = "regulator-fixed";
+    		regulator-name = "2v8";
+    		regulator-min-microvolt = <2800000>;
+    		regulator-max-microvolt = <2800000>;
+    		vin-supply = <&scmi_v3v3>;  /* 指明父电源 */
+    		enable-active-high;
+		};
+
+		reg_1v2: regulator-1v2 {  /* 从3.3V转换 */
+    		compatible = "regulator-fixed";
+    		regulator-name = "1v2";
+    		regulator-min-microvolt = <1200000>;
+    		regulator-max-microvolt = <1200000>;
+    		vin-supply = <&scmi_v3v3>;  /* 指明父电源 */
+    		enable-active-high;
+		};
+
+
+
+
+		reg_5v_board: regulator-board@2 {
+			compatible = "regulator-fixed";
+			reg = <2>;
+			regulator-name = "5v_board";
+			regulator-min-microvolt = <5000000>;
+			regulator-max-microvolt = <5000000>;
+			regulator-enable-ramp-delay = <8000>;
+			gpio = <&gpiob 3 GPIO_ACTIVE_HIGH>; /* 5V_BOARD_EN */
+			enable-active-high;
+			status = "okay";
+		};
+
+		reg_5v_usb_pwr_sw: regulator-board@3 {
+			compatible = "regulator-fixed";
+			reg = <3>;
+			regulator-name = "5v_usb_pwr_sw";
+			regulator-min-microvolt = <3300000>;
+			regulator-max-microvolt = <3300000>;
+			gpio = <&gpiog 4 GPIO_ACTIVE_HIGH>; /* NX5P3290_EN */
+			enable-active-high;
+			vin-supply = <&reg_5v_board>;
+			status = "okay";
+		};
+
+		external_vref: regulator-board@4 {
+			reg = <4>;
+			compatible = "regulator-fixed";
+			regulator-name = "external-vref";
+			regulator-min-microvolt = <1500000>;
+			regulator-max-microvolt = <1500000>;
+			status = "okay";
+		};
+	};
+
+};
+
+/*
+ * Internal VREFBUF is not supported yet.
+ * VREF+ pad is not connected. External 1.8V must be supplied
+ * at VREF+ pad for the ADC to work.
+ * To supply a different reference voltage, edit the voltage
+ * of the 'external_vref' regulator (Max is 1.8V).
+ */
+&adc_12 {
+	vref-supply = <&external_vref>;
+	vdda-supply = <&scmi_vdda18adc>;
+	pinctrl-names = "default";
+	pinctrl-0 = <&ccmp25_adc_pins>;
+	status = "okay";
+
+	adc1: adc@0 {
+		status = "okay";
+
+		channel@0 {
+			reg = <0>;
+			/* 16.5 ck_cycles sampling time */
+			st,min-sample-time-ns = <400>;
+		};
+
+		channel@1 {
+			reg = <1>;
+			/* 16.5 ck_cycles sampling time */
+			st,min-sample-time-ns = <400>;
+		};
+
+		channel@6 {
+			reg = <6>;
+			/* 16.5 ck_cycles sampling time */
+			st,min-sample-time-ns = <400>;
+		};
+	};
+};
+
+
+&csi {
+	vdd-supply =  <&scmi_vddcore>;
+	vdda18-supply = <&scmi_v1v8>;
+	status = "okay";
+	ports {
+		#address-cells = <1>;
+		#size-cells = <0>;
+		port@0 {
+			reg = <0>;
+			csi_sink: endpoint {
+				remote-endpoint = <&ov2740_mipi_ep>;
+				data-lanes = <0 1>;
+				bus-type = <4>;
+			};
+		};
+		port@1 {
+			reg = <1>;
+			csi_source: endpoint {
+				remote-endpoint = <&dcmipp_0>;
+			};
+		};
+	};
+};
+
+&dcmipp {
+	status = "okay";
+	port {
+		dcmipp_0: endpoint {
+			remote-endpoint = <&csi_source>;
+			bus-type = <4>;
+		};
+	};
+};
+
+
+/* Peripheral I2C bus (J18 Connector) */
+&i2c1 {
+	pinctrl-names = "default", "sleep";
+	pinctrl-0 = <&ccmp25_i2c1_pins>;
+	pinctrl-1 = <&ccmp25_i2c1_sleep_pins>;
+	i2c-scl-rising-time-ns = <185>;
+	i2c-scl-falling-time-ns = <20>;
+	clock-frequency = <400000>;
+	status = "okay";
+	/* spare dmas for other usage */
+	/delete-property/dmas;
+	/delete-property/dma-names;
+
+	/*
+	 * An inconsistent reset sequence makes
+	 * the Goodix display's touch controller respond to one of two I2C
+	 * addresses: 0x14 and 0x5D. To make sure the touchscreen
+	 * works every time, the touch controller's description must
+	 * be duplicated for both addresses.
+	 */
+
+	/* MIPI-CSI camera */
+	ov2740_mipi: ov2740_mipi@36 {
+		compatible = "ovti,ov2740v2";
+		reg = <0x36>;
+		clocks = <&clk_ext_camera>;
+		clock-names = "xclk";
+		clock-frequency = <24000000>;
+		
+		DOVDD-supply = <&scmi_v3v3>;
+		AVDD-supply = <&reg_2v8>;
+    	DVDD-supply = <&reg_1v2>;
+		/* CSI_RESET */
+		/* reset-gpios or	powerdown-gpios = <&gpiog 7 (GPIO_ACTIVE_LOW | GPIO_PUSH_PULL)>; */
+		status = "okay";
+
+		port {
+			ov2740_mipi_ep: endpoint {
+				remote-endpoint = <&csi_sink>;
+				link-frequencies = /bits/ 64 <360000000>;
+				clock-lanes = <0>;
+				data-lanes = <1 2>;
+			};
+		};
+	};
+
+	ext_rtc: ext_rtc@52 {
+		compatible = "microcrystal,rv3028";
+		reg = <0x52>;
+		interrupt-parent = <&gpiof>;
+		interrupts = <4 IRQ_TYPE_EDGE_FALLING>; /* RTC_INT_N */
+	};
+    /* BQ27427电量计 */
+    bq27427: battery@21 {
+        compatible = "ti,bq27427";  /* 或 "ti,bq27xxx" */
+        reg = <0x21>;               /* 7位I2C地址，U-Boot探测到的0x21 */
+        
+        /* 电池参数配置 */
+        ti,design-capacity = <3400>;    /* 电池设计容量(mAh) */
+        ti,design-voltage = <3700>;     /* 电池设计电压(mV) */
+        ti,cur-sense = <10>;            /* 检流电阻(mΩ) */
+        
+        status = "okay";
+    };
+
+};
+
+
+/* Micro SD */
+&sdmmc3 {
+	pinctrl-names = "default", "opendrain", "sleep";
+	pinctrl-0 = <&sdmmc3_b4_pins_a>;
+	pinctrl-1 = <&sdmmc3_b4_od_pins_a>;
+	pinctrl-2 = <&sdmmc3_b4_sleep_pins_a>;
+	cd-gpios = <&gpioi 6 GPIO_ACTIVE_HIGH>;
+	disable-wp;
+	st,neg-edge;
+	no-1-8-v;
+	bus-width = <4>;
+	vmmc-supply = <&reg_3v3_board>; /* card's VDD pin */
+	vqmmc-supply = <&scmi_vddio3>;
+	status = "okay";
+};
+
+
+&timers2 {
+	/delete-property/dmas;
+	/delete-property/dma-names;
+	status = "okay";
+	pwm_mikrobus: pwm {
+		pinctrl-0 = <&ccmp25_pwm2_pins>;
+		pinctrl-1 = <&ccmp25_pwm2_sleep_pins>;
+		pinctrl-names = "default", "sleep";
+		status = "okay";
+	};
+	timer@1 {
+		status = "okay";
+	};
+};
+
+/* Console A35 */
+&usart2 {
+	pinctrl-names = "default", "idle", "sleep";
+	pinctrl-0 = <&usart2_pins_a>;
+	pinctrl-1 = <&usart2_idle_pins_a>;
+	pinctrl-2 = <&usart2_sleep_pins_a>;
+	/delete-property/dmas;
+	/delete-property/dma-names;
+	status = "okay";
+};
+
+/* Console M33 / XBEE */
+&uart5 {
+	pinctrl-names = "default", "idle", "sleep";
+	pinctrl-0 = <&ccmp25_uart5_pins &ccmp25_uart5_rtscts_pins>;
+	pinctrl-1 = <&ccmp25_uart5_idle_pins &ccmp25_uart5_rtscts_idle_pins>;
+	pinctrl-2 = <&ccmp25_uart5_sleep_pins &ccmp25_uart5_rtscts_sleep_pins>;
+	uart-has-rtscts;
+	status = "okay";
+};
+
+
+/* USB 2.0 Host */
+&usb2_phy1 {
+	vdd33-supply = <&scmi_vdd3v3_usb>;
+	status = "okay";
+};
+
+
+&usbh {
+	status = "okay";
+};
+
+&usbh_ehci {
+	status = "okay";
+};
+
+/* USB 2.0/3.0 Host/Device */
+&usb2_phy2 {
+	vdd33-supply = <&scmi_vdd3v3_usb>;
+	status = "okay";
+};
+
+&usb3dr {
+	status = "okay";
+
+	dwc3: usb@48300000 {
+		maximum-speed = "high-speed";
+		usb-role-switch;
+		role-switch-default-mode = "peripheral";
+	};
+};
+
+&pinctrl {
+	ccmp25_adc_pins: ccmp25-adc-pins-0 {
+		pins {
+			pinmux = <STM32_PINMUX('G', 1, ANALOG)>;
+		};
+	};
+
+	ccmp25_i2c1_pins: ccmp25-i2c1-0 {
+		pins {
+			pinmux = <STM32_PINMUX('G', 13, AF9)>, /* I2C1_SCL */
+				 <STM32_PINMUX('I', 1, AF9)>; /* I2C1_SDA */
+			bias-disable;
+			drive-open-drain;
+			slew-rate = <0>;
+		};
+	};
+
+	ccmp25_i2c1_sleep_pins: ccmp25-i2c1-sleep-0 {
+		pins {
+			pinmux = <STM32_PINMUX('G', 13, ANALOG)>, /* I2C1_SCL */
+				 <STM32_PINMUX('I', 1, ANALOG)>; /* I2C1_SDA */
+		};
+	};
+
+	ccmp25_lpuart1_pins: ccmp25-lpuart1-0 {
+		pins1 {
+			pinmux = <STM32_PINMUX('Z', 7, AF6)>; /* LPUART1_TX */
+			bias-disable;
+			drive-push-pull;
+			slew-rate = <0>;
+		};
+		pins2 {
+			pinmux = <STM32_PINMUX('Z', 4, AF6)>; /* LPUART1_RX */
+			bias-pull-up;
+		};
+	};
+
+	ccmp25_lpuart1_idle_pins: ccmp25-lpuart1-idle-0 {
+		pins1 {
+			pinmux = <STM32_PINMUX('Z', 7, ANALOG)>; /* LPUART1_TX */
+		};
+		pins2 {
+			pinmux = <STM32_PINMUX('Z', 4, AF6)>; /* LPUART1_RX */
+			bias-pull-up;
+		};
+	};
+
+	ccmp25_lpuart1_sleep_pins: ccmp25-lpuart1-sleep-0 {
+		pins {
+			pinmux = <STM32_PINMUX('Z', 7, ANALOG)>, /* LPUART1_TX */
+				 <STM32_PINMUX('Z', 4, ANALOG)>; /* LPUART1_RX */
+		};
+	};
+
+
+	ccmp25_pwm2_pins: ccmp25-pwm2-0 {
+		pins {
+			pinmux = <STM32_PINMUX('F', 11, AF7)>; /* TIM2_CH4 */
+			bias-disable;
+			drive-push-pull;
+			slew-rate = <0>;
+		};
+	};
+
+	ccmp25_pwm2_sleep_pins: ccmp25-pwm2-sleep-0 {
+		pins {
+			pinmux = <STM32_PINMUX('F', 11, ANALOG)>; /* TIM2_CH4 */
+		};
+	};
+
+	
+	ccmp25_uart5_pins: ccmp25-uart5-0 {
+		pins1 {
+			pinmux = <STM32_PINMUX('G', 9, AF5)>; /* UART5_TX */
+			bias-disable;
+			drive-push-pull;
+			slew-rate = <0>;
+		};
+		pins2 {
+			pinmux = <STM32_PINMUX('G', 10, AF5)>; /* UART5_RX */
+			bias-disable;
+		};
+	};
+
+	ccmp25_uart5_idle_pins: ccmp25-uart5-idle-0 {
+		pins1 {
+			pinmux = <STM32_PINMUX('G', 9, ANALOG)>; /* UART5_TX */
+		};
+		pins2 {
+			pinmux = <STM32_PINMUX('G', 10, AF5)>; /* UART5_RX */
+			bias-disable;
+		};
+	};
+
+	ccmp25_uart5_sleep_pins: ccmp25-uart5-sleep-0 {
+		pins {
+			pinmux = <STM32_PINMUX('G', 9, ANALOG)>, /* UART5_TX */
+				 <STM32_PINMUX('G', 10, ANALOG)>; /* UART5_RX */
+		};
+	};
+
+	ccmp25_uart5_rtscts_pins: ccmp25-uart5-rtscts-0 {
+		pins1 {
+			pinmux = <STM32_PINMUX('G', 8, AF5)>;  /* UART5_RTS */
+			bias-disable;
+			drive-push-pull;
+			slew-rate = <0>;
+		};
+		pins2 {
+			pinmux = <STM32_PINMUX('I', 5, AF5)>; /* UART5_CTS */
+			bias-pull-up;
+		};
+	};
+
+	ccmp25_uart5_rtscts_idle_pins: ccmp25-uart5-rtscts-idle-0 {
+		pins1 {
+			pinmux = <STM32_PINMUX('I', 5, ANALOG)>; /* UART5_CTS */
+		};
+		pins2 {
+			pinmux = <STM32_PINMUX('G', 8, AF5)>; /* UART5_RTS */
+			bias-disable;
+			drive-push-pull;
+			slew-rate = <0>;
+		};
+	};
+
+	ccmp25_uart5_rtscts_sleep_pins: ccmp25-uart5-rtscts-sleep-0 {
+		pins {
+			pinmux = <STM32_PINMUX('G', 8, ANALOG)>, /* UART5_RTS */
+				 <STM32_PINMUX('I', 5, ANALOG)>; /* UART5_CTS */
+		};
+	};
+};
