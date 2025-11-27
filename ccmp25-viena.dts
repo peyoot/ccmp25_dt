@@ -44,7 +44,6 @@
 		ethernet0 = &eth1;
 		ethernet1 = &eth2;
 		serial5 = &uart5; 
-		serial6 = &uart7;
 	};
 
 	chosen {
@@ -239,7 +238,7 @@
 	pinctrl-0 = <&sdmmc3_b4_pins_a>;
 	pinctrl-1 = <&sdmmc3_b4_od_pins_a>;
 	pinctrl-2 = <&sdmmc3_b4_sleep_pins_a>;
-	cd-gpios = <&gpioi 6 GPIO_ACTIVE_LOW>;
+	cd-gpios = <&gpiod 3 GPIO_ACTIVE_LOW>;
 	disable-wp;
 	st,neg-edge;
 	no-1-8-v;
@@ -279,19 +278,6 @@
 	/delete-property/dmas;
 	/delete-property/dma-names;
 	/* USER CODE END uart5 */
-};
-
-&uart7 {
-	pinctrl-names = "default", "sleep";
-	pinctrl-0 = <&ccmp25_uart7_pins>;
-	pinctrl-1 = <&ccmp25_uart7_sleep_pins>;
-	status = "okay";
-
-	/* USER CODE BEGIN uart7 */
-	/delete-property/dmas;
-	/delete-property/dma-names;
-	uart-has-rtscts;
-	/* USER CODE END uart7 */
 };
 
 /* Console A35 */
@@ -395,7 +381,7 @@
 					 <STM32_PINMUX('G',  3, GPIO)>, /* PG3_GPIO */
 					 <STM32_PINMUX('D',  5, GPIO)>, /* PD5_GPIO */
 					 <STM32_PINMUX('D',  4, GPIO)>, /* PD4_GPIO */
-					 <STM32_PINMUX('I',  6, GPIO)>, /* PI6_GPIO */
+					 <STM32_PINMUX('D',  3, GPIO)>, /* PI6_GPIO */
 					 <STM32_PINMUX('I',  9, GPIO)>, /* PI9_GPIO */
 					 <STM32_PINMUX('I',  5, GPIO)>, /* UART5_CTS_GPIO */
 					 <STM32_PINMUX('B',  3, GPIO)>, /* PB3_GPIO */
@@ -452,7 +438,7 @@
 					 <STM32_PINMUX('G',  3, ANALOG)>, /* PG3_GPIO */
 					 <STM32_PINMUX('D',  5, ANALOG)>, /* PD5_GPIO */
 					 <STM32_PINMUX('D',  4, ANALOG)>, /* PD4_GPIO */
-					 <STM32_PINMUX('I',  6, ANALOG)>, /* PI6_GPIO */
+					 <STM32_PINMUX('D',  3, ANALOG)>, /* PI6_GPIO */
 					 <STM32_PINMUX('I',  9, ANALOG)>, /* PI9_GPIO */
 					 <STM32_PINMUX('I',  5, ANALOG)>, /* UART5_CTS_GPIO */
 					 <STM32_PINMUX('B',  3, ANALOG)>, /* PB3_GPIO */
@@ -583,29 +569,7 @@
 		};
 	};
 
-	ccmp25_uart7_pins: ccmp25-uart7 {
-		pins1 {
-			pinmux = <STM32_PINMUX('D',  3,  AF6)>, /* UART7_TX */
-					 <STM32_PINMUX('D',  1,  AF6)>; /* UART7_RTS */
-			drive-push-pull;
-			bias-disable;
-			slew-rate = <0>;
-		};
-		pins2 {
-			pinmux = <STM32_PINMUX('D',  0,  AF6)>, /* UART7_RX */
-					 <STM32_PINMUX('D',  2,  AF6)>; /* UART7_CTS */
-			bias-disable;
-		};
-	};
 
-	ccmp25_uart7_sleep_pins: ccmp25-uart7-sleep {
-		pins {
-			pinmux = <STM32_PINMUX('D',  3, ANALOG)>, /* UART7_TX */
-					 <STM32_PINMUX('D',  0, ANALOG)>, /* UART7_RX */
-					 <STM32_PINMUX('D',  1, ANALOG)>, /* UART7_RTS */
-					 <STM32_PINMUX('D',  2, ANALOG)>; /* UART7_CTS */
-		};
-	};
 	ccmp25_usart2_pins: ccmp25-usart2 {
 		pins1 {
 			pinmux = <STM32_PINMUX('A',  8,  AF8)>; /* USART2_RX */
