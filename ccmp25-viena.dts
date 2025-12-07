@@ -208,10 +208,10 @@
 	};
 };
 
-&i2c2 {
+&i2c3 {
 	pinctrl-names = "default", "sleep";
-	pinctrl-0 = <&i2c2_pins_a>;
-	pinctrl-1 = <&i2c2_sleep_pins_a>;
+	pinctrl-0 = <&ccmp25_i2c3_pins>;
+    pinctrl-1 = <&ccmp25_i2c3_sleep_pins>;
 	//i2c-scl-rising-time-ns = <100>;
 	//i2c-scl-falling-time-ns = <13>;
 	//clock-frequency = <400000>;
@@ -219,6 +219,21 @@
 	/* spare dmas for other usage */
 	/delete-property/dmas;
 	/delete-property/dma-names;
+};
+
+&i2c8 {
+    pinctrl-names = "default", "sleep";
+    pinctrl-0 = <&ccmp25_i2c8_z_pins>;
+    pinctrl-1 = <&ccmp25_i2c8_z_sleep_pins>;
+    status = "okay";
+
+    /* USER CODE BEGIN i2c8 */
+    /delete-property/dmas;
+    /delete-property/dma-names;
+
+    //clock-frequency = <400000>;
+    //i2c-scl-rising-time-ns = <185>;
+    //i2c-scl-falling-time-ns = <20>;
 };
 
 
@@ -408,8 +423,6 @@
 					 <STM32_PINMUX('F',  3, GPIO)>,  /* PF3_GPIO */
 					 <STM32_PINMUX('D',  6, GPIO)>,  /* PD6_GPIO */
 					 <STM32_PINMUX('F',  4, GPIO)>,  /* PF4_GPIO */
-					 <STM32_PINMUX('G',  2, GPIO)>,  /* PG2_GPIO */
-					 <STM32_PINMUX('G',  1, GPIO)>,  /* PG1_GPIO */
 					 <STM32_PINMUX('I',  4, GPIO)>,  /* PGI4_GPIO */ 
 					 <STM32_PINMUX('H',  5, GPIO)>,  /* PH5_GPIO */
 					 <STM32_PINMUX('F',  15, GPIO)>,  /* PF15_GPIO */  
@@ -454,8 +467,6 @@
 					 <STM32_PINMUX('F',  3, ANALOG)>,  /* PF3_GPIO */
 					 <STM32_PINMUX('D',  6, ANALOG)>,  /* PD6_GPIO */
 					 <STM32_PINMUX('F',  4, ANALOG)>,  /* PF4_GPIO */
-					 <STM32_PINMUX('G',  2, ANALOG)>,  /* PG2_GPIO */
-					 <STM32_PINMUX('G',  1, ANALOG)>,  /* PG1_GPIO */
 					 <STM32_PINMUX('I',  4, ANALOG)>,  /* PGI4_GPIO */ 
 					 <STM32_PINMUX('H',  5, ANALOG)>,  /* PH5_GPIO */
 					 <STM32_PINMUX('F',  15, ANALOG)>,  /* PF15_GPIO */  
@@ -503,20 +514,20 @@
 		};
 	};
 
-	ccmp25_i2c2_pins: ccmp25-i2c2 {
+	ccmp25_i2c3_pins: ccmp25-i2c3 {
 		pins {
-			pinmux = <STM32_PINMUX('B',  5,  AF9)>, /* I2C2_SCL */
-					 <STM32_PINMUX('B',  4,  AF9)>; /* I2C2_SDA */
+			pinmux = <STM32_PINMUX('G',  1,  AF9)>, /* I2C3_SCL */
+					 <STM32_PINMUX('G',  2,  AF9)>; /* I2C3_SDA */
 			drive-open-drain;
 			bias-disable;
 			slew-rate = <0>;
 		};
 	};
 
-	ccmp25_i2c2_sleep_pins: ccmp25-i2c2-sleep {
+	ccmp25_i2c3_sleep_pins: ccmp25-i2c3-sleep {
 		pins {
-			pinmux = <STM32_PINMUX('B',  5, ANALOG)>, /* I2C2_SCL */
-					 <STM32_PINMUX('B',  4, ANALOG)>; /* I2C2_SDA */
+			pinmux = <STM32_PINMUX('G',  1, ANALOG)>, /* I2C3_SCL */
+					 <STM32_PINMUX('G',  2, ANALOG)>; /* I2C3_SDA */
 		};
 	};
 
@@ -596,7 +607,6 @@
 	ccmp25_gpio_z_pins: ccmp25-gpio {
 		pins1 {
 			pinmux = <STM32_PINMUX('Z',  6, GPIO)>, /* 3V3_RF_EN/PZ6_GPIO */
-					 <STM32_PINMUX('Z',  9, GPIO)>, /* PZ9_GPIO */
 					 <STM32_PINMUX('Z',  8, GPIO)>, /* PZ8_GPIO */
 					 <STM32_PINMUX('Z',  1, GPIO)>, /* PZ1_GPIO */
 					 <STM32_PINMUX('Z',  0, GPIO)>, /* PZ0_GPIO */
@@ -605,24 +615,34 @@
 			bias-disable;
 			slew-rate = <0>;
 		};
-		pins2 {
-            pinmux = <STM32_PINMUX('Z', 2, GPIO)>; /* PZ2_GPIO */
-            bias-disable;
-            gpio-hog;
-		};
 	};
 
 	ccmp25_gpio_z_sleep_pins: ccmp25-gpio-sleep {
 		pins {
 			pinmux = <STM32_PINMUX('Z',  6, ANALOG)>, /* 3V3_RF_EN/PZ6_GPIO */
-					 <STM32_PINMUX('Z',  9, ANALOG)>, /* PZ9_GPIO */
 					 <STM32_PINMUX('Z',  8, ANALOG)>, /* PZ8_GPIO */
 					 <STM32_PINMUX('Z',  1, ANALOG)>, /* PZ1_GPIO */
 					 <STM32_PINMUX('Z',  0, ANALOG)>, /* PZ0_GPIO */
 					 <STM32_PINMUX('Z',  4, ANALOG)>, /* PZ4_GPIO */
 					 <STM32_PINMUX('Z',  3, ANALOG)>, /* PZ3_GPIO */
-					 <STM32_PINMUX('Z',  2, ANALOG)>; /* PZ2_GPIO */
 		};
 	};
+
+    ccmp25_i2c8_z_pins: ccmp25-i2c8 {
+        pins {
+            pinmux = <STM32_PINMUX('Z',  2,  AF8)>, /* I2C8_SCL */
+                     <STM32_PINMUX('Z',  9,  AF8)>; /* I2C8_SDA */
+            drive-open-drain;
+            bias-disable;
+            slew-rate = <0>;
+        };
+    };
+
+    ccmp25_i2c8_z_sleep_pins: ccmp25-i2c8-sleep {
+        pins {
+            pinmux = <STM32_PINMUX('Z',  2, ANALOG)>, /* I2C8_SCL */
+                     <STM32_PINMUX('Z',  9, ANALOG)>; /* I2C8_SDA */
+        };
+    };
 
 };
