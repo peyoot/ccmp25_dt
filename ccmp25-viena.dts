@@ -99,6 +99,78 @@
 		};
 	};
 
+	panel_dsi_gpio_backlight: panel-dsi-gpio-backlight {
+		compatible = "gpio-backlight";
+		gpios = <&gpiod 9 GPIO_ACTIVE_HIGH>; /* MIPI_BCKL_PWM */
+		default-brightness-level = <0>;
+		status = "disabled";
+	};
+
+	panel_dsi_pwm_backlight: panel-dsi-pwm-backlight {
+		compatible = "pwm-backlight";
+		/* node TIM1_CH3 period (ns) */
+		pwms = <&pwm_mipi_bckl 3 500000 PWM_POLARITY_INVERTED>;
+		brightness-levels = <0 16 22 30 40 55 75 102 138 188 255>;
+		default-brightness-level = <8>;
+		power-supply = <&reg_5v_board>;
+		status = "disabled";
+	};
+
+	panel_lvds: panel-lvds {
+		compatible = "auo,g101evn010", "panel-lvds";
+		power-supply = <&reg_5v_board>;
+		/*backlight = <&panel_lvds_gpio_backlight>;*/
+		backlight = <&panel_lvds_pwm_backlight>;
+		status = "disabled";
+
+		width-mm = <216>;
+		height-mm = <135>;
+		data-mapping = "jeida-24";
+
+		panel-timing {
+			clock-frequency = <54000000>;
+			hactive = <1280>;
+			vactive = <800>;
+			hfront-porch = <82>;
+			hback-porch = <84>;
+			hsync-len = <2>;
+			vfront-porch = <8>;
+			vback-porch = <6>;
+			vsync-len = <2>;
+		};
+
+		port {
+			lvds_panel_in: endpoint {
+				remote-endpoint = <&lvds_out0>;
+			};
+		};
+	};
+
+	panel_lvds_gpio_backlight: panel-lvds-gpio-backlight {
+		compatible = "gpio-backlight";
+		gpios = <&gpiob 0 GPIO_ACTIVE_HIGH>; /* LVDS_BCKL_PWM */
+		default-brightness-level = <1>;
+		status = "disabled";
+	};
+
+	panel_lvds_pwm_backlight: panel-lvds-pwm-backlight {
+		compatible = "pwm-backlight";
+		/* node TIM20_CH4 period (ns) */
+		pwms = <&pwm_lvds_bckl 3 500000 PWM_POLARITY_INVERTED>;
+		brightness-levels = <0 16 22 30 40 55 75 102 138 188 255>;
+		default-brightness-level = <8>;
+		power-supply = <&reg_5v_board>;
+		status = "disabled";
+	};
+
+	power_button {
+		compatible = "digi,stpmic-pwrkey";
+		interrupts-extended = <&optee 0>, <&optee 1>;
+		interrupt-names = "stpmic_pwrkey_fall", "stpmic_pwrkey_rise";
+		status = "okay";
+	};
+
+
 	regulators {
 		compatible = "simple-bus";
 		#address-cells = <1>;
@@ -112,7 +184,9 @@
 			regulator-name = "5v_board";
 			regulator-min-microvolt = <5000000>;
 			regulator-max-microvolt = <5000000>;
-			// 省略了gpio和enable-active-high，因为直接使能
+			regulator-enable-ramp-delay = <8000>;
+			gpio = <&gpiog 7 GPIO_ACTIVE_HIGH>; /* 5V_BOARD_EN */
+			enable-active-high;
 			status = "okay";
 		};
 
@@ -126,8 +200,6 @@
 			// 省略了gpio和enable-active-high，因为直接使能
 			status = "okay";
 		};
-
-
 	};
 
 	digital-io {
@@ -540,8 +612,7 @@
 			slew-rate = <0>;
 		};
 		pins3 {
-            pinmux = <STM32_PINMUX('D',  9, GPIO)>,  /* PD9_GPIO */
-					 <STM32_PINMUX('D',  8, GPIO)>,  /* PD8_GPIO */
+            pinmux = <STM32_PINMUX('D',  8, GPIO)>,  /* PD8_GPIO */
 					 <STM32_PINMUX('G',  5, GPIO)>,  /* PG5_GPIO */
 					 <STM32_PINMUX('F',  11, GPIO)>,  /* PF11_GPIO */
 					 <STM32_PINMUX('F',  13, GPIO)>,  /* PF13_GPIO */
