@@ -586,12 +586,9 @@
 		pins1 {
 			pinmux = <STM32_PINMUX('B',  2, GPIO)>, /* ETH1_RST_GPIO */
 					 <STM32_PINMUX('G',  6, GPIO)>, /* ETH2_RST_GPIO */
-					 <STM32_PINMUX('B',  6, GPIO)>, /* PB6_GPIO */
-					 <STM32_PINMUX('D', 11, GPIO)>, /* SDMMC1_D4_GPIO */
-					 <STM32_PINMUX('F', 10, GPIO)>, /* PF10_GPIO */
+					 <STM32_PINMUX('B',  6, GPIO)>, /* ETH1_MDINT_GPIO */
+					 <STM32_PINMUX('D', 11, GPIO)>, /* ETH2_MDINT_GPIO */
 					 <STM32_PINMUX('F', 14, GPIO)>, /* USART6_RX_GPIO */
-					 <STM32_PINMUX('I',  0, GPIO)>, /* SAI4_MCLK_B_GPIO */
-					 <STM32_PINMUX('G',  3, GPIO)>, /* PG3_GPIO */
 					 <STM32_PINMUX('D',  5, GPIO)>, /* PD5_GPIO */
 					 <STM32_PINMUX('D',  4, GPIO)>, /* PD4_GPIO */
 					 <STM32_PINMUX('D',  3, GPIO)>, /* PI6_GPIO */
@@ -613,6 +610,9 @@
 		};
 		pins3 {
             pinmux = <STM32_PINMUX('D',  8, GPIO)>,  /* PD8_GPIO */
+					 <STM32_PINMUX('F', 10, GPIO)>, /* DI13_GPIO */
+					 <STM32_PINMUX('I',  0, GPIO)>, /* LED_RUN_GPIO */
+					 <STM32_PINMUX('G',  3, GPIO)>, /* LED_WARNING_GPIO */					 
 					 <STM32_PINMUX('G',  5, GPIO)>,  /* PG5_GPIO */
 					 <STM32_PINMUX('F',  11, GPIO)>,  /* PF11_GPIO */
 					 <STM32_PINMUX('F',  13, GPIO)>,  /* PF13_GPIO */
