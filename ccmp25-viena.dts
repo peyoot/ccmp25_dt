@@ -106,6 +106,36 @@
 		status = "disabled";
 	};
 
+	panel_lvds: panel-lvds {
+		compatible = "auo,g101evn010", "panel-lvds";
+		power-supply = <&reg_5v_board>;
+		/*backlight = <&panel_lvds_gpio_backlight>;*/
+		backlight = <&panel_lvds_pwm_backlight>;
+		status = "disabled";
+
+		width-mm = <216>;
+		height-mm = <135>;
+		data-mapping = "jeida-24";
+
+		panel-timing {
+			clock-frequency = <54000000>;
+			hactive = <1280>;
+			vactive = <800>;
+			hfront-porch = <82>;
+			hback-porch = <84>;
+			hsync-len = <2>;
+			vfront-porch = <8>;
+			vback-porch = <6>;
+			vsync-len = <2>;
+		};
+
+		port {
+			lvds_panel_in: endpoint {
+				remote-endpoint = <&lvds_out0>;
+			};
+		};
+	};
+
 	power_button {
 		compatible = "digi,stpmic-pwrkey";
 		interrupts-extended = <&optee 0>, <&optee 1>;
