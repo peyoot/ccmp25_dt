@@ -106,63 +106,6 @@
 		status = "disabled";
 	};
 
-	panel_dsi_pwm_backlight: panel-dsi-pwm-backlight {
-		compatible = "pwm-backlight";
-		/* node TIM1_CH3 period (ns) */
-		pwms = <&pwm_mipi_bckl 3 500000 PWM_POLARITY_INVERTED>;
-		brightness-levels = <0 16 22 30 40 55 75 102 138 188 255>;
-		default-brightness-level = <8>;
-		power-supply = <&reg_5v_board>;
-		status = "disabled";
-	};
-
-	panel_lvds: panel-lvds {
-		compatible = "auo,g101evn010", "panel-lvds";
-		power-supply = <&reg_5v_board>;
-		/*backlight = <&panel_lvds_gpio_backlight>;*/
-		backlight = <&panel_lvds_pwm_backlight>;
-		status = "disabled";
-
-		width-mm = <216>;
-		height-mm = <135>;
-		data-mapping = "jeida-24";
-
-		panel-timing {
-			clock-frequency = <54000000>;
-			hactive = <1280>;
-			vactive = <800>;
-			hfront-porch = <82>;
-			hback-porch = <84>;
-			hsync-len = <2>;
-			vfront-porch = <8>;
-			vback-porch = <6>;
-			vsync-len = <2>;
-		};
-
-		port {
-			lvds_panel_in: endpoint {
-				remote-endpoint = <&lvds_out0>;
-			};
-		};
-	};
-
-	panel_lvds_gpio_backlight: panel-lvds-gpio-backlight {
-		compatible = "gpio-backlight";
-		gpios = <&gpiob 0 GPIO_ACTIVE_HIGH>; /* LVDS_BCKL_PWM */
-		default-brightness-level = <1>;
-		status = "disabled";
-	};
-
-	panel_lvds_pwm_backlight: panel-lvds-pwm-backlight {
-		compatible = "pwm-backlight";
-		/* node TIM20_CH4 period (ns) */
-		pwms = <&pwm_lvds_bckl 3 500000 PWM_POLARITY_INVERTED>;
-		brightness-levels = <0 16 22 30 40 55 75 102 138 188 255>;
-		default-brightness-level = <8>;
-		power-supply = <&reg_5v_board>;
-		status = "disabled";
-	};
-
 	power_button {
 		compatible = "digi,stpmic-pwrkey";
 		interrupts-extended = <&optee 0>, <&optee 1>;
@@ -372,33 +315,6 @@
 				vsync-active = <0>;
 				de-active = <0>;
 				pixelclk-active = <0>;
-			};
-		};
-	};
-
-	max98089: codec@10 {
-		compatible = "maxim,max98089";
-		reg = <0x10>;
-		clocks = <&sai4b>;
-		clock-names = "mclk";
-		#sound-dai-cells = <0>;
-		#address-cells = <1>;
-		#size-cells = <0>;
-		status = "okay";
-
-		max98089_port: port@0{
-			reg = <0>;
-
-			max98089_in_endpoint: endpoint@0 {
-				remote-endpoint = <&sai4a_endpoint>;
-				frame-master = <&max98089_in_endpoint>;
-				bitclock-master = <&max98089_in_endpoint>;
-			};
-
-			max98089_out_endpoint: endpoint@1 {
-				remote-endpoint = <&sai4b_endpoint>;
-				frame-master = <&max98089_out_endpoint>;
-				bitclock-master = <&max98089_out_endpoint>;
 			};
 		};
 	};
@@ -885,7 +801,7 @@
 					 <STM32_PINMUX('Z',  1, ANALOG)>, /* PZ1_GPIO */
 					 <STM32_PINMUX('Z',  0, ANALOG)>, /* PZ0_GPIO */
 					 <STM32_PINMUX('Z',  4, ANALOG)>, /* PZ4_GPIO */
-					 <STM32_PINMUX('Z',  3, ANALOG)>, /* PZ3_GPIO */
+					 <STM32_PINMUX('Z',  3, ANALOG)>; /* PZ3_GPIO */
 		};
 	};
 
