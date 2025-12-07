@@ -242,8 +242,8 @@
 /* FDCAN1 */
 &m_can1 {
 	pinctrl-names = "default", "sleep";
-	pinctrl-0 = <&m_can1_pins_a>;
-	pinctrl-1 = <&m_can1_sleep_pins_a>;
+	pinctrl-0 = <&ccmp25_can1_pins>;
+    pinctrl-1 = <&ccmp25_can1_sleep_pins>;
 	status = "okay";
 };
 
@@ -660,6 +660,27 @@
                      <STM32_PINMUX('B',  1, ANALOG)>; /* SPI3_NSS */
         };
     };
+	
+    ccmp25_can1_pins: ccmp25-can1 {
+        pins1 {
+            pinmux = <STM32_PINMUX('G', 11,  AF7)>; /* FDCAN1_TX */
+            drive-push-pull;
+            bias-disable;
+            slew-rate = <1>;
+        };
+        pins2 {
+            pinmux = <STM32_PINMUX('G', 12,  AF7)>; /* FDCAN1_RX */
+            bias-disable;
+        };
+    };
+    
+    ccmp25_can1_sleep_pins: ccmp25-can1-sleep {
+        pins {
+            pinmux = <STM32_PINMUX('G', 11, ANALOG)>, /* FDCAN1_TX */
+                     <STM32_PINMUX('G', 12, ANALOG)>; /* FDCAN1_RX */
+        };
+    };
+
 };
 
 &pinctrl_z {
