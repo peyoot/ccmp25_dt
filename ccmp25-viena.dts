@@ -502,7 +502,7 @@
     /* USER CODE END timers16 */
 
     /* Set the desired PWM name */
-    pwm40: pwm {
+    pwm_lvds_bckl: pwm {
         pinctrl-names = "default", "sleep";
         pinctrl-0 = <&ccmp25_timers16_ch1_pwm_pins>;
         pinctrl-1 = <&ccmp25_timers16_ch1_pwm_sleep_pins>;
@@ -514,9 +514,9 @@
      *
      * Set <TRIGGER_INDEX> to (timer_index - 1)
      */
-    //timer@<TRIGGER_INDEX> {
-    //    status = "okay";
-    //};
+    timer@15 {
+        status = "okay";
+    };
 
     /*
      * Uncomment to enable timer trigger on LPTIMER only.
