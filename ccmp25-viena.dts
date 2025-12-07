@@ -45,7 +45,7 @@
 	aliases {
 		ethernet0 = &eth1;
 		ethernet1 = &eth2;
-		serial5 = &uart5; 
+		serial6 = &usart6; 
 	};
 
 	chosen {
@@ -307,6 +307,20 @@
 	status = "okay";
 };
 
+&usart6 {
+    pinctrl-names = "default", "sleep";
+    pinctrl-0 = <&ccmp25_usart6_board_pins>;
+    pinctrl-1 = <&ccmp25_usart6_board_sleep_pins>;
+    status = "okay";
+
+    /* USER CODE BEGIN usart6 */
+    /delete-property/dmas;
+    /delete-property/dma-names;
+    //linux,rs485-enabled-at-boot-time; // Set when using RS485.
+    uart-has-rtscts;
+    /* USER CODE END usart6 */
+};
+
 /* USB 2.0 Host */
 &usb2_phy1 {
 	vdd33-supply = <&scmi_vdd3v3_usb>;
@@ -400,7 +414,6 @@
 					 <STM32_PINMUX('D',  4, GPIO)>, /* PD4_GPIO */
 					 <STM32_PINMUX('D',  3, GPIO)>, /* PI6_GPIO */
 					 <STM32_PINMUX('I',  9, GPIO)>, /* PI9_GPIO */
-					 <STM32_PINMUX('I',  5, GPIO)>, /* UART5_CTS_GPIO */
 					 <STM32_PINMUX('B',  3, GPIO)>, /* PB3_GPIO */
 					 <STM32_PINMUX('A', 12, GPIO)>, /* PA12_GPIO */
 					 <STM32_PINMUX('G', 10, GPIO)>, /* UART5_RX_GPIO */
@@ -455,7 +468,6 @@
 					 <STM32_PINMUX('D',  4, ANALOG)>, /* PD4_GPIO */
 					 <STM32_PINMUX('D',  3, ANALOG)>, /* PI6_GPIO */
 					 <STM32_PINMUX('I',  9, ANALOG)>, /* PI9_GPIO */
-					 <STM32_PINMUX('I',  5, ANALOG)>, /* UART5_CTS_GPIO */
 					 <STM32_PINMUX('B',  3, ANALOG)>, /* PB3_GPIO */
 					 <STM32_PINMUX('A', 12, ANALOG)>, /* PA12_GPIO */
 					 <STM32_PINMUX('G', 10, ANALOG)>, /* UART5_RX_GPIO */
@@ -562,14 +574,13 @@
 
 	ccmp25_uart5_pins: ccmp25-uart5 {
 		pins1 {
-			pinmux = <STM32_PINMUX('G',  9,  AF5)>, /* UART5_TX */
-					 <STM32_PINMUX('G',  8,  AF5)>; /* UART5_DE */
+			pinmux = <STM32_PINMUX('G',  9,  AF5)>; /* UART5_TX */
 			drive-push-pull;
 			bias-disable;
 			slew-rate = <0>;
 		};
 		pins2 {
-			pinmux = <STM32_PINMUX('B', 15,  AF5)>; /* UART5_RX */
+			pinmux = <STM32_PINMUX('G', 10,  AF5)>; /* UART5_RX */
 			bias-disable;
 		};
 	};
@@ -577,8 +588,7 @@
 	ccmp25_uart5_sleep_pins: ccmp25-uart5-sleep {
 		pins {
 			pinmux = <STM32_PINMUX('G',  9, ANALOG)>, /* UART5_TX */
-					 <STM32_PINMUX('B', 15, ANALOG)>, /* UART5_RX */
-					 <STM32_PINMUX('G',  8, ANALOG)>; /* UART5_DE */
+					 <STM32_PINMUX('G', 10, ANALOG)>; /* UART5_RX */
 		};
 	};
 
@@ -602,6 +612,28 @@
 					 <STM32_PINMUX('A',  4, ANALOG)>; /* USART2_TX */
 		};
 	};
+
+    ccmp25_usart6_board_pins: ccmp25-usart6 {
+        pins1 {
+            pinmux = <STM32_PINMUX('F',  5,  AF3)>, /* USART6_TX */
+                     <STM32_PINMUX('G',  5,  AF3)>; /* USART6_DE */
+            drive-push-pull;
+            bias-disable;
+            slew-rate = <0>;
+        };
+        pins2 {
+            pinmux = <STM32_PINMUX('F', 14,  AF3)>; /* USART6_RX */
+            bias-disable;
+        };
+    };
+
+    ccmp25_usart6_board_sleep_pins: ccmp25-usart-sleep-6 {
+        pins {
+            pinmux = <STM32_PINMUX('F',  5, ANALOG)>, /* USART6_TX */
+                     <STM32_PINMUX('F', 14, ANALOG)>, /* USART6_RX */
+                     <STM32_PINMUX('G',  5, ANALOG)>; /* USART6_DE */
+        };
+    };
 
 };
 
