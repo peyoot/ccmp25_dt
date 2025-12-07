@@ -18,9 +18,11 @@
 	model = "Digi International ConnectCore MP25 Development Kit";
 	compatible = "digi,ccmp25-dvk", "digi,ccmp25", "st,stm32mp255";
 
-	dummy-node {
-        compatible = "uboot plcv1.6 mmc active low";
-        status = "okay";
+	system-info {
+    	compatible = "Viena,system-info";
+		product-id = "Viena-CCMP25";
+    	pcb-revision = "Rev 1.0";
+    	firmware-version = "DEY5.0r3-20251207";
 	};
 
 	aliases {
