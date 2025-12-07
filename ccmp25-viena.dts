@@ -83,41 +83,6 @@
 		};
 	};
 
-&timers16 {
-    status = "okay";
-
-    /* USER CODE BEGIN timers16 */
-    /delete-property/dmas;
-    /delete-property/dma-names;
-    /* USER CODE END timers16 */
-
-    /* Set the desired PWM name */
-    pwm40: pwm {
-        pinctrl-names = "default", "sleep";
-        pinctrl-0 = <&ccmp25_timers16_ch1_pwm_pins>;
-        pinctrl-1 = <&ccmp25_timers16_ch1_pwm_sleep_pins>;
-        status = "okay";
-    };
-
-    /*
-     * Uncomment to enable timer trigger on STANDARD TIMER.
-     *
-     * Set <TRIGGER_INDEX> to (timer_index - 1)
-     */
-    //timer@<TRIGGER_INDEX> {
-    //    status = "okay";
-    //};
-
-    /*
-     * Uncomment to enable timer trigger on LPTIMER only.
-     *
-     * Set <TRIGGER_INDEX> to (lptimer_index - 1)
-     */
-    //trigger@<TRIGGER_INDEX> {
-    //    status = "okay";
-    //};
-};
-
 	hdmi-connector {
 		compatible = "hdmi-connector";
 		label = "hdmi";
@@ -526,6 +491,41 @@
 		reg = <0>;
 		spi-max-frequency = <4000000>;
 	};
+};
+
+&timers16 {
+    status = "okay";
+
+    /* USER CODE BEGIN timers16 */
+    /delete-property/dmas;
+    /delete-property/dma-names;
+    /* USER CODE END timers16 */
+
+    /* Set the desired PWM name */
+    pwm40: pwm {
+        pinctrl-names = "default", "sleep";
+        pinctrl-0 = <&ccmp25_timers16_ch1_pwm_pins>;
+        pinctrl-1 = <&ccmp25_timers16_ch1_pwm_sleep_pins>;
+        status = "okay";
+    };
+
+    /*
+     * Uncomment to enable timer trigger on STANDARD TIMER.
+     *
+     * Set <TRIGGER_INDEX> to (timer_index - 1)
+     */
+    //timer@<TRIGGER_INDEX> {
+    //    status = "okay";
+    //};
+
+    /*
+     * Uncomment to enable timer trigger on LPTIMER only.
+     *
+     * Set <TRIGGER_INDEX> to (lptimer_index - 1)
+     */
+    //trigger@<TRIGGER_INDEX> {
+    //    status = "okay";
+    //};
 };
 
 &uart5 {
