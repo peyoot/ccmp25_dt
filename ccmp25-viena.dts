@@ -83,6 +83,41 @@
 		};
 	};
 
+&timers16 {
+    status = "okay";
+
+    /* USER CODE BEGIN timers16 */
+    /delete-property/dmas;
+    /delete-property/dma-names;
+    /* USER CODE END timers16 */
+
+    /* Set the desired PWM name */
+    pwm40: pwm {
+        pinctrl-names = "default", "sleep";
+        pinctrl-0 = <&ccmp25_timers16_ch1_pwm_pins>;
+        pinctrl-1 = <&ccmp25_timers16_ch1_pwm_sleep_pins>;
+        status = "okay";
+    };
+
+    /*
+     * Uncomment to enable timer trigger on STANDARD TIMER.
+     *
+     * Set <TRIGGER_INDEX> to (timer_index - 1)
+     */
+    //timer@<TRIGGER_INDEX> {
+    //    status = "okay";
+    //};
+
+    /*
+     * Uncomment to enable timer trigger on LPTIMER only.
+     *
+     * Set <TRIGGER_INDEX> to (lptimer_index - 1)
+     */
+    //trigger@<TRIGGER_INDEX> {
+    //    status = "okay";
+    //};
+};
+
 	hdmi-connector {
 		compatible = "hdmi-connector";
 		label = "hdmi";
@@ -135,7 +170,7 @@
 			};
 		};
 	};
-	
+
 	panel_lvds_pwm_backlight: panel-lvds-pwm-backlight {
 		compatible = "pwm-backlight";
 		/* node TIM20_CH4 period (ns) */
@@ -885,6 +920,21 @@
         pins {
             pinmux = <STM32_PINMUX('G', 11, ANALOG)>, /* FDCAN1_TX */
                      <STM32_PINMUX('G', 12, ANALOG)>; /* FDCAN1_RX */
+        };
+    };
+
+    ccmp25_timers16_ch1_pwm_pins: ccmp25-timers16-ch1-pwm {
+        pins {
+            pinmux = <STM32_PINMUX('B',  0,  AF8)>; /* TIM16_CH1_PWM */
+            drive-push-pull;
+            bias-disable;
+            slew-rate = <0>;
+        };
+    };
+
+    ccmp25_timers16_ch1_pwm_sleep_pins: ccmp25-timers16-ch1-pwm-sleep {
+        pins {
+            pinmux = <STM32_PINMUX('B',  0, ANALOG)>; /* TIM16_CH1_PWM */
         };
     };
 
