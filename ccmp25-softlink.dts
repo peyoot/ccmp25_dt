@@ -205,6 +205,8 @@
 	vdd-supply =  <&scmi_vddcore>;
 	vdda18-supply = <&scmi_v1v8>;
 	status = "okay";
+	st,transparent;	/* 强制启用passthrough模式 */
+
 	ports {
 		#address-cells = <1>;
 		#size-cells = <0>;
@@ -214,6 +216,7 @@
 				remote-endpoint = <&ov2740_mipi_ep>;
 				data-lanes = <0 1>;
 				bus-type = <4>;
+				st,isp-disabled; /* 禁用ISP处理 */
 			};
 		};
 		port@1 {
