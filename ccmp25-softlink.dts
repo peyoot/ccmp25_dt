@@ -39,7 +39,7 @@
     	compatible = "Softlink,system-info";
 		product-id = "WIRELESS-ENDOSCOPE-CCMP25";
     	pcb-revision = "Rev 1.0";
-    	firmware-version = "DEY5.0r2-20251123";
+    	firmware-version = "DEY5.0r2-20251211";
 	};
 
 	aliases {
