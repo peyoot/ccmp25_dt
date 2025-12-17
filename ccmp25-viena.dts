@@ -651,7 +651,7 @@
 					 <STM32_PINMUX('B',  3, GPIO)>, /* PB3_GPIO */
 					 <STM32_PINMUX('A', 12, GPIO)>, /* PA12_GPIO */
 					 <STM32_PINMUX('I',  8, GPIO)>, /* PI8/LPO32_GPIO */
-					 <STM32_PINMUX('G',  4, GPIO)>, /* PG4_GPIO */
+					 <STM32_PINMUX('G',  4, GPIO)>; /* PG4_GPIO */
 			bias-disable;
 			slew-rate = <0>;
 		};
