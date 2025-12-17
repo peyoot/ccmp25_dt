@@ -663,26 +663,30 @@
 		};
 		pins3 {
             pinmux = <STM32_PINMUX('D',  8, GPIO)>,  /* PD8_GPIO */
-					 <STM32_PINMUX('F', 10, GPIO)>, /* DI13_GPIO */
-					 <STM32_PINMUX('I',  0, GPIO)>, /* LED_RUN_GPIO */
+					 <STM32_PINMUX('F', 10, ANALOG)>, /* DI13_GPIO */
+					 <STM32_PINMUX('B',  15, ANALOG)>,  /* PB15_GPIO_DIN */ 					 
 					 <STM32_PINMUX('G',  3, GPIO)>, /* LED_WARNING_GPIO */					 
 					 <STM32_PINMUX('G',  5, GPIO)>,  /* PG5_GPIO */
+					 <STM32_PINMUX('G',  8, ANALOG)>,  /* PG8_GPIO_DIN */
+					 <STM32_PINMUX('F',  10, GPIO)>,  /* PF10_GPIO_DIN */
 					 <STM32_PINMUX('F',  11, GPIO)>,  /* PF11_GPIO */
 					 <STM32_PINMUX('F',  13, GPIO)>,  /* PF13_GPIO */
 					 <STM32_PINMUX('F',  3, GPIO)>,  /* PF3_GPIO */
 					 <STM32_PINMUX('D',  6, GPIO)>,  /* PD6_GPIO */
 					 <STM32_PINMUX('F',  4, GPIO)>,  /* PF4_GPIO */
-					 <STM32_PINMUX('I',  4, GPIO)>,  /* PGI4_GPIO */ 
 					 <STM32_PINMUX('H',  2, ANALOG)>,  /* PH2_GPIO  related to TIM16 */ 
-					 <STM32_PINMUX('H',  6, ANALOG)>,  /* PH2_GPIO  related to TIM16 */ 					 					 
+					 <STM32_PINMUX('H',  6, ANALOG)>,  /* PH2_GPIO  related to TIM16 */ 
+					 <STM32_PINMUX('H',  3, ANALOG)>,  /* PH3_GPIO_DIN */					 					 
 					 <STM32_PINMUX('H',  4, GPIO)>,  /* PH4_GPIO */ 					 
-					 <STM32_PINMUX('H',  5, GPIO)>,  /* PH5_GPIO */
-					 <STM32_PINMUX('F',  15, GPIO)>,  /* PF15_GPIO */  
-					 <STM32_PINMUX('I',  10, GPIO)>,  /* PI10_GPIO */ 
-					 <STM32_PINMUX('A',  1, GPIO)>,  /* PA1_GPIO */ 
-					 <STM32_PINMUX('F',  12, GPIO)>,  /* PF12_GPIO */
+					 <STM32_PINMUX('H',  5, ANALOG)>,  /* PH5_GPIO_DIN */
+					 <STM32_PINMUX('F',  15, ANALOG)>,  /* PF15_GPIO_DIN */  
+					 <STM32_PINMUX('I',  10, ANALOG)>,  /* PI10_GPIO_DIN */ 
+					 <STM32_PINMUX('A',  1, ANALOG)>,  /* PA1_GPIO_DIN */ 
+					 <STM32_PINMUX('A',  7, ANALOG)>,  /* PA7_GPIO_DIN */
+					 <STM32_PINMUX('F',  12, ANALOG)>,  /* PF12_GPIO_DIN */
 					 <STM32_PINMUX('I',  2, GPIO)>,  /* PI2_GPIO */ 
-					 <STM32_PINMUX('I',  3, GPIO)>,  /* PI3_GPIO */   
+					 <STM32_PINMUX('I',  3, GPIO)>,  /* PI3_GPIO */
+					 <STM32_PINMUX('I',  6, ANALOG)>,  /* PI6_GPIO_DIN */					    
 					 <STM32_PINMUX('B',  0, GPIO)>;  /* PB0_GPIO */
             bias-disable;
             gpio-hog;
@@ -695,12 +699,13 @@
 					 <STM32_PINMUX('G',  7, ANALOG)>, /* PG7_GPIO */
 					 <STM32_PINMUX('I',  0, ANALOG)>, /* SAI4_MCLK_B_GPIO */
 					 <STM32_PINMUX('G',  3, ANALOG)>, /* PG3_GPIO */
+					 <STM32_PINMUX('G',  8, ANALOG)>,  /* PG8_GPIO_DIN */
 					 <STM32_PINMUX('D',  5, ANALOG)>, /* PD5_GPIO */
 					 <STM32_PINMUX('D',  4, ANALOG)>, /* PD4_GPIO */
 					 <STM32_PINMUX('I',  9, ANALOG)>, /* PI9_GPIO */
 					 <STM32_PINMUX('B',  3, ANALOG)>, /* PB3_GPIO */
+					 <STM32_PINMUX('A',  7, ANALOG)>,  /* PA7_GPIO_DIN */
 					 <STM32_PINMUX('A', 12, ANALOG)>, /* PA12_GPIO */
-					 <STM32_PINMUX('I',  8, ANALOG)>, /* PI8/LPO32_GPIO */
 					 <STM32_PINMUX('G',  4, ANALOG)>, /* PG4_GPIO */
 					 <STM32_PINMUX('D',  8, ANALOG)>,  /* PD8_GPIO */
 					 <STM32_PINMUX('G',  5, ANALOG)>,  /* PG5_GPIO */
@@ -931,12 +936,12 @@
 &pinctrl_z {
 	ccmp25_gpio_z_pins: ccmp25-gpio {
 		pins1 {
-			pinmux = <STM32_PINMUX('Z',  6, GPIO)>, /* 3V3_RF_EN/PZ6_GPIO */
-					 <STM32_PINMUX('Z',  8, GPIO)>, /* PZ8_GPIO */
-					 <STM32_PINMUX('Z',  1, GPIO)>, /* PZ1_GPIO */
-					 <STM32_PINMUX('Z',  0, GPIO)>, /* PZ0_GPIO */
-					 <STM32_PINMUX('Z',  4, GPIO)>, /* PZ4_GPIO */
-					 <STM32_PINMUX('Z',  3, GPIO)>; /* PZ3_GPIO */
+			pinmux = <STM32_PINMUX('Z',  7, ANALOG)>, /* PZ7_GPIO_DIN */
+					 <STM32_PINMUX('Z',  8, ANALOG)>, /* PZ8_GPIO_DIN */
+					 <STM32_PINMUX('Z',  1, ANALOG)>, /* PZ1_GPIO */
+					 <STM32_PINMUX('Z',  0, ANALOG)>, /* PZ0_GPIO_DIN */
+					 <STM32_PINMUX('Z',  4, ANALOG)>, /* PZ4_GPIO */
+					 <STM32_PINMUX('Z',  3, ANALOG)>; /* PZ3_GPIO */
 			bias-disable;
 			slew-rate = <0>;
 		};
@@ -944,7 +949,7 @@
 
 	ccmp25_gpio_z_sleep_pins: ccmp25-gpio-sleep {
 		pins {
-			pinmux = <STM32_PINMUX('Z',  6, ANALOG)>, /* 3V3_RF_EN/PZ6_GPIO */
+			pinmux = <STM32_PINMUX('Z',  7, ANALOG)>, /* 3V3_RF_EN/PZ6_GPIO */
 					 <STM32_PINMUX('Z',  8, ANALOG)>, /* PZ8_GPIO */
 					 <STM32_PINMUX('Z',  1, ANALOG)>, /* PZ1_GPIO */
 					 <STM32_PINMUX('Z',  0, ANALOG)>, /* PZ0_GPIO */
