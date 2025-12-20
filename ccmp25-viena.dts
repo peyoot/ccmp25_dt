@@ -39,7 +39,7 @@
     	compatible = "Viena,system-info";
 		product-id = "Viena-CCMP25";
     	pcb-revision = "Rev 1.0";
-    	firmware-version = "DEY5.0r3-20251207";
+    	firmware-version = "DEY5.0r3-20251218";
 	};
 
 	aliases {
@@ -90,7 +90,7 @@
 		hdmi-pwr-supply = <&reg_5v_board>;
 		lv-pwr-supply = <&scmi_ldo7>; /* 1V8_HDMI */
 		hpd-gpios = <&gpiod 2 GPIO_ACTIVE_HIGH>;
-		status = "okay";
+		status = "disabled";
 
 		port {
 			hdmi_connector_in: endpoint {
@@ -99,11 +99,14 @@
 		};
 	};
 
-	panel_dsi_gpio_backlight: panel-dsi-gpio-backlight {
-		compatible = "gpio-backlight";
-		gpios = <&gpiod 9 GPIO_ACTIVE_HIGH>; /* MIPI_BCKL_PWM */
-		default-brightness-level = <0>;
-		status = "disabled";
+	panel_lvds_pwm_backlight: panel-lvds-pwm-backlight {
+		compatible = "pwm-backlight";
+		/* node TIM16_CH1 period (ns) */
+		pwms = <&pwm_lvds_bckl 3 500000 PWM_POLARITY_INVERTED>;
+		brightness-levels = <0 16 22 30 40 55 75 102 138 188 255>;
+		default-brightness-level = <8>;
+		power-supply = <&reg_5v_board>;
+		status = "okay";
 	};
 
 	panel_lvds: panel-lvds {
@@ -111,7 +114,7 @@
 		power-supply = <&reg_3v3_board>;
 		/*backlight = <&panel_lvds_gpio_backlight>;*/
 		backlight = <&panel_lvds_pwm_backlight>;
-		status = "disabled";
+		status = "okay";
 
 		width-mm = <223>;
 		height-mm = <125>;
@@ -136,15 +139,7 @@
 		};
 	};
 
-	panel_lvds_pwm_backlight: panel-lvds-pwm-backlight {
-		compatible = "pwm-backlight";
-		/* node TIM20_CH4 period (ns) */
-		pwms = <&pwm_lvds_bckl 3 500000 PWM_POLARITY_INVERTED>;
-		brightness-levels = <0 16 22 30 40 55 75 102 138 188 255>;
-		default-brightness-level = <8>;
-		power-supply = <&reg_5v_board>;
-		status = "disabled";
-	};
+
 
 	power_button {
 		compatible = "digi,stpmic-pwrkey";
@@ -261,7 +256,7 @@
 &dsi {
 	vdd-supply =  <&scmi_vddcore>;
 	vdda18-supply = <&scmi_v1v8>;
-	status = "okay";
+	status = "disabled";
 
 	ports {
 		#address-cells = <1>;
@@ -281,6 +276,49 @@
 			};
 		};
 	};
+};
+
+&spi3 {
+    pinctrl-names = "default", "sleep";
+    pinctrl-0 = <&ccmp25_spi3_pins>;      /* 根据实际引脚命名调整 */
+    pinctrl-1 = <&ccmp25_spi3_sleep_pins>;
+    status = "okay";
+    
+    /* 可选：禁用DMA以提高稳定性 */
+    /delete-property/dmas;
+    /delete-property/dma-names;
+    
+    /* 触摸屏控制器 */
+    touchscreen@0 {
+        compatible = "ti,tsc2046";       /* ET2046兼容TSC2046 */
+        reg = <0>;                        /* SPI片选0 */
+        spi-max-frequency = <1000000>;    /* 1MHz SPI时钟 */
+        spi-cpha;                         /* SPI模式1或3，根据实际调整 */
+        spi-cpol;
+        
+        /* 中断配置 */
+        interrupt-parent = <&gpioa>;     /* 根据实际中断引脚调整 */
+        interrupts = <5 IRQ_TYPE_EDGE_FALLING>;  /* 下降沿触发 */
+        
+        /* 触摸屏参数 */
+        ti,x-min = /bits/ 16 <0>;        /* X轴最小值 */
+        ti,x-max = /bits/ 16 <4095>;     /* X轴最大值（12位ADC） */
+        ti,y-min = /bits/ 16 <0>;        /* Y轴最小值 */
+        ti,y-max = /bits/ 16 <4095>;     /* Y轴最大值 */
+        ti,x-plate-ohms = /bits/ 16 <280>;  /* 触摸屏电阻，常见值280欧姆 */
+        ti,pressure-max = /bits/ 16 <255>;   /* 压力最大值 */
+        
+      
+        /* 电源管理 */
+        vcc-supply = <&scmi_v3v3>;        /* 触摸屏电源（3.3V） */
+        
+        /* 滤波器设置 */
+        ti,debounce-max = /bits/ 16 <10>;
+        ti,debounce-tol = /bits/ 16 <3>;
+        ti,debounce-rep = /bits/ 16 <1>;
+        
+        status = "okay";
+    };
 };
 
 /* Peripheral I2C bus (J18 Connector) */
@@ -425,7 +463,7 @@
 &lvds {
 	vdd-supply =  <&scmi_vddcore>;
 	vdda18-supply = <&scmi_v1v8>;
-	status = "disabled";
+	status = "okay";
 
 	ports {
 		#address-cells = <1>;
@@ -597,26 +635,6 @@
 		usb-role-switch;
 		role-switch-default-mode = "peripheral";
 	};
-};
-
-&timers1 {
-	status = "disabled";
-
-    /* USER CODE BEGIN timers1 */
-    /delete-property/dmas;
-    /delete-property/dma-names;
-    /* USER CODE END timers1 */
-
-    /* Set the desired PWM name */
-
-    pwm8: pwm {
-        pinctrl-names = "default", "sleep";
-        pinctrl-0 = <&ccmp25_timers1ch1_2_pwm_pins>;
-        pinctrl-1 = <&ccmp25_timers1ch1_2_pwm_sleep_pins>;
-        status = "okay";
- 
-    };
-
 };
 
 
