@@ -16,11 +16,6 @@
 
 /dts-v1/;
 
-/* STM32MP25 CPU */
-#include "../st/stm32mp257.dtsi"
-#include "../st/stm32mp25xf.dtsi"
-#include "../st/stm32mp25-pinctrl.dtsi"
-#include "../st/stm32mp25xxai-pinctrl.dtsi"
 /* Digi ConnectCore MP25 (SOM) */
 #include "ccmp25.dtsi"
 
@@ -31,15 +26,15 @@
 #include "dt-bindings/pwm/pwm.h"
 
 / {
-	model = "Digi International ConnectCore MP25 ST PLC kit";
-	compatible = "digi,ccmp25-dvk", "digi,ccmp25", "digi,ccmp2", "st,stm32mp257";
+	model = "Digi International ConnectCore MP25 Viena PLC V1";
+	compatible = "digi,ccmp25-dvk", "digi,ccmp25", "digi,ccmp2", "st,stm32mp255";
 	digi,machine,name = "ccmp255-dvk";
 
 	system-info {
     	compatible = "Viena,system-info";
 		product-id = "Viena-CCMP25";
     	pcb-revision = "Rev 1.0";
-    	firmware-version = "DEY5.0r3-20251218";
+    	firmware-version = "DEY5.0r3-20251222";
 	};
 
 	aliases {
@@ -361,7 +356,7 @@
 		reg = <0x48>;
 		reset-gpios = <&gpiod 4 GPIO_ACTIVE_LOW>;
 		vdd-supply = <&scmi_ldo7>; /* 1V8_HDMI */
-		status = "okay";
+		status = "disabled";
 
 		ports {
 			#address-cells = <1>;
@@ -391,9 +386,9 @@
 				clock-frequency = <74250000>;
 				hactive = <1280>;
 				vactive = <720>;
-				hfront-porch = <60>;
+				hfront-porch = <110>;
 				hsync-len = <40>;
-				hback-porch = <100>;
+				hback-porch = <220>;
 				vfront-porch = <5>;
 				vsync-len = <5>;
 				vback-porch = <20>;
