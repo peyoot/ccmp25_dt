@@ -161,7 +161,7 @@
 			regulator-min-microvolt = <5000000>;
 			regulator-max-microvolt = <5000000>;
 			regulator-enable-ramp-delay = <8000>;
-			gpio = <&gpiog 7 GPIO_ACTIVE_HIGH>; /* 5V_BOARD_EN */
+			/* gpio = <&gpiog 7 GPIO_ACTIVE_HIGH>; 5V_BOARD_EN */
 			enable-active-high;
 			status = "okay";
 		};
