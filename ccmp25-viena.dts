@@ -152,11 +152,9 @@
 		#address-cells = <1>;
 		#size-cells = <0>;
 
-
-		// 5V由L6981NDR提供，不需要GPIO控制使能
-		reg_5v_board: regulator-5v@0 {
+		reg_5v_board: regulator-board@1 {
 			compatible = "regulator-fixed";
-			reg = <0>;
+			reg = <1>;
 			regulator-name = "5v_board";
 			regulator-min-microvolt = <5000000>;
 			regulator-max-microvolt = <5000000>;
@@ -167,9 +165,9 @@
 		};
 
 		// 3.3V由LDO提供，同样不需要GPIO控制使能
-		reg_3v3_board: regulator-3v3@1 {
+		reg_3v3_board: regulator-board@2 {
 			compatible = "regulator-fixed";
-			reg = <1>;
+			reg = <2>;
 			regulator-name = "3v3_board";
 			regulator-min-microvolt = <3300000>;
 			regulator-max-microvolt = <3300000>;
