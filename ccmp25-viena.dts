@@ -94,13 +94,16 @@
 		};
 	};
 
-	panel_lvds_pwm_backlight: panel-lvds-pwm-backlight {
+	panel_hx3248c_backlight: panel-lvds-pwm-backlight {
 		compatible = "pwm-backlight";
 		/* node TIM16_CH1 period (ns) */
-		pwms = <&pwm_lvds_bckl 3 500000 PWM_POLARITY_INVERTED>;
+		pwms = <&pwm_lvds_bckl 1 1000000 PWM_POLARITY_INVERTED>;
+		enable-gpios = <&gpiopf 11 GPIO_ACTIVE_HIGH>;
 		brightness-levels = <0 16 22 30 40 55 75 102 138 188 255>;
 		default-brightness-level = <8>;
 		power-supply = <&reg_5v_board>;
+		power-on-delay-ms = <20>;
+        power-off-delay-ms = <50>;
 		status = "okay";
 	};
 
@@ -108,7 +111,7 @@
 		compatible = "innolux,101jhi3650-a5", "panel-lvds";
 		power-supply = <&reg_3v3_board>;
 		/*backlight = <&panel_lvds_gpio_backlight>;*/
-		backlight = <&panel_lvds_pwm_backlight>;
+		backlight = <&panel_hx3248c_backlight>;
 		status = "okay";
 
 		width-mm = <223>;
@@ -659,7 +662,8 @@
 			slew-rate = <0>;
 		};
 		pins2 {
-			pinmux = <STM32_PINMUX('G',  7, GPIO)>; /* PG7_GPIO */
+			pinmux = <STM32_PINMUX('F',  11, GPIO)>,  /* PF11_GPIO */
+					 <STM32_PINMUX('G',  7, GPIO)>; /* PG7_GPIO */
 			drive-push-pull;
 			bias-disable;
 			slew-rate = <0>;
@@ -672,7 +676,6 @@
 					 <STM32_PINMUX('G',  5, GPIO)>,  /* PG5_GPIO */
 					 <STM32_PINMUX('G',  8, ANALOG)>,  /* PG8_GPIO_DIN */
 					 <STM32_PINMUX('F',  10, GPIO)>,  /* PF10_GPIO_DIN */
-					 <STM32_PINMUX('F',  11, GPIO)>,  /* PF11_GPIO */
 					 <STM32_PINMUX('F',  13, GPIO)>,  /* PF13_GPIO */
 					 <STM32_PINMUX('F',  3, GPIO)>,  /* PF3_GPIO */
 					 <STM32_PINMUX('D',  6, GPIO)>,  /* PD6_GPIO */
