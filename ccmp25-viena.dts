@@ -690,10 +690,8 @@
 					 <STM32_PINMUX('F',  12, ANALOG)>,  /* PF12_GPIO_DIN */
 					 <STM32_PINMUX('I',  2, GPIO)>,  /* PI2_GPIO */ 
 					 <STM32_PINMUX('I',  3, GPIO)>,  /* PI3_GPIO */
-					 <STM32_PINMUX('I',  6, ANALOG)>,  /* PI6_GPIO_DIN */					    
-					 <STM32_PINMUX('B',  0, GPIO)>;  /* PB0_GPIO */
+					 <STM32_PINMUX('I',  6, ANALOG)>;  /* PI6_GPIO_DIN */					    
             bias-disable;
-            gpio-hog;
         };
 	};
 
@@ -728,8 +726,7 @@
 					 <STM32_PINMUX('F',  12, ANALOG)>,  /* PF12_GPIO */
 					 <STM32_PINMUX('H',  4, ANALOG)>,  /* PH4_GPIO */ 
 					 <STM32_PINMUX('I',  2, ANALOG)>,  /* PI2_GPIO */ 
-					 <STM32_PINMUX('I',  3, ANALOG)>,  /* PI3_GPIO */   
-					 <STM32_PINMUX('B',  0, ANALOG)>;  /* PB0_GPIO */
+					 <STM32_PINMUX('I',  3, ANALOG)>;  /* PI3_GPIO */ 
 		};
 	};
 
