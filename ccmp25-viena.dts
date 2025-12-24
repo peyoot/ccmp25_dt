@@ -34,7 +34,7 @@
     	compatible = "Viena,system-info";
 		product-id = "Viena-CCMP25";
     	pcb-revision = "Rev 1.0";
-    	firmware-version = "DEY5.0r3-20251224";
+    	firmware-version = "DEY5.0r3-20251224-disablepf11";
 	};
 
 	aliases {
@@ -98,12 +98,12 @@
 		compatible = "pwm-backlight";
 		/* node TIM16_CH1 period (ns) */
 		pwms = <&pwm_lvds_bckl 0 1000000 PWM_POLARITY_INVERTED>;
-		enable-gpios = <&gpiof 11 GPIO_ACTIVE_HIGH>;
+		/* enable-gpios = <&gpiof 11 GPIO_ACTIVE_HIGH>; */
 		brightness-levels = <0 16 22 30 40 55 75 102 138 188 255>;
 		default-brightness-level = <7>;
 		power-supply = <&reg_5v_board>;
-		power-on-delay-ms = <20>;
-        power-off-delay-ms = <50>;
+	/*	power-on-delay-ms = <20>; */
+    /*    power-off-delay-ms = <50>; */
 		status = "okay";
 	};
 
