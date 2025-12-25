@@ -34,7 +34,7 @@
     	compatible = "Viena,system-info";
 		product-id = "Viena-CCMP25";
     	pcb-revision = "Rev 1.0";
-    	firmware-version = "DEY5.0r3-20251225";
+    	firmware-version = "DEY5.0r3-20251225de";
 	};
 
 	aliases {
@@ -109,31 +109,29 @@
 
 	panel_lvds: panel-lvds {
 		compatible = "panel-lvds";
-		/* power-supply = <&reg_3v3_board>; */
+		power-supply = <&reg_3v3_board>;
 		/*backlight = <&panel_lvds_gpio_backlight>;*/
 		backlight = <&panel_hx3248c_backlight>;
 		status = "okay";
 
-		width-mm = <223>;
-		height-mm = <125>;
+		width-mm = <235>;
+		height-mm = <143>;
 		data-mapping = "vesa-24";
 
 		panel-timing {
 			clock-frequency = <51200000>;
 			hactive = <1024>;
-    	    hfront-porch = <160>;
-	        hback-porch = <160>;
-    	    hsync-len = <156>;
-
-	        vactive = <600>;
-    	    vfront-porch = <12>;
-        	vback-porch = <23>;
-	        vsync-len = <10>;
-
-    	    hsync-active = <0>;  // Often low polarity
-        	vsync-active = <0>;
-	        de-active = <1>;
-    	    pixelclk-active = <1>;
+        	vactive = <600>;
+	        hfront-porch = <160>;
+    	    hback-porch = <160>;
+        	hsync-len = <0>;
+	        vfront-porch = <12>;
+    	    vback-porch = <23>;
+        	vsync-len = <0>;
+	        hsync-active = <0>;
+    	    vsync-active = <0>;
+        	de-active = <1>;
+	        pixelclk-active = <1>;
 		};
 
 		port {
@@ -471,26 +469,6 @@
 	status = "okay";
 };
 
-/* MikroBus SPI */
-&spi3 {
-	pinctrl-names = "default", "sleep";
-	pinctrl-0 = <&ccmp25_spi3_pins>;
-	pinctrl-1 = <&ccmp25_spi3_sleep_pins>;
-	cs-gpios = <&gpiob 1 0>; /* SPI3_SS */
-	status = "okay";
-
-	spidev@0 {
-		compatible = "rohm,dh2228fv";
-		/*
-		 * spidev uses a compatible string 'rohm,fs2228fv' to have the
-		 * driver create an spi device node. This is just an example,
-		 * there is not a real device connected on the SPI bus.
-		 */
-		reg = <0>;
-		spi-max-frequency = <4000000>;
-	};
-};
-
 &timers16 {
     status = "okay";
 
@@ -641,8 +619,7 @@
 			slew-rate = <0>;
 		};
 		pins3 {
-            pinmux = <STM32_PINMUX('D',  8, GPIO)>,  /* PD8_GPIO */
-					 <STM32_PINMUX('F', 10, ANALOG)>, /* DI13_GPIO */
+            pinmux = <STM32_PINMUX('F', 10, ANALOG)>, /* DI13_GPIO */
 					 <STM32_PINMUX('B',  15, ANALOG)>,  /* PB15_GPIO_DIN */ 					 
 					 <STM32_PINMUX('G',  3, GPIO)>, /* LED_WARNING_GPIO */					 
 					 <STM32_PINMUX('G',  5, GPIO)>,  /* PG5_GPIO */
@@ -683,7 +660,6 @@
 					 <STM32_PINMUX('A',  7, ANALOG)>,  /* PA7_GPIO_DIN */
 					 <STM32_PINMUX('A', 12, ANALOG)>, /* PA12_GPIO */
 					 <STM32_PINMUX('G',  4, ANALOG)>, /* PG4_GPIO */
-					 <STM32_PINMUX('D',  8, ANALOG)>,  /* PD8_GPIO */
 					 <STM32_PINMUX('G',  5, ANALOG)>,  /* PG5_GPIO */
 					 <STM32_PINMUX('F',  11, ANALOG)>,  /* PF11_GPIO */
 					 <STM32_PINMUX('F',  13, ANALOG)>,  /* PF13_GPIO */
@@ -845,32 +821,6 @@
         };
     };
 
-    ccmp25_spi3_pins: ccmp25-spi3 {
-        pins1 {
-            pinmux = <STM32_PINMUX('B',  8,  AF1)>, /* SPI3_MOSI */
-                     <STM32_PINMUX('B',  7,  AF1)>; /* SPI3_SCK */
-            drive-push-pull;
-            bias-disable;
-            slew-rate = <1>;
-        };
-        pins2 {
-            pinmux = <STM32_PINMUX('B', 10,  AF1)>, /* SPI3_MISO */
-                     <STM32_PINMUX('B',  1,  AF1)>; /* SPI3_NSS */
-            drive-push-pull;
-            bias-disable;
-            slew-rate = <0>;
-        };
-    };
-    
-    ccmp25_spi3_sleep_pins: ccmp25-spi3-sleep {
-        pins {
-            pinmux = <STM32_PINMUX('B',  8, ANALOG)>, /* SPI3_MOSI */
-                     <STM32_PINMUX('B', 10, ANALOG)>, /* SPI3_MISO */
-                     <STM32_PINMUX('B',  7, ANALOG)>, /* SPI3_SCK */
-                     <STM32_PINMUX('B',  1, ANALOG)>; /* SPI3_NSS */
-        };
-    };
-
     ccmp25_can1_pins: ccmp25-can1 {
         pins1 {
             pinmux = <STM32_PINMUX('G', 11,  AF7)>; /* FDCAN1_TX */
@@ -915,7 +865,6 @@
 					 <STM32_PINMUX('Z',  8, ANALOG)>, /* PZ8_GPIO_DIN */
 					 <STM32_PINMUX('Z',  1, ANALOG)>, /* PZ1_GPIO */
 					 <STM32_PINMUX('Z',  0, ANALOG)>, /* PZ0_GPIO_DIN */
-					 <STM32_PINMUX('Z',  4, ANALOG)>, /* PZ4_GPIO */
 					 <STM32_PINMUX('Z',  3, ANALOG)>; /* PZ3_GPIO */
 			bias-disable;
 			slew-rate = <0>;
@@ -928,7 +877,6 @@
 					 <STM32_PINMUX('Z',  8, ANALOG)>, /* PZ8_GPIO */
 					 <STM32_PINMUX('Z',  1, ANALOG)>, /* PZ1_GPIO */
 					 <STM32_PINMUX('Z',  0, ANALOG)>, /* PZ0_GPIO */
-					 <STM32_PINMUX('Z',  4, ANALOG)>, /* PZ4_GPIO */
 					 <STM32_PINMUX('Z',  3, ANALOG)>; /* PZ3_GPIO */
 		};
 	};
