@@ -34,7 +34,7 @@
     	compatible = "Viena,system-info";
 		product-id = "Viena-CCMP25";
     	pcb-revision = "Rev 1.0";
-    	firmware-version = "DEY5.0r3-20251225-demode-display-timings";
+    	firmware-version = "DEY5.0r3-20251225-hvmode-display-timings";
 	};
 
 	aliases {
@@ -128,8 +128,6 @@
 	        vfront-porch = <12>;
     	    vback-porch = <23>;
         	vsync-len = <0>;
-        	de-active = <1>;
-	        pixelclk-active = <1>;
 		};
 
 		port {
