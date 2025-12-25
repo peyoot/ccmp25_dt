@@ -34,7 +34,7 @@
     	compatible = "Viena,system-info";
 		product-id = "Viena-CCMP25";
     	pcb-revision = "Rev 1.0";
-    	firmware-version = "DEY5.0r3-20251224-disablepf11";
+    	firmware-version = "DEY5.0r3-20251225";
 	};
 
 	aliases {
@@ -108,8 +108,8 @@
 	};
 
 	panel_lvds: panel-lvds {
-		compatible = "innolux,101jhi3650-a5", "panel-lvds";
-		power-supply = <&reg_3v3_board>;
+		compatible = "panel-lvds";
+		/* power-supply = <&reg_3v3_board>; */
 		/*backlight = <&panel_lvds_gpio_backlight>;*/
 		backlight = <&panel_hx3248c_backlight>;
 		status = "okay";
@@ -121,13 +121,19 @@
 		panel-timing {
 			clock-frequency = <51200000>;
 			hactive = <1024>;
-			vactive = <600>;
-			hfront-porch = <160>;
-			hback-porch = <160>;
-			hsync-len = <20>;
-			vfront-porch = <12>;
-			vback-porch = <23>;
-			vsync-len = <3>;
+    	    hfront-porch = <160>;
+	        hback-porch = <160>;
+    	    hsync-len = <156>;
+
+	        vactive = <600>;
+    	    vfront-porch = <12>;
+        	vback-porch = <23>;
+	        vsync-len = <10>;
+
+    	    hsync-active = <0>;  // Often low polarity
+        	vsync-active = <0>;
+	        de-active = <1>;
+    	    pixelclk-active = <1>;
 		};
 
 		port {
@@ -263,38 +269,18 @@
     pinctrl-1 = <&ccmp25_spi3_sleep_pins>;
     status = "okay";
     
-    /* 可选：禁用DMA以提高稳定性 */
     /delete-property/dmas;
     /delete-property/dma-names;
     
-    /* 触摸屏控制器 */
     touchscreen@0 {
-        compatible = "ti,tsc2046";       /* ET2046兼容TSC2046 */
+        compatible = "ti,ads7846";       /* ET2046兼容ads7846 */
         reg = <0>;                        /* SPI片选0 */
         spi-max-frequency = <1000000>;    /* 1MHz SPI时钟 */
-        spi-cpha;                         /* SPI模式1或3，根据实际调整 */
-        spi-cpol;
         
         /* 中断配置 */
-        interrupt-parent = <&gpioa>;     /* 根据实际中断引脚调整 */
-        interrupts = <5 IRQ_TYPE_EDGE_FALLING>;  /* 下降沿触发 */
-        
-        /* 触摸屏参数 */
-        ti,x-min = /bits/ 16 <0>;        /* X轴最小值 */
-        ti,x-max = /bits/ 16 <4095>;     /* X轴最大值（12位ADC） */
-        ti,y-min = /bits/ 16 <0>;        /* Y轴最小值 */
-        ti,y-max = /bits/ 16 <4095>;     /* Y轴最大值 */
-        ti,x-plate-ohms = /bits/ 16 <280>;  /* 触摸屏电阻，常见值280欧姆 */
-        ti,pressure-max = /bits/ 16 <255>;   /* 压力最大值 */
-        
-      
-        /* 电源管理 */
-        vcc-supply = <&scmi_v3v3>;        /* 触摸屏电源（3.3V） */
-        
-        /* 滤波器设置 */
-        ti,debounce-max = /bits/ 16 <10>;
-        ti,debounce-tol = /bits/ 16 <3>;
-        ti,debounce-rep = /bits/ 16 <1>;
+        interrupt-parent = <&gpiod>;
+        interrupts = <5 IRQ_TYPE_EDGE_FALLING>;
+		pendown-gpio = <&gpiod 5 GPIO_ACTIVE_LOW>;    
         
         status = "okay";
     };
