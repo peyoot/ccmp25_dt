@@ -34,7 +34,7 @@
     	compatible = "Viena,system-info";
 		product-id = "Viena-CCMP25";
     	pcb-revision = "Rev 1.0";
-    	firmware-version = "DEY5.0r3-20251226-pt-backportch=bp+sync_len-active1110";
+    	firmware-version = "DEY5.0r3-20251226-pt-seperate-h20v3-active1110";
 	};
 
 	aliases {
@@ -126,7 +126,7 @@
     	    hback-porch = <140>;
         	hsync-len = <20>;
 	        vfront-porch = <12>;
-    	    vback-porch = <20>;
+    	    vback-porch = <23>;
         	vsync-len = <3>;
 			hsync-active = <1>;
 			vsync-active = <1>;
