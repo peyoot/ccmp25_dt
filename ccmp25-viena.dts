@@ -34,7 +34,7 @@
     	compatible = "Viena,system-info";
 		product-id = "Viena-CCMP25";
     	pcb-revision = "Rev 1.0";
-    	firmware-version = "DEY5.0r3-20251226-pt-backportch=bp+sync_len-active0011";
+    	firmware-version = "DEY5.0r3-20251226-pt-backportch=bp+sync_len-active1110";
 	};
 
 	aliases {
@@ -128,10 +128,10 @@
 	        vfront-porch = <12>;
     	    vback-porch = <20>;
         	vsync-len = <3>;
-			hsync-active = <0>;
-			vsync-active = <0>;
+			hsync-active = <1>;
+			vsync-active = <1>;
 			de-active = <1>;
-			pixelclk-active = <1>;
+			pixelclk-active = <0>;
 		};
 
 		port {
@@ -162,9 +162,10 @@
 			regulator-name = "5v_board";
 			regulator-min-microvolt = <5000000>;
 			regulator-max-microvolt = <5000000>;
-			regulator-enable-ramp-delay = <8000>;
+			/* regulator-enable-ramp-delay = <8000>; */
 			/* gpio = <&gpiog 7 GPIO_ACTIVE_HIGH>; 5V_BOARD_EN */
-			enable-active-high;
+			/* enable-active-high; */
+			regulator-always-on;
 			status = "okay";
 		};
 
@@ -175,7 +176,7 @@
 			regulator-name = "3v3_board";
 			regulator-min-microvolt = <3300000>;
 			regulator-max-microvolt = <3300000>;
-			// 省略了gpio和enable-active-high，因为直接使能
+			regulator-always-on;
 			status = "okay";
 		};
 	};
