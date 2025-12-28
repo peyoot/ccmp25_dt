@@ -281,12 +281,36 @@
     touchscreen@0 {
         compatible = "ti,ads7846";       /* ET2046兼容ads7846 */
         reg = <0>;                        /* SPI片选0 */
-        spi-max-frequency = <1000000>;    /* 1MHz SPI时钟 */
+		spi-max-frequency = <2000000>;
+        spi-cpol = <0>;
+        spi-cpha = <0>;
+		vcc-supply = <&reg_3v3_board>;
         
         /* 中断配置 */
         interrupt-parent = <&gpiod>;
         interrupts = <5 IRQ_TYPE_EDGE_FALLING>;
 		pendown-gpio = <&gpiod 5 GPIO_ACTIVE_LOW>;    
+
+		/* 参考电压 */
+        ti,keep-vref-on;
+        ti,vref-mv = <2500>;
+        
+        /* 校准参数 - 先用经验初始值 */
+        ti,x-min = /bits/ 16 <200>;
+        ti,x-max = /bits/ 16 <3900>;
+        ti,y-min = /bits/ 16 <300>;
+        ti,y-max = /bits/ 16 <3800>;
+        
+        /* 电阻参数 - 工程图已明确 */
+        ti,x-plate-ohms = /bits/ 16 <400>;   /* 面板电阻400Ω，不是回路电阻 */
+        ti,pressure-max = /bits/ 16 <255>;
+        
+        /* 性能优化 */
+        ti,debounce-tcs = /bits/ 16 <3>;     /* 去抖动次数 */
+        ti,settle-delay-usec = /bits/ 16 <50>; /* 建立延迟 */
+        
+        /* 电源管理 */
+        wakeup-source;
         
         status = "okay";
     };
