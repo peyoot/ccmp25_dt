@@ -506,6 +506,49 @@
 	status = "okay";
 };
 
+&timers8 {
+    status = "disabled";
+
+    /* USER CODE BEGIN timers8 */
+    /delete-property/dmas;
+    /delete-property/dma-names;
+    /* USER CODE END timers8 */
+
+    /* Set the desired PWM name */
+    pwm28: pwm {
+        pinctrl-names = "default", "sleep";
+        pinctrl-0 = <&ccmp25_timers8_ch1_2_pwm_pins>;
+        pinctrl-1 = <&ccmp25_timers8_ch1_2_pwm_sleep_pins>;
+        status = "okay";
+    };
+
+    /*
+     * Uncomment to enable timer trigger on STANDARD TIMER.
+     *
+     * Set <TRIGGER_INDEX> to (timer_index - 1)
+     */
+    //timer@<TRIGGER_INDEX> {
+    //    status = "okay";
+    //};
+
+    /*
+     * Uncomment to enable timer trigger on LPTIMER only.
+     *
+     * Set <TRIGGER_INDEX> to (lptimer_index - 1)
+     */
+    //trigger@<TRIGGER_INDEX> {
+    //    status = "okay";
+    //};
+
+    /*
+     * Uncomment and configure to enable counter/quadrature decoder.
+     */
+    //counter {
+    //    status = "okay";
+    //};
+};
+
+
 &timers16 {
     status = "okay";
 
@@ -676,8 +719,6 @@
 					 <STM32_PINMUX('A',  1, ANALOG)>,  /* PA1_GPIO_DIN */ 
 					 <STM32_PINMUX('A',  7, ANALOG)>,  /* PA7_GPIO_DIN */
 					 <STM32_PINMUX('F',  12, ANALOG)>,  /* PF12_GPIO_DIN */
-					 <STM32_PINMUX('I',  2, GPIO)>,  /* PI2_GPIO */ 
-					 <STM32_PINMUX('I',  3, GPIO)>,  /* PI3_GPIO */
 					 <STM32_PINMUX('I',  6, ANALOG)>;  /* PI6_GPIO_DIN */					    
             bias-disable;
         };
@@ -711,9 +752,7 @@
 					 <STM32_PINMUX('I',  10, ANALOG)>,  /* PI10_GPIO */ 
 					 <STM32_PINMUX('A',  1, ANALOG)>,  /* PA1_GPIO */ 
 					 <STM32_PINMUX('F',  12, ANALOG)>,  /* PF12_GPIO */
-					 <STM32_PINMUX('H',  4, ANALOG)>,  /* PH4_GPIO */ 
-					 <STM32_PINMUX('I',  2, ANALOG)>,  /* PI2_GPIO */ 
-					 <STM32_PINMUX('I',  3, ANALOG)>;  /* PI3_GPIO */ 
+					 <STM32_PINMUX('H',  4, ANALOG)>;  /* PH4_GPIO */ 
 		};
 	};
 
@@ -875,6 +914,23 @@
         pins {
             pinmux = <STM32_PINMUX('G', 11, ANALOG)>, /* FDCAN1_TX */
                      <STM32_PINMUX('G', 12, ANALOG)>; /* FDCAN1_RX */
+        };
+    };
+
+	ccmp25_timers8_ch1_2_pwm_pins: ccmp25-timers8-ch1_2-pwm {
+        pins {
+            pinmux = <STM32_PINMUX('I',  2,  GPIO)>,  /* TIM8_CH1 */
+					 <STM32_PINMUX('I',  3,  GPIO)>; /* TIM8_CH2 */
+            drive-push-pull;
+            bias-disable;
+            slew-rate = <0>;
+        };
+    };
+
+    ccmp25_timers8_ch1_2_pwm_sleep_pins: ccmp25-timers8-ch1_2-pwm-sleep {
+        pins {
+            pinmux = <STM32_PINMUX('I',  2, ANALOG)>, /* TIM8_CH1 */
+					 <STM32_PINMUX('I',  3, ANALOG)>; /* TIM8_CH2 */
         };
     };
 

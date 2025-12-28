@@ -8,12 +8,12 @@
     fragment@0 {
         target-path = "/";
         __overlay__ {
-            overlay-description = "ccmp25plc: GPIO DO_HS1 and DO_HS2 to PWM Overlay (TIM1_CH1 and TIM1_CH2 on PD7,PD10)";
+            overlay-description = "ccmp25viena: GPIO DO_HS1 and DO_HS2 to PWM Overlay (TIM8_CH1 and TIM8_CH2 on PI2,PI3)";
         };
     };
 
     fragment@1 {
-        target = <&timers1>;
+        target = <&timers8>;
         __overlay__ {
             status = "okay"; 
         };
@@ -21,12 +21,12 @@
 
     fragment@2 {
         target = <&pinctrl>;
-        ccmp25-timers1ch1_2-pwm {
+        ccmp25_timers8_ch1_2_pwm_pins {
             __overlay__ {
                 pins {
                     /* convert to pwm ：GPIO -> AF8 */
-                    pinmux = <STM32_PINMUX('D', 7, AF8)>,  /* TIM1_CH1 */
-                             <STM32_PINMUX('D', 10, AF8)>; /* TIM1_CH2 */                 
+                    pinmux = <STM32_PINMUX('I', 2, AF8)>,  /* TIM8_CH1 */
+                             <STM32_PINMUX('I', 3, AF8)>; /* TIM8_CH2 */                 
                 };
             };
         };
