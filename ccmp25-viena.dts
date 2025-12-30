@@ -270,54 +270,54 @@
 };
 
 &spi3 {
-    pinctrl-names = "default", "sleep";
+	pinctrl-names = "default", "sleep";
 	pinctrl-0 = <&spi3_pins_a>;
 	pinctrl-1 = <&spi3_sleep_pins_a>;
 	cs-gpios = <&gpiob 1 0>; /* SPI3_SS */
-    status = "okay";
+	status = "okay";
     
     /delete-property/dmas;
     /delete-property/dma-names;
     
     touchscreen@0 {
-        compatible = "ti,ads7846";       /* ET2046兼容ads7846 */
-        reg = <0>;                        /* SPI片选0 */
+    	compatible = "ti,ads7846";       /* ET2046兼容ads7846 */
+    	reg = <0>;                        /* SPI片选0 */
 		spi-max-frequency = <2000000>;
-        spi-cpol = <0>;
-        spi-cpha = <0>;
+    	spi-cpol = <0>;
+    	spi-cpha = <0>;
 		vcc-supply = <&reg_3v3_board>;
 
 		pinctrl-names = "default", "sleep";
-        pinctrl-0 = <&ccmp25_touchscreen_irq_pins>;
-        pinctrl-1 = <&ccmp25_touchscreen_irq_sleep_pins>;
+    	pinctrl-0 = <&ccmp25_touchscreen_irq_pins>;
+    	pinctrl-1 = <&ccmp25_touchscreen_irq_sleep_pins>;
         
         /* 中断配置 */
-        interrupt-parent = <&gpiod>;
-        interrupts = <5 IRQ_TYPE_EDGE_FALLING>;
+    	interrupt-parent = <&gpiod>;
+    	interrupts = <5 IRQ_TYPE_EDGE_FALLING>;
 		pendown-gpio = <&gpiod 5 GPIO_ACTIVE_LOW>;    
 
 		/* 参考电压 */
-        ti,keep-vref-on;
-        ti,vref-mv = <2500>;
+    	ti,keep-vref-on;
+    	ti,vref-mv = <2500>;
         
-        /* 校准参数 - 先用经验初始值 */
-        ti,x-min = /bits/ 16 <200>;
-        ti,x-max = /bits/ 16 <3900>;
-        ti,y-min = /bits/ 16 <300>;
-        ti,y-max = /bits/ 16 <3800>;
+    	/* 校准参数 - 先用经验初始值 */
+    	ti,x-min = /bits/ 16 <200>;
+    	ti,x-max = /bits/ 16 <3900>;
+    	ti,y-min = /bits/ 16 <300>;
+    	ti,y-max = /bits/ 16 <3800>;
         
         /* 电阻参数 - 工程图已明确 */
-        ti,x-plate-ohms = /bits/ 16 <400>;   /* 面板电阻400Ω，不是回路电阻 */
-        ti,pressure-max = /bits/ 16 <255>;
+    	ti,x-plate-ohms = /bits/ 16 <400>;   /* 面板电阻400Ω，不是回路电阻 */
+    	ti,pressure-max = /bits/ 16 <255>;
         
         /* 性能优化 */
-        ti,debounce-tcs = /bits/ 16 <3>;     /* 去抖动次数 */
-        ti,settle-delay-usec = /bits/ 16 <50>; /* 建立延迟 */
+    	ti,debounce-tcs = /bits/ 16 <3>;     /* 去抖动次数 */
+    	ti,settle-delay-usec = /bits/ 16 <50>; /* 建立延迟 */
         
         /* 电源管理 */
-        wakeup-source;
+    	wakeup-source;
         
-        status = "okay";
+    	status = "okay";
     };
 };
 
@@ -683,18 +683,18 @@
 	};
 
 	ccmp25_touchscreen_irq_pins: touchscreen-irq-pins {
-        pins {
-            pinmux = <STM32_PINMUX('D',  5, GPIO)>;
-            bias-pull-up;
-            slew-rate = <0>;
-        };
-    };
+		pins {
+			pinmux = <STM32_PINMUX('D',  5, GPIO)>;
+        	bias-pull-up;
+			slew-rate = <0>;
+		};
+	};
 
 	ccmp25_touchscreen_irq_sleep_pins: touchscreen-irq-sleep {
-        pins {
-            pinmux = <STM32_PINMUX('D',  5, ANALOG)>;
-        };
-    };
+		pins {
+			pinmux = <STM32_PINMUX('D',  5, ANALOG)>;
+		};
+	};
 
 	ccmp25_gpio_pins: ccmp25-gpio {
 		pins1 {
