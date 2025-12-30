@@ -276,9 +276,6 @@
 	cs-gpios = <&gpiob 1 0>; /* SPI3_SS */
 	status = "okay";
     
-	/delete-property/dmas;
-	/delete-property/dma-names;
-    
 	touchscreen@0 {
 		compatible = "ti,ads7846";       /* ET2046兼容ads7846 */
 		reg = <0>;                        /* SPI片选0 */
