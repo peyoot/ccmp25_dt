@@ -34,7 +34,7 @@
     	compatible = "Viena,system-info";
 		product-id = "Viena-CCMP25";
     	pcb-revision = "Rev 1.0";
-    	firmware-version = "DEY5.0r3-20251230-remove-tsc-opt";
+    	firmware-version = "DEY5.0r3-20251230-add-back-settle-delay-usec";
 	};
 
 	aliases {
@@ -302,6 +302,9 @@
 		/* 电阻参数 - 工程图已明确 */
 		ti,x-plate-ohms = /bits/ 16 <400>;   /* 面板电阻400Ω，不是回路电阻 */
 		ti,pressure-max = /bits/ 16 <255>;
+
+ 		/* 性能优化 */
+		ti,settle-delay-usec = /bits/ 16 <50>; 
         
 	    /* 电源管理 */
 		wakeup-source;    
