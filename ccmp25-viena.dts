@@ -34,7 +34,7 @@
     	compatible = "Viena,system-info";
 		product-id = "Viena-CCMP25";
     	pcb-revision = "Rev 1.0";
-    	firmware-version = "DEY5.0r3-20251229-add-ts-spi3";
+    	firmware-version = "DEY5.0r3-20251229-fix-pd5-irq";
 	};
 
 	aliases {
@@ -286,6 +286,10 @@
         spi-cpol = <0>;
         spi-cpha = <0>;
 		vcc-supply = <&reg_3v3_board>;
+
+		pinctrl-names = "default", "sleep";
+        pinctrl-0 = <&ccmp25_touchscreen_irq_pins>;
+        pinctrl-1 = <&ccmp25_touchscreen_irq_sleep_pins>
         
         /* 中断配置 */
         interrupt-parent = <&gpiod>;
@@ -678,13 +682,23 @@
 		};
 	};
 
-	
+	ccmp25_touchscreen_irq_pins: touchscreen-irq-pins {
+        pins {
+            pinmux = <STM32_PINMUX('D',  5, GPIO)>;
+            bias-pull-up;
+            slew-rate = <0>;
+        };
+    };
+
+	ccmp25_touchscreen_irq_sleep_pins: touchscreen-irq-sleep {
+        pins {
+            pinmux = <STM32_PINMUX('D',  5, ANALOG)>;
+        };
+    };
 
 	ccmp25_gpio_pins: ccmp25-gpio {
 		pins1 {
-			pinmux = <STM32_PINMUX('D',  5, GPIO)>, /* PD5_GPIO */
-					 <STM32_PINMUX('D',  4, GPIO)>, /* PD4_GPIO */
-					 <STM32_PINMUX('I',  9, GPIO)>, /* PI9_GPIO */
+			pinmux = <STM32_PINMUX('I',  9, GPIO)>, /* PI9_GPIO */
 					 <STM32_PINMUX('B',  3, GPIO)>, /* PB3_GPIO */
 					 <STM32_PINMUX('A', 12, GPIO)>, /* PA12_GPIO */
 					 <STM32_PINMUX('I',  8, GPIO)>, /* PI8/LPO32_GPIO */
@@ -732,8 +746,6 @@
 					 <STM32_PINMUX('I',  0, ANALOG)>, /* SAI4_MCLK_B_GPIO */
 					 <STM32_PINMUX('G',  3, ANALOG)>, /* PG3_GPIO */
 					 <STM32_PINMUX('G',  8, ANALOG)>,  /* PG8_GPIO_DIN */
-					 <STM32_PINMUX('D',  5, ANALOG)>, /* PD5_GPIO */
-					 <STM32_PINMUX('D',  4, ANALOG)>, /* PD4_GPIO */
 					 <STM32_PINMUX('I',  9, ANALOG)>, /* PI9_GPIO */
 					 <STM32_PINMUX('B',  3, ANALOG)>, /* PB3_GPIO */
 					 <STM32_PINMUX('A',  7, ANALOG)>,  /* PA7_GPIO_DIN */
