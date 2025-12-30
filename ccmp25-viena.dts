@@ -34,7 +34,7 @@
     	compatible = "Viena,system-info";
 		product-id = "Viena-CCMP25";
     	pcb-revision = "Rev 1.0";
-    	firmware-version = "DEY5.0r3-20251229-fix-pd5-irq";
+    	firmware-version = "DEY5.0r3-20251230-fix-pd5-irq";
 	};
 
 	aliases {
@@ -286,10 +286,6 @@
 		spi-cpol = <0>;
 		spi-cpha = <0>;
 		vcc-supply = <&reg_3v3_board>;
-
-		pinctrl-names = "default", "sleep";
-		pinctrl-0 = <&ccmp25_touchscreen_irq_pins>;
-		pinctrl-1 = <&ccmp25_touchscreen_irq_sleep_pins>;
         
 		/* 中断配置 */
 		interrupt-parent = <&gpiod>;
@@ -681,28 +677,10 @@
 		};
 	};
 
-	ccmp25_touchscreen_irq_pins: touchscreen-irq-pins {
-		pins {
-			pinmux = <STM32_PINMUX('D',  5, GPIO)>;
-        	bias-pull-up;
-			slew-rate = <0>;
-		};
-	};
-
-	ccmp25_touchscreen_irq_sleep_pins: touchscreen-irq-sleep {
-		pins {
-			pinmux = <STM32_PINMUX('D',  5, ANALOG)>;
-		};
-	};
-
 	ccmp25_gpio_pins: ccmp25-gpio {
 		pins1 {
-			pinmux = <STM32_PINMUX('I',  9, GPIO)>, /* PI9_GPIO */
-					 <STM32_PINMUX('B',  3, GPIO)>, /* PB3_GPIO */
-					 <STM32_PINMUX('A', 12, GPIO)>, /* PA12_GPIO */
-					 <STM32_PINMUX('I',  8, GPIO)>, /* PI8/LPO32_GPIO */
-					 <STM32_PINMUX('G',  4, GPIO)>; /* PG4_GPIO */
-			bias-disable;
+			pinmux = <STM32_PINMUX('D',  5, GPIO)>;
+        	bias-pull-up;
 			slew-rate = <0>;
 		};
 		pins2 {
@@ -713,7 +691,9 @@
 			slew-rate = <0>;
 		};
 		pins3 {
-            pinmux = <STM32_PINMUX('F', 10, ANALOG)>, /* DI13_GPIO */
+            pinmux = <STM32_PINMUX('A', 12, GPIO)>, /* PA12_GPIO */
+					 <STM32_PINMUX('F', 10, ANALOG)>, /* DI13_GPIO */
+					 <STM32_PINMUX('B',  3, GPIO)>, /* PB3_GPIO */
 					 <STM32_PINMUX('B',  15, ANALOG)>,  /* PB15_GPIO_DIN */ 					 
 					 <STM32_PINMUX('G',  3, GPIO)>, /* LED_WARNING_GPIO */					 
 					 <STM32_PINMUX('G',  5, GPIO)>,  /* PG5_GPIO */
@@ -723,12 +703,15 @@
 					 <STM32_PINMUX('F',  3, GPIO)>,  /* PF3_GPIO */
 					 <STM32_PINMUX('D',  6, GPIO)>,  /* PD6_GPIO */
 					 <STM32_PINMUX('F',  4, GPIO)>,  /* PF4_GPIO */
+					 <STM32_PINMUX('G',  4, GPIO)>, /* PG4_GPIO */
 					 <STM32_PINMUX('H',  2, ANALOG)>,  /* PH2_GPIO  related to TIM16 */ 
 					 <STM32_PINMUX('H',  6, ANALOG)>,  /* PH2_GPIO  related to TIM16 */ 
 					 <STM32_PINMUX('H',  3, ANALOG)>,  /* PH3_GPIO_DIN */					 					 
 					 <STM32_PINMUX('H',  4, GPIO)>,  /* PH4_GPIO */ 					 
 					 <STM32_PINMUX('H',  5, ANALOG)>,  /* PH5_GPIO_DIN */
 					 <STM32_PINMUX('F',  15, ANALOG)>,  /* PF15_GPIO_DIN */  
+					 <STM32_PINMUX('I',  8, GPIO)>, /* PI8/LPO32_GPIO */
+					 <STM32_PINMUX('I',  9, GPIO)>, /* PI9_GPIO */
 					 <STM32_PINMUX('I',  10, ANALOG)>,  /* PI10_GPIO_DIN */ 
 					 <STM32_PINMUX('A',  1, ANALOG)>,  /* PA1_GPIO_DIN */ 
 					 <STM32_PINMUX('A',  7, ANALOG)>,  /* PA7_GPIO_DIN */
@@ -754,6 +737,7 @@
 					 <STM32_PINMUX('F',  11, ANALOG)>,  /* PF11_GPIO */
 					 <STM32_PINMUX('F',  13, ANALOG)>,  /* PF13_GPIO */
 					 <STM32_PINMUX('F',  3, ANALOG)>,  /* PF3_GPIO */
+					 <STM32_PINMUX('D',  5, ANALOG)>,  /* LVDS TSC IRQ pendown */
 					 <STM32_PINMUX('D',  6, ANALOG)>,  /* PD6_GPIO */
 					 <STM32_PINMUX('F',  4, ANALOG)>,  /* PF4_GPIO */
 					 <STM32_PINMUX('I',  4, ANALOG)>,  /* PGI4_GPIO */ 
