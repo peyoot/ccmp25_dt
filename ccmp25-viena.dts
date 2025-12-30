@@ -289,7 +289,7 @@
 
 		pinctrl-names = "default", "sleep";
         pinctrl-0 = <&ccmp25_touchscreen_irq_pins>;
-        pinctrl-1 = <&ccmp25_touchscreen_irq_sleep_pins>
+        pinctrl-1 = <&ccmp25_touchscreen_irq_sleep_pins>;
         
         /* 中断配置 */
         interrupt-parent = <&gpiod>;
