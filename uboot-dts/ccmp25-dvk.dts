@@ -22,7 +22,7 @@
     	compatible = "Viena,system-info";
 		product-id = "Viena-CCMP25";
     	pcb-revision = "Rev 1.0";
-    	firmware-version = "DEY5.0r3-20251207";
+    	firmware-version = "DEY5.0r3-20251230-console-bias-pull-up";
 	};
 
 	aliases {
@@ -311,8 +311,8 @@
 /* Console A35 */
 &usart2 {
 	pinctrl-names = "default", "idle", "sleep";
-	pinctrl-0 = <&usart2_pins_a>;
-	pinctrl-1 = <&usart2_idle_pins_a>;
+	pinctrl-0 = <&ccmp25_usart2_pins_a>;
+	pinctrl-1 = <&ccmp25_usart2_idle_pins_a>;
 	pinctrl-2 = <&usart2_sleep_pins_a>;
 	/delete-property/dmas;
 	/delete-property/dma-names;
@@ -365,6 +365,33 @@
 };
 
 &pinctrl {
+	ccmp25_usart2_pins_a: ccmp25-usart2-0 {
+		pins1 {
+			pinmux = <STM32_PINMUX('A', 4, AF6)>; /* USART2_TX */
+			bias-disable;
+			drive-push-pull;
+			slew-rate = <0>;
+		};
+		pins2 {
+			pinmux = <STM32_PINMUX('A', 8, AF8)>; /* USART2_RX */
+			/* pull-up on rx to avoid floating level */
+			bias-pull-up;
+		};
+	};
+
+	ccmp25_usart2_idle_pins_a: ccmp25-usart2-idle-0 {
+		pins1 {
+			pinmux = <STM32_PINMUX('A', 4, ANALOG)>; /* USART2_TX */
+		};
+		pins2 {
+			pinmux = <STM32_PINMUX('A', 8, AF8)>; /* USART2_RX */
+			/* pull-up on rx to avoid floating level */
+			bias-pull-up;
+		};
+	};
+
+
+
 	ccmp25_i2c1_pins: ccmp25-i2c1-0 {
 		pins {
 			pinmux = <STM32_PINMUX('G', 13, AF9)>, /* I2C1_SCL */
