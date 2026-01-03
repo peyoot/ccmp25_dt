@@ -34,7 +34,7 @@
     	compatible = "Viena,system-info";
 		product-id = "Viena-CCMP25";
     	pcb-revision = "Rev 1.0";
-    	firmware-version = "DEY5.0r3-20260102-remove-opt-adjust-min";
+    	firmware-version = "DEY5.0r3-20260103-x500-3350";
 	};
 
 	aliases {
@@ -294,10 +294,10 @@
 		ti,vref-mv = <2500>;
         
 		/* 校准参数 - 先用经验初始值 */
-		ti,x-min = /bits/ 16 <20>;
-		ti,x-max = /bits/ 16 <3900>;
-		ti,y-min = /bits/ 16 <30>;
-		ti,y-max = /bits/ 16 <3800>;
+		ti,x-min = /bits/ 16 <500>;
+		ti,x-max = /bits/ 16 <3350>;
+		ti,y-min = /bits/ 16 <270>;
+		ti,y-max = /bits/ 16 <3850>;
         
 		/* 电阻参数 - 工程图已明确 */
 		ti,x-plate-ohms = /bits/ 16 <400>;   /* 面板电阻400Ω，不是回路电阻 */
