@@ -34,7 +34,7 @@
     	compatible = "Viena,system-info";
 		product-id = "Viena-CCMP25";
     	pcb-revision = "Rev 1.0";
-    	firmware-version = "DEY5.0r3-20260107-addback-lvds-irq-pinctrl-pullup-y200-4000";
+    	firmware-version = "DEY5.0r3-20260107-comment-out-wakeup-source";
 	};
 
 	aliases {
@@ -305,7 +305,7 @@
         
 	    /* 电源管理 */
 		/* wakeup-source;    */
-		
+
 		status = "okay";
     };
 };
