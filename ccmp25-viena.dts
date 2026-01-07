@@ -671,13 +671,7 @@
 	};
 
 	ccmp25_gpio_pins: ccmp25-gpio {
-		/*
-		pins1 {
-			pinmux = <STM32_PINMUX('D',  5, GPIO)>;
-        	bias-pull-up;
-			slew-rate = <0>;
-		};
-		/*
+
 		pins1 {
 			pinmux = <STM32_PINMUX('F',  11, GPIO)>,  /* PF11_GPIO */
 					 <STM32_PINMUX('G',  7, GPIO)>; /* PG7_GPIO */
@@ -732,7 +726,6 @@
 					 <STM32_PINMUX('F',  11, ANALOG)>,  /* PF11_GPIO */
 					 <STM32_PINMUX('F',  13, ANALOG)>,  /* PF13_GPIO */
 					 <STM32_PINMUX('F',  3, ANALOG)>,  /* PF3_GPIO */
-					 /* <STM32_PINMUX('D',  5, ANALOG)>,   LVDS TSC IRQ pendown */
 					 <STM32_PINMUX('D',  6, ANALOG)>,  /* PD6_GPIO */
 					 <STM32_PINMUX('F',  4, ANALOG)>,  /* PF4_GPIO */
 					 <STM32_PINMUX('I',  4, ANALOG)>,  /* PGI4_GPIO */ 
