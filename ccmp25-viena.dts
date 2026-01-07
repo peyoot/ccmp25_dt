@@ -188,7 +188,12 @@
 		pinctrl-1 = <&ccmp25_gpio_sleep_pins &ccmp25_gpio_z_sleep_pins>;
 	};
 
-	
+	touchscreen_irq {
+		status = "okay";
+		pinctrl-names = "default", "sleep";
+		pinctrl-0 = <&ccmp25_tsc2046_irq_pins>;
+		pinctrl-1 = <&ccmp25_tsc2046_irq_sleep_pins>;
+	};
 
 };
 
@@ -273,8 +278,8 @@
 
 &spi3 {
 	pinctrl-names = "default", "sleep";
-	pinctrl-0 = <&spi3_pins_a &ccmp25_tsc2046_irq_pins>;
-	pinctrl-1 = <&spi3_sleep_pins_a &ccmp25_tsc2046_irq_sleep_pins>;
+	pinctrl-0 = <&spi3_pins_a>;
+	pinctrl-1 = <&spi3_sleep_pins_a>;
 	cs-gpios = <&gpiob 1 0>; /* SPI3_SS */
 	status = "okay";
     
