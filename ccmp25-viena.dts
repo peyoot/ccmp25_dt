@@ -271,8 +271,8 @@
 
 &spi3 {
 	pinctrl-names = "default", "sleep";
-	pinctrl-0 = <&spi3_pins_a>, <&ccmp25_tsc2046_irq_pins>;
-	pinctrl-1 = <&spi3_sleep_pins_a>, <&ccmp25_tsc2046_irq_sleep_pins>;
+	pinctrl-0 = <&spi3_pins_a, &ccmp25_tsc2046_irq_pins>;
+	pinctrl-1 = <&spi3_sleep_pins_a, &ccmp25_tsc2046_irq_sleep_pins>;
 	cs-gpios = <&gpiob 1 0>; /* SPI3_SS */
 	status = "okay";
     
