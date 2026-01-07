@@ -34,7 +34,7 @@
     	compatible = "Viena,system-info";
 		product-id = "Viena-CCMP25";
     	pcb-revision = "Rev 1.0";
-    	firmware-version = "DEY5.0r3-20260107-comment-out-wakeup-source-and-spi-1m-pd5-pinctrl-in-root";
+    	firmware-version = "DEY5.0r3-20260107-comment-out-wakeup-source-and-spi-1m-debounce=0";
 	};
 
 	aliases {
@@ -683,6 +683,7 @@
 			pinmux = <STM32_PINMUX('D',  5, GPIO)>;
         	bias-pull-up;
         	input-enable;
+			input-debounce = <0>;
 		};
     };
 
