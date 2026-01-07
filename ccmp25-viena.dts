@@ -34,7 +34,7 @@
     	compatible = "Viena,system-info";
 		product-id = "Viena-CCMP25";
     	pcb-revision = "Rev 1.0";
-    	firmware-version = "DEY5.0r3-20260103-x500-3350";
+    	firmware-version = "DEY5.0r3-20260107-remov-lvds-irq-pinctrl-y200-4000";
 	};
 
 	aliases {
@@ -296,8 +296,8 @@
 		/* 校准参数 - 先用经验初始值 */
 		ti,x-min = /bits/ 16 <500>;
 		ti,x-max = /bits/ 16 <3350>;
-		ti,y-min = /bits/ 16 <270>;
-		ti,y-max = /bits/ 16 <3850>;
+		ti,y-min = /bits/ 16 <200>;
+		ti,y-max = /bits/ 16 <4050>;
         
 		/* 电阻参数 - 工程图已明确 */
 		ti,x-plate-ohms = /bits/ 16 <400>;   /* 面板电阻400Ω，不是回路电阻 */
@@ -671,19 +671,21 @@
 	};
 
 	ccmp25_gpio_pins: ccmp25-gpio {
+		/*
 		pins1 {
 			pinmux = <STM32_PINMUX('D',  5, GPIO)>;
         	bias-pull-up;
 			slew-rate = <0>;
 		};
-		pins2 {
+		/*
+		pins1 {
 			pinmux = <STM32_PINMUX('F',  11, GPIO)>,  /* PF11_GPIO */
 					 <STM32_PINMUX('G',  7, GPIO)>; /* PG7_GPIO */
 			drive-push-pull;
 			bias-disable;
 			slew-rate = <0>;
 		};
-		pins3 {
+		pins2 {
             pinmux = <STM32_PINMUX('A', 12, GPIO)>, /* PA12_GPIO */
 					 <STM32_PINMUX('F', 10, ANALOG)>, /* DI13_GPIO */
 					 <STM32_PINMUX('B',  3, GPIO)>, /* PB3_GPIO */
@@ -730,7 +732,7 @@
 					 <STM32_PINMUX('F',  11, ANALOG)>,  /* PF11_GPIO */
 					 <STM32_PINMUX('F',  13, ANALOG)>,  /* PF13_GPIO */
 					 <STM32_PINMUX('F',  3, ANALOG)>,  /* PF3_GPIO */
-					 <STM32_PINMUX('D',  5, ANALOG)>,  /* LVDS TSC IRQ pendown */
+					 /* <STM32_PINMUX('D',  5, ANALOG)>,   LVDS TSC IRQ pendown */
 					 <STM32_PINMUX('D',  6, ANALOG)>,  /* PD6_GPIO */
 					 <STM32_PINMUX('F',  4, ANALOG)>,  /* PF4_GPIO */
 					 <STM32_PINMUX('I',  4, ANALOG)>,  /* PGI4_GPIO */ 
