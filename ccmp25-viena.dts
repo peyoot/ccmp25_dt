@@ -34,7 +34,7 @@
     	compatible = "Viena,system-info";
 		product-id = "Viena-CCMP25";
     	pcb-revision = "Rev 1.0";
-    	firmware-version = "DEY5.0r3-20260107-remov-lvds-irq-pinctrl-y200-4000";
+    	firmware-version = "DEY5.0r3-20260107-addback-lvds-irq-pinctrl-pullup-y200-4000";
 	};
 
 	aliases {
@@ -271,13 +271,13 @@
 
 &spi3 {
 	pinctrl-names = "default", "sleep";
-	pinctrl-0 = <&spi3_pins_a>;
-	pinctrl-1 = <&spi3_sleep_pins_a>;
+	pinctrl-0 = <&spi3_pins_a>, <&ccmp25_tsc2046_irq_pins>;
+	pinctrl-1 = <&spi3_sleep_pins_a>, <&ccmp25_tsc2046_irq_sleep_pins>;
 	cs-gpios = <&gpiob 1 0>; /* SPI3_SS */
 	status = "okay";
     
 	touchscreen@0 {
-		compatible = "ti,ads7846";       /* ET2046兼容ads7846 */
+		compatible = "ti,ads7846";       /* tsc2046 */
 		reg = <0>;                        /* SPI片选0 */
 		spi-max-frequency = <2000000>;
 		spi-cpol = <0>;
@@ -669,6 +669,20 @@
 					 <STM32_PINMUX('G', 12, ANALOG)>; /* FDCAN1_RX */
 		};
 	};
+
+	ccmp25_tsc2046_irq_pins: ccmp25-tsc2046-irq-pins {
+		pins {
+			pinmux = <STM32_PINMUX('D',  5, GPIO)>;
+        	bias-pull-up;
+        	input-enable;
+		};
+    };
+
+	ccmp25_tsc2046_irq_sleep_pins: ccmp25-tsc2046-irq-sleep {
+		pins {
+			pinmux = <STM32_PINMUX('D',  5, ANALOG)>;
+		};
+    };
 
 	ccmp25_gpio_pins: ccmp25-gpio {
 
