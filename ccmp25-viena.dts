@@ -304,7 +304,8 @@
 		ti,pressure-max = /bits/ 16 <255>;
         
 	    /* 电源管理 */
-		wakeup-source;    
+		/* wakeup-source;    */
+		
 		status = "okay";
     };
 };
