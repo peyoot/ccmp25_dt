@@ -34,7 +34,7 @@
     	compatible = "Viena,system-info";
 		product-id = "Viena-CCMP25";
     	pcb-revision = "Rev 1.0";
-    	firmware-version = "DEY5.0r3-20260108-use-interrupt";
+    	firmware-version = "DEY5.0r3-20260108-remove-keep-vref-on-only";
 	};
 
 	aliases {
@@ -294,9 +294,8 @@
 		/* 中断配置 */
 		interrupt-parent = <&gpiod>;
 		interrupts = <5 IRQ_TYPE_EDGE_FALLING>;
-		/* pendown-gpio = <&gpiod 5 GPIO_ACTIVE_LOW>;     */
+		pendown-gpio = <&gpiod 5 GPIO_ACTIVE_LOW>;
 
-		ti,keep-vref-on;
 		ti,vref-mv = <2500>;
         
 		ti,x-min = /bits/ 16 <500>;
