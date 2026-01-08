@@ -34,7 +34,7 @@
     	compatible = "Viena,system-info";
 		product-id = "Viena-CCMP25";
     	pcb-revision = "Rev 1.0";
-    	firmware-version = "DEY5.0r3-20260107-comment-out-wakeup-source-and-spi-1m-debounce=0";
+    	firmware-version = "DEY5.0r3-20260108-use-interrupt";
 	};
 
 	aliases {
@@ -294,13 +294,11 @@
 		/* 中断配置 */
 		interrupt-parent = <&gpiod>;
 		interrupts = <5 IRQ_TYPE_EDGE_FALLING>;
-		pendown-gpio = <&gpiod 5 GPIO_ACTIVE_LOW>;    
+		/* pendown-gpio = <&gpiod 5 GPIO_ACTIVE_LOW>;     */
 
-		/* 参考电压 */
 		ti,keep-vref-on;
 		ti,vref-mv = <2500>;
         
-		/* 校准参数 - 先用经验初始值 */
 		ti,x-min = /bits/ 16 <500>;
 		ti,x-max = /bits/ 16 <3350>;
 		ti,y-min = /bits/ 16 <200>;
@@ -311,7 +309,7 @@
 		ti,pressure-max = /bits/ 16 <255>;
         
 	    /* 电源管理 */
-		/* wakeup-source;    */
+		wakeup-source;
 
 		status = "okay";
     };
@@ -683,7 +681,6 @@
 			pinmux = <STM32_PINMUX('D',  5, GPIO)>;
         	bias-pull-up;
         	input-enable;
-			input-debounce = <0>;
 		};
     };
 
