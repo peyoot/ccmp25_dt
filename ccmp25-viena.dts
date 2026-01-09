@@ -188,13 +188,6 @@
 		pinctrl-1 = <&ccmp25_gpio_sleep_pins &ccmp25_gpio_z_sleep_pins>;
 	};
 
-	touchscreen_irq {
-		status = "okay";
-		pinctrl-names = "default", "sleep";
-		pinctrl-0 = <&ccmp25_tsc2046_irq_pins>;
-		pinctrl-1 = <&ccmp25_tsc2046_irq_sleep_pins>;
-	};
-
 };
 
 &eth1 {
@@ -278,9 +271,9 @@
 
 &spi3 {
 	pinctrl-names = "default", "sleep";
-	pinctrl-0 = <&spi3_pins_a>;
-	pinctrl-1 = <&spi3_sleep_pins_a>;
-	cs-gpios = <&gpiob 1 0>; /* SPI3_SS */
+	pinctrl-0 = <&ccmp25_spi3_pins>;
+	pinctrl-1 = <&ccmp25_spi3_sleep_pins>;
+
 	status = "okay";
     
 	touchscreen@0 {
@@ -673,18 +666,30 @@
 		};
 	};
 
-	ccmp25_tsc2046_irq_pins: ccmp25-tsc2046-irq-pins {
-		pins {
-			pinmux = <STM32_PINMUX('D',  5, GPIO)>;
-        	bias-pull-up;
-        	input-enable;
-		};
+    ccmp25_spi3_pins: ccmp25-spi3 {
+        pins1 {
+            pinmux = <STM32_PINMUX('B',  8,  AF1)>, /* SPI3_MOSI */
+                     <STM32_PINMUX('B',  7,  AF1)>; /* SPI3_SCK */
+            drive-push-pull;
+            bias-disable;
+            slew-rate = <1>;
+        };
+        pins2 {
+            pinmux = <STM32_PINMUX('B', 10,  AF1)>, /* SPI3_MISO */
+                     <STM32_PINMUX('B',  1,  AF1)>; /* SPI3_NSS */
+            drive-push-pull;
+            bias-disable;
+            slew-rate = <0>;
+        };
     };
-
-	ccmp25_tsc2046_irq_sleep_pins: ccmp25-tsc2046-irq-sleep {
-		pins {
-			pinmux = <STM32_PINMUX('D',  5, ANALOG)>;
-		};
+    
+    ccmp25_spi3_sleep_pins: ccmp25-spi3-sleep {
+        pins {
+            pinmux = <STM32_PINMUX('B',  8, ANALOG)>, /* SPI3_MOSI */
+                     <STM32_PINMUX('B', 10, ANALOG)>, /* SPI3_MISO */
+                     <STM32_PINMUX('B',  7, ANALOG)>, /* SPI3_SCK */
+                     <STM32_PINMUX('B',  1, ANALOG)>; /* SPI3_NSS */
+        };
     };
 
 	ccmp25_gpio_pins: ccmp25-gpio {
