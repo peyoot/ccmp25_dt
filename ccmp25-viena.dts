@@ -34,7 +34,7 @@
     	compatible = "Viena,system-info";
 		product-id = "Viena-CCMP25";
     	pcb-revision = "Rev 1.0";
-    	firmware-version = "DEY5.0r3-20260109-use-spi3nss-fix-wrong-nss-define-rm-pd5-pinctrl";
+    	firmware-version = "DEY5.0r3-20260109-use-spi3nss-rm-pd5-pinctrl-settle-delay-150";
 	};
 
 	aliases {
@@ -289,10 +289,13 @@
 		interrupts = <5 IRQ_TYPE_EDGE_FALLING>;
 		pendown-gpio = <&gpiod 5 GPIO_ACTIVE_LOW>;
         
-		ti,x-min = /bits/ 16 <300>;
-		ti,x-max = /bits/ 16 <3550>;
-		ti,y-min = /bits/ 16 <200>;
+		ti,x-min = /bits/ 16 <100>;
+		ti,x-max = /bits/ 16 <4050>;
+		ti,y-min = /bits/ 16 <100>;
 		ti,y-max = /bits/ 16 <4050>;
+
+		/*        ti,debounce-tcs = /bits/ 16 <3>;      去抖动次数 */
+        ti,settle-delay-usec = /bits/ 16 <150>;  /* 建立延迟 */
         
 		/* 电阻参数 - 工程图已明确 */
 		ti,x-plate-ohms = /bits/ 16 <400>;   /* 面板电阻400Ω，不是回路电阻 */
