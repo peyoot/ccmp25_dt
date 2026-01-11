@@ -34,7 +34,7 @@
     	compatible = "Viena,system-info";
 		product-id = "Viena-CCMP25";
     	pcb-revision = "Rev 1.0";
-    	firmware-version = "DEY5.0r3-20260109-remove-spi3-cs-gpios-rm-pd5-pinctrl";
+    	firmware-version = "DEY5.0r3-20260109-use-spi3nss-fix-wrong-nss-define-rm-pd5-pinctrl";
 	};
 
 	aliases {
