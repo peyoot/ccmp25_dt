@@ -34,7 +34,7 @@
     	compatible = "Viena,system-info";
 		product-id = "Viena-CCMP25";
     	pcb-revision = "Rev 1.0";
-    	firmware-version = "DEY5.0r3-20260109-use-spi3nss-rm-pd5-pinctrl-settle-delay-150";
+    	firmware-version = "DEY5.0r3-20260111-nss-pressure-max1024-vref-delay-settle-delay-irqrecheck-debounce-max-all-on";
 	};
 
 	aliases {
@@ -293,13 +293,20 @@
 		ti,x-max = /bits/ 16 <4050>;
 		ti,y-min = /bits/ 16 <100>;
 		ti,y-max = /bits/ 16 <4050>;
+		ti,pressure-max = /bits/ 16 <1024>;  // 增大阈值测试
 
 		/*        ti,debounce-tcs = /bits/ 16 <3>;      去抖动次数 */
-        ti,settle-delay-usec = /bits/ 16 <150>;  /* 建立延迟 */
+        
+        // 最少优化参数（解决 ref/settling/IRQ 问题）
+        ti,vref-delay-usecs = <100>;  // 内部 ref 稳定（必须，VREF 悬空易不稳）
+        ti,settle-delay-usecs = <150>;  // 触摸线 settling time
+        ti,penirq-recheck-delay-usecs = <100>;  // 滤 IRQ 噪声（可能解决中断增 2）
+        ti,debounce-max = /bits/ 16 <3>;  // 噪声过滤样本
+
         
 		/* 电阻参数 - 工程图已明确 */
 		ti,x-plate-ohms = /bits/ 16 <400>;   /* 面板电阻400Ω，不是回路电阻 */
-		ti,pressure-max = /bits/ 16 <255>;
+
         
 	    /* 电源管理 */
 		wakeup-source;
