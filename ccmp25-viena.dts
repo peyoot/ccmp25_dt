@@ -669,17 +669,15 @@
     ccmp25_spi3_pins: ccmp25-spi3 {
         pins1 {
             pinmux = <STM32_PINMUX('B',  8,  AF1)>, /* SPI3_MOSI */
-                     <STM32_PINMUX('B',  7,  AF1)>; /* SPI3_SCK */
+                     <STM32_PINMUX('B',  7,  AF1)>, /* SPI3_SCK */
+					 <STM32_PINMUX('B',  1,  AF1)>; /* SPI3_NSS */
             drive-push-pull;
             bias-disable;
             slew-rate = <1>;
         };
         pins2 {
-            pinmux = <STM32_PINMUX('B', 10,  AF1)>, /* SPI3_MISO */
-                     <STM32_PINMUX('B',  1,  AF1)>; /* SPI3_NSS */
-            drive-push-pull;
+            pinmux = <STM32_PINMUX('B', 10,  AF1)>; /* SPI3_MISO */
             bias-disable;
-            slew-rate = <0>;
         };
     };
     
