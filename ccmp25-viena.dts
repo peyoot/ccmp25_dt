@@ -34,7 +34,7 @@
     	compatible = "Viena,system-info";
 		product-id = "Viena-CCMP25";
     	pcb-revision = "Rev 1.0";
-    	firmware-version = "DEY5.0r3-20260111-nss-pressure-max1024-vref-delay-settle-delay-irqrecheck-debounce-max-all-on";
+    	firmware-version = "DEY5.0r3-20260111-cs-gpios-pressure-max1024-keep-vref-on-mv2500";
 	};
 
 	aliases {
@@ -273,6 +273,7 @@
 	pinctrl-names = "default", "sleep";
 	pinctrl-0 = <&ccmp25_spi3_pins>;
 	pinctrl-1 = <&ccmp25_spi3_sleep_pins>;
+	cs-gpios = <&gpiob 1 GPIO_ACTIVE_LOW>;
 
 	status = "okay";
     
@@ -298,20 +299,22 @@
 		/*        ti,debounce-tcs = /bits/ 16 <3>;      去抖动次数 */
         
         // 最少优化参数（解决 ref/settling/IRQ 问题）
-        ti,vref-delay-usecs = <100>;  // 内部 ref 稳定（必须，VREF 悬空易不稳）
-        ti,settle-delay-usecs = <150>;  // 触摸线 settling time
-        ti,penirq-recheck-delay-usecs = <100>;  // 滤 IRQ 噪声（可能解决中断增 2）
-        ti,debounce-max = /bits/ 16 <3>;  // 噪声过滤样本
+        // ti,vref-delay-usecs = <100>;  // 内部 ref 稳定（必须，VREF 悬空易不稳）
+        // ti,settle-delay-usecs = <150>;  // 触摸线 settling time
+        // ti,penirq-recheck-delay-usecs = <100>;  // 滤 IRQ 噪声（可能解决中断增 2）
+        // ti,debounce-max = /bits/ 16 <3>;  // 噪声过滤样本
 
+		ti,keep-vref-on;
+        ti,vref-mv = <2500>;
         
 		/* 电阻参数 - 工程图已明确 */
 		ti,x-plate-ohms = /bits/ 16 <400>;   /* 面板电阻400Ω，不是回路电阻 */
-
         
 	    /* 电源管理 */
 		wakeup-source;
-
 		status = "okay";
+
+		spi-cs-high;
     };
 };
 
@@ -680,7 +683,6 @@
         pins1 {
             pinmux = <STM32_PINMUX('B',  8,  AF1)>, /* SPI3_MOSI */
                      <STM32_PINMUX('B',  7,  AF1)>, /* SPI3_SCK */
-					 <STM32_PINMUX('B',  1,  AF1)>; /* SPI3_NSS */
             drive-push-pull;
             bias-disable;
             slew-rate = <1>;
@@ -696,7 +698,6 @@
             pinmux = <STM32_PINMUX('B',  8, ANALOG)>, /* SPI3_MOSI */
                      <STM32_PINMUX('B', 10, ANALOG)>, /* SPI3_MISO */
                      <STM32_PINMUX('B',  7, ANALOG)>, /* SPI3_SCK */
-                     <STM32_PINMUX('B',  1, ANALOG)>; /* SPI3_NSS */
         };
     };
 
