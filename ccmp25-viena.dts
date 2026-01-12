@@ -288,7 +288,7 @@
 		/* 中断配置 */
 		interrupt-parent = <&gpiod>;
 		interrupts = <5 IRQ_TYPE_EDGE_FALLING>;
-		pendown-gpio = <&gpiod 5 GPIO_ACTIVE_LOW>;
+		pendown-gpio = <&gpiod 5 GPIO_ACTIVE_HIGH>;
         
 		ti,x-min = /bits/ 16 <100>;
 		ti,x-max = /bits/ 16 <4050>;
@@ -314,7 +314,7 @@
 		wakeup-source;
 		status = "okay";
 
-		spi-cs-high;
+		// spi-cs-high;
     };
 };
 
