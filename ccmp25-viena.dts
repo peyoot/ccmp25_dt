@@ -34,7 +34,7 @@
     	compatible = "Viena,system-info";
 		product-id = "Viena-CCMP25";
     	pcb-revision = "Rev 1.0";
-    	firmware-version = "DEY5.0r3-20260111-cs-gpios-pressure-max1024-keep-vref-on-mv2500-spi2m";
+    	firmware-version = "DEY5.0r3-20260112-cs-gpios-pressure-max1024-keep-vref-on-mv2500-spi2m-use-active-high-in-cs";
 	};
 
 	aliases {
