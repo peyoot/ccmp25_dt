@@ -34,7 +34,7 @@
     	compatible = "Viena,system-info";
 		product-id = "Viena-CCMP25";
     	pcb-revision = "Rev 1.0";
-    	firmware-version = "DEY5.0r3-20260112-cs-gpios-pressure-max1024-keep-vref-on-mv2500-spi2m-use-active-high-in-cs";
+    	firmware-version = "DEY5.0r3-20260112-cs-gpios-pressure-max4095-keep-vref-on-mv2500-spi2m-add-y";
 	};
 
 	aliases {
@@ -294,7 +294,7 @@
 		ti,x-max = /bits/ 16 <4050>;
 		ti,y-min = /bits/ 16 <100>;
 		ti,y-max = /bits/ 16 <4050>;
-		ti,pressure-max = /bits/ 16 <1024>;  // 增大阈值测试
+		ti,pressure-max = /bits/ 16 <4095>;  // 增大阈值测试
 
 		/*        ti,debounce-tcs = /bits/ 16 <3>;      去抖动次数 */
         
@@ -309,12 +309,12 @@
         
 		/* 电阻参数 - 工程图已明确 */
 		ti,x-plate-ohms = /bits/ 16 <400>;   /* 面板电阻400Ω，不是回路电阻 */
-        
+		ti,y-plate-ohms = /bits/ 16 <400>;
+
 	    /* 电源管理 */
 		wakeup-source;
 		status = "okay";
 
-		// spi-cs-high;
     };
 };
 
