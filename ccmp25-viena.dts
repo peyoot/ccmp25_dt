@@ -34,7 +34,7 @@
     	compatible = "Viena,system-info";
 		product-id = "Viena-CCMP25";
     	pcb-revision = "Rev 1.0";
-    	firmware-version = "DEY5.0r3-20260113-cs-gpios-pressure-max4095-keep-vref-on-mv2500-spi1m-useevtestdata";
+    	firmware-version = "DEY5.0r3-20260113-fix-sleepyissue-cs-gpio-pendown-wrong";
 	};
 
 	aliases {
@@ -273,7 +273,7 @@
 	pinctrl-names = "default", "sleep";
 	pinctrl-0 = <&ccmp25_spi3_pins>;
 	pinctrl-1 = <&ccmp25_spi3_sleep_pins>;
-	cs-gpios = <&gpiob 1 GPIO_ACTIVE_LOW>;
+	cs-gpios = <&gpiob 1 GPIO_ACTIVE_HIGH>;
 
 	status = "okay";
     
@@ -288,7 +288,7 @@
 		/* 中断配置 */
 		interrupt-parent = <&gpiod>;
 		interrupts = <5 IRQ_TYPE_EDGE_FALLING>;
-		pendown-gpio = <&gpiod 5 GPIO_ACTIVE_HIGH>;
+		pendown-gpio = <&gpiod 5 GPIO_ACTIVE_LOW>;
         
 		ti,x-min = /bits/ 16 <400>;
 		ti,x-max = /bits/ 16 <3600>;
