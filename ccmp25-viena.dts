@@ -34,7 +34,7 @@
     	compatible = "Viena,system-info";
 		product-id = "Viena-CCMP25";
     	pcb-revision = "Rev 1.0";
-    	firmware-version = "DEY5.0r3-20260113-fix-sleepyissue-cs-gpio-pendown-wrong";
+    	firmware-version = "DEY5.0r3-20260113-fix-sleepy-mistake-use-evtest-add-10%-opt";
 	};
 
 	aliases {
@@ -290,11 +290,11 @@
 		interrupts = <5 IRQ_TYPE_EDGE_FALLING>;
 		pendown-gpio = <&gpiod 5 GPIO_ACTIVE_LOW>;
         
-		ti,x-min = /bits/ 16 <400>;
-		ti,x-max = /bits/ 16 <3600>;
-		ti,y-min = /bits/ 16 <190>;
-		ti,y-max = /bits/ 16 <3850>;
-		ti,pressure-max = /bits/ 16 <4095>;  // 增大阈值测试
+		ti,x-min = /bits/ 16 <360>;
+		ti,x-max = /bits/ 16 <3850>;
+		ti,y-min = /bits/ 16 <180>;
+		ti,y-max = /bits/ 16 <4050>;
+		ti,pressure-max = /bits/ 16 <255>; 
 
 		/*        ti,debounce-tcs = /bits/ 16 <3>;      去抖动次数 */
         
@@ -308,7 +308,7 @@
         ti,vref-mv = <2500>;
         
 		/* 电阻参数 - 工程图已明确 */
-		ti,x-plate-ohms = /bits/ 16 <400>;   /* 面板电阻400Ω，不是回路电阻 */
+		ti,x-plate-ohms = /bits/ 16 <625>;   /* 面板电阻400Ω，不是回路电阻 */
 
 	    /* 电源管理 */
 		wakeup-source;
