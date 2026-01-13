@@ -294,7 +294,7 @@
 		ti,x-max = /bits/ 16 <3850>;
 		ti,y-min = /bits/ 16 <180>;
 		ti,y-max = /bits/ 16 <4050>;
-		ti,pressure-max = /bits/ 16 <255>; 
+		ti,pressure-max = /bits/ 16 <1024>; 
 
 		/*        ti,debounce-tcs = /bits/ 16 <3>;      去抖动次数 */
         
@@ -308,7 +308,7 @@
         ti,vref-mv = <2500>;
         
 		/* 电阻参数 - 工程图已明确 */
-		ti,x-plate-ohms = /bits/ 16 <625>;   /* 面板电阻400Ω，不是回路电阻 */
+		ti,x-plate-ohms = /bits/ 16 <400>;   /* 面板电阻400Ω，不是回路电阻 */
 
 	    /* 电源管理 */
 		wakeup-source;
