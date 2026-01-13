@@ -34,7 +34,7 @@
     	compatible = "Viena,system-info";
 		product-id = "Viena-CCMP25";
     	pcb-revision = "Rev 1.0";
-    	firmware-version = "DEY5.0r3-20260112-cs-gpios-pressure-max4095-keep-vref-on-mv2500-spi2m-add-y";
+    	firmware-version = "DEY5.0r3-20260113-cs-gpios-pressure-max4095-keep-vref-on-mv2500-spi1m-useevtestdata";
 	};
 
 	aliases {
@@ -280,7 +280,7 @@
 	touchscreen@0 {
 		compatible = "ti,ads7846";       /* tsc2046 */
 		reg = <0>;                        /* SPI片选0 */
-		spi-max-frequency = <2000000>;
+		spi-max-frequency = <1000000>;
 		spi-cpol = <0>;
 		spi-cpha = <0>;
 		vcc-supply = <&reg_3v3_board>;
@@ -290,10 +290,10 @@
 		interrupts = <5 IRQ_TYPE_EDGE_FALLING>;
 		pendown-gpio = <&gpiod 5 GPIO_ACTIVE_HIGH>;
         
-		ti,x-min = /bits/ 16 <100>;
-		ti,x-max = /bits/ 16 <4050>;
-		ti,y-min = /bits/ 16 <100>;
-		ti,y-max = /bits/ 16 <4050>;
+		ti,x-min = /bits/ 16 <400>;
+		ti,x-max = /bits/ 16 <3600>;
+		ti,y-min = /bits/ 16 <190>;
+		ti,y-max = /bits/ 16 <3850>;
 		ti,pressure-max = /bits/ 16 <4095>;  // 增大阈值测试
 
 		/*        ti,debounce-tcs = /bits/ 16 <3>;      去抖动次数 */
@@ -309,7 +309,6 @@
         
 		/* 电阻参数 - 工程图已明确 */
 		ti,x-plate-ohms = /bits/ 16 <400>;   /* 面板电阻400Ω，不是回路电阻 */
-		ti,y-plate-ohms = /bits/ 16 <400>;
 
 	    /* 电源管理 */
 		wakeup-source;
