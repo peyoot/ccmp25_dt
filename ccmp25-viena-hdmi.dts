@@ -34,7 +34,7 @@
     	compatible = "Viena,system-info";
 		product-id = "Viena-CCMP25";
     	pcb-revision = "Rev 1.0";
-    	firmware-version = "DEY5.0r3-20260113-fix-sleepy-mistake-use-evtest-add-10%-opt";
+    	firmware-version = "DEY5.0r3-20260115-hdmi-version";
 	};
 
 	aliases {
