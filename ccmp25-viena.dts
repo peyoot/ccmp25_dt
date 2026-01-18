@@ -34,7 +34,7 @@
     	compatible = "Viena,system-info";
 		product-id = "Viena-CCMP25";
     	pcb-revision = "Rev 1.0";
-    	firmware-version = "DEY5.0r3-20260113-fix-sleepy-mistake-use-evtest-add-10%-opt";
+    	firmware-version = "DEY5.0r3-20260118-x400-add-10%-opt-pwr-0-spi00";
 	};
 
 	aliases {
@@ -162,14 +162,12 @@
 			regulator-name = "5v_board";
 			regulator-min-microvolt = <5000000>;
 			regulator-max-microvolt = <5000000>;
-			/* regulator-enable-ramp-delay = <8000>; */
-			/* gpio = <&gpiog 7 GPIO_ACTIVE_HIGH>; 5V_BOARD_EN */
-			/* enable-active-high; */
-			regulator-always-on;
+			regulator-enable-ramp-delay = <8000>;
+			gpio = <&gpiog 7 GPIO_ACTIVE_LOW>; /* 5V_BOARD_EN */
 			status = "okay";
 		};
 
-		// 3.3V由LDO提供，同样不需要GPIO控制使能
+		// 3.3V由LDO提供，不需要GPIO控制使能
 		reg_3v3_board: regulator-board@2 {
 			compatible = "regulator-fixed";
 			reg = <2>;
@@ -273,7 +271,7 @@
 	pinctrl-names = "default", "sleep";
 	pinctrl-0 = <&ccmp25_spi3_pins>;
 	pinctrl-1 = <&ccmp25_spi3_sleep_pins>;
-	cs-gpios = <&gpiob 1 GPIO_ACTIVE_HIGH>;
+	cs-gpios = <&gpiob 1 GPIO_ACTIVE_LOW>;
 
 	status = "okay";
     
