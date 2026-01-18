@@ -164,6 +164,7 @@
 			regulator-max-microvolt = <5000000>;
 			regulator-enable-ramp-delay = <8000>;
 			gpio = <&gpiog 7 GPIO_ACTIVE_LOW>; /* 5V_BOARD_EN */
+			enable-active-high;
 			status = "okay";
 		};
 
@@ -701,8 +702,7 @@
 	ccmp25_gpio_pins: ccmp25-gpio {
 
 		pins1 {
-			pinmux = <STM32_PINMUX('F',  11, GPIO)>,  /* PF11_GPIO */
-					 <STM32_PINMUX('G',  7, GPIO)>; /* PG7_GPIO */
+			pinmux = <STM32_PINMUX('F',  11, GPIO)>;  /* PF11_GPIO */
 			drive-push-pull;
 			bias-disable;
 			slew-rate = <0>;
@@ -741,7 +741,6 @@
 	ccmp25_gpio_sleep_pins: ccmp25-gpio-sleep {
 		pins {
 			pinmux = <STM32_PINMUX('F', 10, ANALOG)>, /* PF10_GPIO */
-					 <STM32_PINMUX('G',  7, ANALOG)>, /* PG7_GPIO */
 					 <STM32_PINMUX('I',  0, ANALOG)>, /* SAI4_MCLK_B_GPIO */
 					 <STM32_PINMUX('G',  3, ANALOG)>, /* PG3_GPIO */
 					 <STM32_PINMUX('G',  8, ANALOG)>,  /* PG8_GPIO_DIN */
