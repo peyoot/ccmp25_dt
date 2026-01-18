@@ -34,7 +34,7 @@
     	compatible = "Viena,system-info";
 		product-id = "Viena-CCMP25";
     	pcb-revision = "Rev 1.0";
-    	firmware-version = "DEY5.0r3-20260118-x400-add-10%-opt-pwr-0-spi00";
+    	firmware-version = "DEY5.0r3-20260119-x400-add-10%-opt-pwr-0-spi00-rm-pg7pinctrl";
 	};
 
 	aliases {
