@@ -34,7 +34,7 @@
     	compatible = "Viena,system-info";
 		product-id = "Viena-CCMP25";
     	pcb-revision = "Rev 1.0";
-    	firmware-version = "DEY5.0r3-20260119-x400-add-10%-opt-pwr-0-spi00-rm-pg7pinctrl";
+    	firmware-version = "DEY5.0r3-20260119-x400-add-10%-opt-pwr-0-spi01-rm-pg7pinctrl-rising";
 	};
 
 	aliases {
@@ -286,8 +286,8 @@
         
 		/* 中断配置 */
 		interrupt-parent = <&gpiod>;
-		interrupts = <5 IRQ_TYPE_EDGE_FALLING>;
-		pendown-gpio = <&gpiod 5 GPIO_ACTIVE_LOW>;
+		interrupts = <5 IRQ_TYPE_EDGE_RISING>;
+		pendown-gpio = <&gpiod 5 GPIO_ACTIVE_HIGH>;
         
 		ti,x-min = /bits/ 16 <360>;
 		ti,x-max = /bits/ 16 <3850>;
