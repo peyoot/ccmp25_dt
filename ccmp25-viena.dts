@@ -687,7 +687,7 @@
         };
         pins2 {
             pinmux = <STM32_PINMUX('B', 10,  AF1)>; /* SPI3_MISO */
-            bias-disable;
+            bias-pull-up;
         };
     };
     
