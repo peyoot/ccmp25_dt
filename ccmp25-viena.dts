@@ -34,7 +34,7 @@
     	compatible = "Viena,system-info";
 		product-id = "Viena-CCMP25";
     	pcb-revision = "Rev 1.0";
-    	firmware-version = "DEY5.0r3-20260119-x400-add-10%-opt-pwr-0-spi01-rm-pg7pinctrl-rising-miso-pullup";
+    	firmware-version = "DEY5.0r3-20260119-x400-add-10%-opt-pwr-1-spi01-rm-pg7pinctrl-rising-miso-pullup";
 	};
 
 	aliases {
@@ -156,28 +156,29 @@
 		#address-cells = <1>;
 		#size-cells = <0>;
 
-		reg_5v_board: regulator-board@1 {
+		reg_3v3_board: regulator-board@1 {
 			compatible = "regulator-fixed";
 			reg = <1>;
-			regulator-name = "5v_board";
-			regulator-min-microvolt = <5000000>;
-			regulator-max-microvolt = <5000000>;
-			regulator-enable-ramp-delay = <8000>;
-			gpio = <&gpiog 7 GPIO_ACTIVE_LOW>; /* 5V_BOARD_EN */
-			enable-active-high;
-			status = "okay";
-		};
-
-		// 3.3V由LDO提供，不需要GPIO控制使能
-		reg_3v3_board: regulator-board@2 {
-			compatible = "regulator-fixed";
-			reg = <2>;
 			regulator-name = "3v3_board";
 			regulator-min-microvolt = <3300000>;
 			regulator-max-microvolt = <3300000>;
 			regulator-always-on;
 			status = "okay";
 		};
+
+		reg_5v_board: regulator-board@2 {
+			compatible = "regulator-fixed";
+			reg = <2>;
+			regulator-name = "5v_board";
+			regulator-min-microvolt = <5000000>;
+			regulator-max-microvolt = <5000000>;
+			regulator-enable-ramp-delay = <8000>;
+			gpio = <&gpiog 7 GPIO_ACTIVE_HIGH>; /* 5V_BOARD_EN */
+			enable-active-high;
+			status = "okay";
+		};
+
+
 	};
 
 	digital-io {
