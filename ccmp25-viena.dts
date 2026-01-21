@@ -34,7 +34,7 @@
     	compatible = "Viena,system-info";
 		product-id = "Viena-CCMP25";
     	pcb-revision = "Rev 1.0";
-    	firmware-version = "DEY5.0r3-20260121-x400-add-10%-opt-pwr1-spi01r-miso-pullup-no-ref-mv-vref-allopt-adjust50-5-3";
+    	firmware-version = "DEY5.0r3-20260121-x400-pwr1-spi01r-remove-unnecessary-parameters";
 	};
 
 	aliases {
@@ -294,19 +294,14 @@
 		ti,x-max = /bits/ 16 <3850>;
 		ti,y-min = /bits/ 16 <180>;
 		ti,y-max = /bits/ 16 <4050>;
-		ti,pressure-max = /bits/ 16 <1024>; 
-		
 		ti,x-plate-ohms = /bits/ 16 <400>;
 
-        ti,vref-delay-usecs = <100>;
-		ti,debounce-max = /bits/ 16 <50>;
-        ti,debounce-tol = <5>;
-        ti,debounce-rep = <3>;
-        ti,keep-vref-on;
+		ti,pressure-min = /bits/ 16 <80>; 
+		ti,pressure-max = /bits/ 16 <1024>; 
 
-		/* ti,debounce-tcs = /bits/ 16 <3>;      去抖动次数 */
-        // ti,settle-delay-usecs = <150>;  // 触摸线 settling time
-        // ti,penirq-recheck-delay-usecs = <100>;  // 滤 IRQ 噪声（可能解决中断增 2）
+		// touchscreen-average-samples = <4>
+		//ti,debounce-max = /bits/ 16 <2>;
+        // ti,debounce-tol = <10>;
 
 	    /* 电源管理 */
 		wakeup-source;
