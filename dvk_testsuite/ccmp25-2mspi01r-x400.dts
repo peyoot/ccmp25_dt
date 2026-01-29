@@ -2,16 +2,12 @@
 /*
  * Copyright (C) 2024,2025, Digi International Inc.
  *
- * Permission to use, copy, modify, and/or distribute this software for any
- * purpose with or without fee is hereby granted, provided that the above
- * copyright notice and this permission notice appear in all copies.
- * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
- * WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
- * MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR
- * ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
- * WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
- * ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
- * OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+ *  file name explain:  
+ *  [speed]spi[XYZ], speed is spi spped， X means SPI CS， Y means TSC pendown pad, Z means interrupt method
+ *  due to cases like GPIO polarity inversion in linux gpio subsytem. Need to test both polarity.
+ *  for example: 2mspi01r，means 2m speed, cs active_low， pendown active_high, irq edge_rising。
+ *  x-400 means use ti,x-plate-ohms =400
+ *
  */
 
 /dts-v1/;
@@ -34,7 +30,7 @@
     	compatible = "CCMP25,system-info";
 		product-id = "CCMP25-DVK";
     	pcb-revision = "Rev 1.0";
-    	firmware-version = "20260129-DEY5.0r3-test-tsc2046/et2046 with dvk board-1mspi01r-x400-p80-1024";
+    	firmware-version = "20260129-DEY5.0r3-test-tsc2046/et2046 with dvk board-2mspi01r-x400-p80_4095";
 	};
 
 	aliases {
@@ -748,7 +744,7 @@
 	touchscreen@0 {
 		compatible = "ti,ads7846";       /* tsc2046 */
 		reg = <0>;                        /* SPI片选0 */
-		spi-max-frequency = <1000000>;
+		spi-max-frequency = <2000000>;
 		spi-cpol = <0>;
 		spi-cpha = <0>;
 		vcc-supply = <&reg_3v3_board>;
@@ -765,7 +761,7 @@
 		ti,x-plate-ohms = /bits/ 16 <400>;
 
 		ti,pressure-min = /bits/ 16 <80>; 
-		ti,pressure-max = /bits/ 16 <1024>; 
+		ti,pressure-max = /bits/ 16 <4095>; 
 
 		// touchscreen-average-samples = <4>
 		// ti,debounce-max = /bits/ 16 <2>;
