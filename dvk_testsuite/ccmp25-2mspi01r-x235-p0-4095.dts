@@ -7,6 +7,7 @@
  *  due to cases like GPIO polarity inversion in linux gpio subsytem. Need to test both polarity.
  *  for example: 2mspi01r，means 2m speed, cs active_low， pendown active_high, irq edge_rising。
  *  x-400 means use ti,x-plate-ohms =400
+ *  CS  PB1 , PENDOWN PG3 （mikrobus int)
  *
  */
 
@@ -750,9 +751,9 @@
 		vcc-supply = <&reg_3v3_board>;
         
 		/* 中断配置 */
-		interrupt-parent = <&gpiod>;
-		interrupts = <5 IRQ_TYPE_EDGE_RISING>;
-		pendown-gpio = <&gpiod 5 GPIO_ACTIVE_HIGH>;
+		interrupt-parent = <&gpiog>;
+		interrupts = <3 IRQ_TYPE_EDGE_RISING>;
+		pendown-gpio = <&gpiog 3 GPIO_ACTIVE_HIGH>;
         
 		ti,x-min = /bits/ 16 <100>;
 		ti,x-max = /bits/ 16 <4095>;
