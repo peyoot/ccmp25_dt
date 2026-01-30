@@ -289,6 +289,14 @@
 		interrupt-parent = <&gpiod>;
 		interrupts = <5 IRQ_TYPE_EDGE_RISING>;
 		pendown-gpio = <&gpiod 5 GPIO_ACTIVE_HIGH>;
+
+		/* 关键校准属性 */
+		touchscreen-size-x = <1024>; // 映射到显示屏的水平像素数
+		touchscreen-size-y = <600>;  // 映射到显示屏的垂直像素数
+		
+		/* 可选但建议：声明触摸屏的物理尺寸，有助于系统进行更精确的校准 */
+		touchscreen-physical-width = <22532>; // 单位通常是0.01mm，即225.32mm
+    	touchscreen-physical-height = <12788>; // 127.88mm
         
 		ti,x-min = /bits/ 16 <360>;
 		ti,x-max = /bits/ 16 <3850>;
