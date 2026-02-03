@@ -30,7 +30,7 @@
     	compatible = "CCMP25,system-info";
 		product-id = "CCMP25-DVK";
     	pcb-revision = "Rev 1.0";
-    	firmware-version = "20260129-DEY5.0r3-test-tsc2046/et2046 with dvk board-2mspi01r-x400-p80_4095";
+    	firmware-version = "20260129-DEY5.0r3-test-tsc2046/et2046 with dvk board-500k-spi01r-x400-p10_4095-tol40-rep1-settletime300";
 	};
 
 	aliases {
@@ -744,7 +744,7 @@
 	touchscreen@0 {
 		compatible = "ti,ads7846";       /* tsc2046 */
 		reg = <0>;                        /* SPI片选0 */
-		spi-max-frequency = <2000000>;
+		spi-max-frequency = <500000>;
 		spi-cpol = <0>;
 		spi-cpha = <0>;
 		vcc-supply = <&reg_3v3_board>;
@@ -757,17 +757,17 @@
 		touchscreen-size-x = <1024>; // 映射到显示屏的水平像素数
 		touchscreen-size-y = <600>;  // 映射到显示屏的垂直像素数
 		
-		/* 可选但建议：声明触摸屏的物理尺寸，有助于系统进行更精确的校准 */
-		touchscreen-physical-width = <22532>; // 单位通常是0.01mm，即225.32mm
-    	touchscreen-physical-height = <12788>; // 127.88mm
-        
+		ti,debounce-tol = <40>;
+		ti,debounce-rep = <1>;
+		ti,settle-delay-usecs = <300>;
+       
 		ti,x-min = /bits/ 16 <360>;
 		ti,x-max = /bits/ 16 <3850>;
 		ti,y-min = /bits/ 16 <180>;
 		ti,y-max = /bits/ 16 <4050>;
 		ti,x-plate-ohms = /bits/ 16 <400>;
 
-		ti,pressure-min = /bits/ 16 <80>; 
+		ti,pressure-min = /bits/ 16 <10>; 
 		ti,pressure-max = /bits/ 16 <4095>; 
 
 		// touchscreen-average-samples = <4>
