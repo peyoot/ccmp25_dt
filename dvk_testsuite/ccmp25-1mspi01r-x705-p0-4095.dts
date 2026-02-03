@@ -31,7 +31,7 @@
     	compatible = "CCMP25,system-info";
 		product-id = "CCMP25-DVK";
     	pcb-revision = "Rev 1.0";
-    	firmware-version = "20260202-DEY5.0r3-test-tsc2046/et2046 with dvk board-2mspi11r-x690(100-4095)-p0_4095";
+    	firmware-version = "20260202-DEY5.0r3-test-tsc2046/et2046 with dvk board-2mspi01r-x705(100-4095)-p0_4095";
 	};
 
 	aliases {
@@ -739,7 +739,7 @@
 	pinctrl-names = "default", "sleep";
 	pinctrl-0 = <&spi3_pins_a>;
 	pinctrl-1 = <&spi3_sleep_pins_a>;
-	cs-gpios = <&gpiob 1 1>; /* SPI3_SS */
+	cs-gpios = <&gpiob 1 0>; /* SPI3_SS */
 	status = "okay";
 
 	touchscreen@0 {
@@ -755,14 +755,15 @@
 		interrupts = <3 IRQ_TYPE_EDGE_RISING>;
 		pendown-gpio = <&gpiog 3 GPIO_ACTIVE_HIGH>;
 		/* 关键校准属性 */
-		//touchscreen-size-x = <1024>; // 映射到显示屏的水平像素数
-		//touchscreen-size-y = <600>;  // 映射到显示屏的垂直像素数
-		        
+		// touchscreen-size-x = <1024>; // 映射到显示屏的水平像素数
+		// touchscreen-size-y = <600>;  // 映射到显示屏的垂直像素数
+
+        
 		ti,x-min = /bits/ 16 <100>;
 		ti,x-max = /bits/ 16 <4095>;
 		ti,y-min = /bits/ 16 <100>;
 		ti,y-max = /bits/ 16 <4095>;
-		ti,x-plate-ohms = /bits/ 16 <690>;
+		ti,x-plate-ohms = /bits/ 16 <705>;
 
 		ti,pressure-min = /bits/ 16 <0>; 
 		ti,pressure-max = /bits/ 16 <4095>; 
