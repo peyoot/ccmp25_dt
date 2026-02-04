@@ -31,7 +31,7 @@
     	compatible = "CCMP25,system-info";
 		product-id = "CCMP25-DVK";
     	pcb-revision = "Rev 1.0";
-    	firmware-version = "20260202-DEY5.0r3-test-tsc2046/et2046 with dvk board-2mspi01r-x690(100-4095)-p0_4095";
+    	firmware-version = "20260204-DEY5.0r3-ccmp25-dvk-2mspi01r-x690(100-4095)-keepvrefon-p_4095";
 	};
 
 	aliases {
@@ -765,15 +765,17 @@
 		ti,y-max = /bits/ 16 <4095>;
 		ti,x-plate-ohms = /bits/ 16 <690>;
 
-		ti,pressure-min = /bits/ 16 <0>; 
+		//ti,pressure-min = /bits/ 16 <0>; 
 		ti,pressure-max = /bits/ 16 <4095>; 
+
+		ti,keep-vref-on = <1>;
 
 		// touchscreen-average-samples = <4>
 		// ti,debounce-max = /bits/ 16 <2>;
         // ti,debounce-tol = <10>;
 
 		// ti,settle-delay-usec = <100>;
-		// ti,keep-vref-on = <1>;
+
 		// linux,debounce-delay-ms = <10>; 
 		// linux,threshold = <80>;
 
