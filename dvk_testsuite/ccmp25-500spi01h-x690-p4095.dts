@@ -751,9 +751,9 @@ touchscreen@0 {
 		vcc-supply = <&reg_3v3_board>;
         
 		/* 中断配置 */
-		interrupt-parent = <&gpiod>;
-		interrupts = <5 IRQ_TYPE_LEVEL_HIGH>;
-		pendown-gpio = <&gpiod 5 GPIO_ACTIVE_HIGH>;
+		interrupt-parent = <&gpiog>;
+		interrupts = <3 IRQ_TYPE_LEVEL_HIGH>;
+		pendown-gpio = <&gpiog 3 GPIO_ACTIVE_HIGH>;
 
 		/* 关键校准属性 */
 		touchscreen-size-x = <1024>; // 映射到显示屏的水平像素数

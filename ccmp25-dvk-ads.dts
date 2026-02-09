@@ -2,13 +2,16 @@
 /*
  * Copyright (C) 2024,2025, Digi International Inc.
  *
- *  file name explain:  
- *  [speed]spi[XYZ], speed is spi spped， X means SPI CS， Y means TSC pendown pad, Z means interrupt method
- *  due to cases like GPIO polarity inversion in linux gpio subsytem. Need to test both polarity.
- *  for example: 2mspi01r，means 2m speed, cs active_low， pendown active_high, irq edge_rising。
- *  x-400 means use ti,x-plate-ohms =400
- *  CS  PB1 , PENDOWN PG3 （mikrobus int)
- *
+ * Permission to use, copy, modify, and/or distribute this software for any
+ * purpose with or without fee is hereby granted, provided that the above
+ * copyright notice and this permission notice appear in all copies.
+ * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
+ * WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
+ * MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR
+ * ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
+ * WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
+ * ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
+ * OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
 /dts-v1/;
@@ -31,7 +34,7 @@
     	compatible = "CCMP25,system-info";
 		product-id = "CCMP25-DVK";
     	pcb-revision = "Rev 1.0";
-    	firmware-version = "20260209-DEY5.0r3-ccmp25-dvk-2mspi00L-x690(100-4095)-keepvrefon-p80-4095";
+    	firmware-version = "20260129-DEY5.0r3-test-tsc2046/et2046 with dvk board-1mspi01r-x400-p80-1024";
 	};
 
 	aliases {
@@ -734,7 +737,6 @@
 	status = "okay";
 };
 
-/* MikroBus SPI */
 &spi3 {
 	pinctrl-names = "default", "sleep";
 	pinctrl-0 = <&spi3_pins_a>;
@@ -752,17 +754,13 @@ touchscreen@0 {
         
 		/* 中断配置 */
 		interrupt-parent = <&gpiog>;
-		interrupts = <3 IRQ_TYPE_LEVEL_LOW>;
-		pendown-gpio = <&gpiog 3 GPIO_ACTIVE_LOW>;
+		interrupts = <3 IRQ_TYPE_LEVEL_HIGH>;
+		pendown-gpio = <&gpiog 3 GPIO_ACTIVE_HIGH>;
 
 		/* 关键校准属性 */
-		touchscreen-size-x = <1024>; // 映射到显示屏的水平像素数
-		touchscreen-size-y = <600>;  // 映射到显示屏的垂直像素数
-		
-		/* 可选但建议：声明触摸屏的物理尺寸，有助于系统进行更精确的校准 */
-		// touchscreen-physical-width = <22532>; // 单位通常是0.01mm，即225.32mm
-    	// touchscreen-physical-height = <12788>; // 127.88mm
-        
+		// touchscreen-size-x = <1024>; // 映射到显示屏的水平像素数
+		// touchscreen-size-y = <600>;  // 映射到显示屏的垂直像素数
+		      
 		ti,x-min = /bits/ 16 <200>;
 		ti,x-max = /bits/ 16 <4050>;
 		ti,y-min = /bits/ 16 <160>;
@@ -774,9 +772,9 @@ touchscreen@0 {
 
 		// touchscreen-average-samples = <4>
 		//ti,debounce-max = /bits/ 16 <2>;
-        ti,debounce-tol = <50>;
-		ti,debounce-rep = <1>;
-		ti,settle-delay-usec = <200>;
+        // ti,debounce-tol = <50>;
+		// ti,debounce-rep = <1>;
+		// ti,settle-delay-usec = <200>;
 
         ti,keep-vref-on = <1>;
 	    /* 电源管理 */
