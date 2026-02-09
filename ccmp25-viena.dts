@@ -34,7 +34,7 @@
     	compatible = "Viena,system-info";
 		product-id = "Viena-CCMP25";
     	pcb-revision = "Rev 1.0";
-    	firmware-version = "DEY5.0r3-20260121-x400-pwr1-spi01r-remove-unnecessary-parameters";
+    	firmware-version = "DEY5.0r3-20260209-level-high-interrupt-to-re-sd";
 	};
 
 	aliases {
@@ -278,7 +278,7 @@
 	status = "okay";
     
 	touchscreen@0 {
-		compatible = "ti,tsc2046e-adc";       /* tsc2046 */
+		compatible = "ti,tsc2046";       /* tsc2046 */
 		reg = <0>;                        /* SPI片选0 */
 		spi-max-frequency = <1000000>;
 		spi-cpol = <0>;
@@ -287,7 +287,7 @@
         
 		/* 中断配置 */
 		interrupt-parent = <&gpiod>;
-		interrupts = <5 IRQ_TYPE_EDGE_RISING>;
+		interrupts = <5 IRQ_TYPE_LEVEL_HIGH>;
 		pendown-gpio = <&gpiod 5 GPIO_ACTIVE_HIGH>;
 
 		/* 关键校准属性 */
@@ -295,22 +295,25 @@
 		touchscreen-size-y = <600>;  // 映射到显示屏的垂直像素数
 		
 		/* 可选但建议：声明触摸屏的物理尺寸，有助于系统进行更精确的校准 */
-		touchscreen-physical-width = <22532>; // 单位通常是0.01mm，即225.32mm
-    	touchscreen-physical-height = <12788>; // 127.88mm
+		// touchscreen-physical-width = <22532>; // 单位通常是0.01mm，即225.32mm
+    	// touchscreen-physical-height = <12788>; // 127.88mm
         
-		ti,x-min = /bits/ 16 <360>;
-		ti,x-max = /bits/ 16 <3850>;
-		ti,y-min = /bits/ 16 <180>;
+		ti,x-min = /bits/ 16 <200>;
+		ti,x-max = /bits/ 16 <4050>;
+		ti,y-min = /bits/ 16 <160>;
 		ti,y-max = /bits/ 16 <4050>;
-		ti,x-plate-ohms = /bits/ 16 <400>;
+		ti,x-plate-ohms = /bits/ 16 <690>;
 
 		ti,pressure-min = /bits/ 16 <80>; 
-		ti,pressure-max = /bits/ 16 <1024>; 
+		ti,pressure-max = /bits/ 16 <4095>; 
 
 		// touchscreen-average-samples = <4>
 		//ti,debounce-max = /bits/ 16 <2>;
-        // ti,debounce-tol = <10>;
+        ti,debounce-tol = <50>;
+		ti,debounce-rep = <1>;
+		ti,settle-delay-usec = <200>;
 
+        ti,keep-vref-on = <1>;
 	    /* 电源管理 */
 		wakeup-source;
 		status = "okay";

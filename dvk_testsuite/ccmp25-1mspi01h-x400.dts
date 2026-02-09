@@ -31,7 +31,7 @@
     	compatible = "CCMP25,system-info";
 		product-id = "CCMP25-DVK";
     	pcb-revision = "Rev 1.0";
-    	firmware-version = "20260204-DEY5.0r3-ccmp25-dvk-2mspi00f-x690(100-4095)-keepvrefon-p4095";
+    	firmware-version = "20260209-DEY5.0r3-ccmp25-dvk-1mspi01h-x400-pressure80-4095-noopt";
 	};
 
 	aliases {
@@ -742,41 +742,39 @@
 	cs-gpios = <&gpiob 1 0>; /* SPI3_SS */
 	status = "okay";
 
-	touchscreen@0 {
-		compatible = "ti,ads7846";       /* tsc2046 */
+touchscreen@0 {
+		compatible = "ti,tsc2046";       /* tsc2046 */
 		reg = <0>;                        /* SPI片选0 */
-		spi-max-frequency = <2000000>;
+		spi-max-frequency = <1000000>;
 		spi-cpol = <0>;
 		spi-cpha = <0>;
 		vcc-supply = <&reg_3v3_board>;
         
 		/* 中断配置 */
-		interrupt-parent = <&gpiog>;
-		interrupts = <3 IRQ_TYPE_EDGE_FALLING>;
-		pendown-gpio = <&gpiog 3 GPIO_ACTIVE_LOW>;
-		/* 关键校准属性 */
-		//touchscreen-size-x = <1024>; // 映射到显示屏的水平像素数
-		//touchscreen-size-y = <600>;  // 映射到显示屏的垂直像素数
-		        
-		ti,x-min = /bits/ 16 <100>;
-		ti,x-max = /bits/ 16 <4095>;
-		ti,y-min = /bits/ 16 <100>;
-		ti,y-max = /bits/ 16 <4095>;
-		ti,x-plate-ohms = /bits/ 16 <690>;
+		interrupt-parent = <&gpiod>;
+		interrupts = <5 IRQ_TYPE_LEVEL_HIGH>;
+		pendown-gpio = <&gpiod 5 GPIO_ACTIVE_HIGH>;
 
-		//ti,pressure-min = /bits/ 16 <0>; 
+		/* 关键校准属性 */
+		// touchscreen-size-x = <1024>; // 映射到显示屏的水平像素数
+		// touchscreen-size-y = <600>;  // 映射到显示屏的垂直像素数
+		      
+		ti,x-min = /bits/ 16 <200>;
+		ti,x-max = /bits/ 16 <4050>;
+		ti,y-min = /bits/ 16 <160>;
+		ti,y-max = /bits/ 16 <4050>;
+		ti,x-plate-ohms = /bits/ 16 <400>;
+
+		ti,pressure-min = /bits/ 16 <80>; 
 		ti,pressure-max = /bits/ 16 <4095>; 
-		ti,keep-vref-on = <1>;
 
 		// touchscreen-average-samples = <4>
-		// ti,debounce-max = /bits/ 16 <2>;
-        // ti,debounce-tol = <10>;
+		//ti,debounce-max = /bits/ 16 <2>;
+        // ti,debounce-tol = <50>;
+		// ti,debounce-rep = <1>;
+		// ti,settle-delay-usec = <200>;
 
-		// ti,settle-delay-usec = <100>;
-
-		// linux,debounce-delay-ms = <10>; 
-		// linux,threshold = <80>;
-
+        ti,keep-vref-on = <1>;
 	    /* 电源管理 */
 		wakeup-source;
 		status = "okay";

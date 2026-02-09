@@ -737,58 +737,60 @@
 	status = "okay";
 };
 
-/* MikroBus SPI */
+/* IIO TSC2046 driver, 
+
+TSC2046（或其变体如 TSC2046E）确实有一个独立的 IIO（Industrial I/O）驱动（在 Linux 内核的 drivers/iio/adc/ti-tsc2046-iio.c 中），
+它将芯片暴露为一个 8 通道 ADC 设备，而不是传统的 input/touchscreen 驱动（如 ads7846）。这意味着它更适合作为通用 ADC 使用，
+但可以用于触屏驱动，前提是你（或用户空间应用）手动处理触屏逻辑：读取 ADC 通道值（X+、Y+、压力等），计算坐标，并通过 uinput 或 evdev 注入到输入子系统作为触屏事件。
+ */
 &spi3 {
-	pinctrl-names = "default", "sleep";
-	pinctrl-0 = <&spi3_pins_a>;
-	pinctrl-1 = <&spi3_sleep_pins_a>;
-	cs-gpios = <&gpiob 1 0>; /* SPI3_SS */
-	status = "okay";
+    pinctrl-names = "default", "sleep";
+    pinctrl-0 = <&spi3_pins_a>;
+    pinctrl-1 = <&spi3_sleep_pins_a>;
+    cs-gpios = <&gpiob 1 0>; /* SPI3_SS */
+    status = "okay";
 
-	touchscreen@0 {
-		compatible = "ti,tsc2046e-adc";       /* tsc2046 */
-		reg = <0>;                        /* SPI片选0 */
-		spi-max-frequency = <1000000>;
-		spi-cpol = <0>;
-		spi-cpha = <0>;
-		vcc-supply = <&reg_3v3_board>;
-        
-		/* 中断配置 */
-		interrupt-parent = <&gpiog>;
-		interrupts = <3 IRQ_TYPE_EDGE_RISING>;
-		pendown-gpio = <&gpiog 3 GPIO_ACTIVE_HIGH>;
-		/* 关键校准属性 */
-		touchscreen-size-x = <1024>; // 映射到显示屏的水平像素数
-		touchscreen-size-y = <600>;  // 映射到显示屏的垂直像素数
-		
-		/* 可选但建议：声明触摸屏的物理尺寸，有助于系统进行更精确的校准 */
-		touchscreen-physical-width = <22532>; // 单位通常是0.01mm，即225.32mm
-    	touchscreen-physical-height = <12788>; // 127.88mm
-        
-		ti,x-min = /bits/ 16 <360>;
-		ti,x-max = /bits/ 16 <3850>;
-		ti,y-min = /bits/ 16 <180>;
-		ti,y-max = /bits/ 16 <4050>;
-		ti,x-plate-ohms = /bits/ 16 <400>;
+    adc@0 {  /* 改名为 adc@0，符合 IIO 惯例 */
+        compatible = "ti,tsc2046e-adc";
+        reg = <0>; /* SPI 片选 0 */
+        spi-max-frequency = <1000000>;
+        spi-cpol = <0>;
+        spi-cpha = <0>;
+        vref-supply = <&reg_3v3_board>;  /* 改用 vref-supply，如果是参考电压；否则用 vcc-supply */
 
-		ti,pressure-min = /bits/ 16 <80>; 
-		ti,pressure-max = /bits/ 16 <1024>; 
+        /* 中断配置：pen-down 检测 */
+        interrupt-parent = <&gpiog>;
+        interrupts = <3 IRQ_TYPE_EDGE_RISING>;  /* 或 IRQ_TYPE_LEVEL_LOW，根据硬件测试 */
 
-		// touchscreen-average-samples = <4>
-		// ti,debounce-max = /bits/ 16 <2>;
-        // ti,debounce-tol = <10>;
+        /* IIO 必需属性 */
+        #io-channel-cells = <1>;
+        #address-cells = <1>;
+        #size-cells = <0>;
 
-		// ti,settle-delay-usec = <100>;
-		// ti,keep-vref-on = <1>;
-		// linux,debounce-delay-ms = <10>; 
-		// linux,threshold = <80>;
+        /* 触屏相关 ADC 通道（通道 4-7：X+, Y+, Z1, Z2） */
+        channel@4 {  /* X+ 位置 */
+            reg = <4>;
+            settling-time-us = <150>;  /* 从你的 ti,settle-delay-usec 移来 */
+            oversampling-ratio = <1>;  /* 可选，1-256，提升精度 */
+        };
+        channel@5 {  /* Y+ 位置 */
+            reg = <5>;
+            settling-time-us = <150>;
+            oversampling-ratio = <1>;
+        };
+        channel@6 {  /* Z1 压力 */
+            reg = <6>;
+            settling-time-us = <150>;
+            oversampling-ratio = <1>;
+        };
+        channel@7 {  /* Z2 参考，用于压力计算 */
+            reg = <7>;
+            settling-time-us = <150>;
+            oversampling-ratio = <1>;
+        };
 
-	    /* 电源管理 */
-		wakeup-source;
-		status = "okay";
-
+        status = "okay";
     };
-
 };
 
 &timers1 {
