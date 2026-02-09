@@ -34,7 +34,7 @@
     	compatible = "Viena,system-info";
 		product-id = "Viena-CCMP25";
     	pcb-revision = "Rev 1.0";
-    	firmware-version = "DEY5.0r3-20260209-level-high-interrupt-to-re-sd";
+    	firmware-version = "DEY5.0r3-20260209-2mspi01h-x690-tol50-rep1-sd200-p4095";
 	};
 
 	aliases {
@@ -280,7 +280,7 @@
 	touchscreen@0 {
 		compatible = "ti,tsc2046";       /* tsc2046 */
 		reg = <0>;                        /* SPI片选0 */
-		spi-max-frequency = <1000000>;
+		spi-max-frequency = <2000000>;
 		spi-cpol = <0>;
 		spi-cpha = <0>;
 		vcc-supply = <&reg_3v3_board>;
@@ -304,7 +304,7 @@
 		ti,y-max = /bits/ 16 <4050>;
 		ti,x-plate-ohms = /bits/ 16 <690>;
 
-		ti,pressure-min = /bits/ 16 <80>; 
+		//ti,pressure-min = /bits/ 16 <80>; 
 		ti,pressure-max = /bits/ 16 <4095>; 
 
 		// touchscreen-average-samples = <4>

@@ -31,7 +31,7 @@
     	compatible = "CCMP25,system-info";
 		product-id = "CCMP25-DVK";
     	pcb-revision = "Rev 1.0";
-    	firmware-version = "20260209-DEY5.0r3-ccmp25-dvk-1mspi01r-x400-pressure80-4095-noopt";
+    	firmware-version = "20260209-DEY5.0r3-ccmp25-dvk-1mspi01r-x400-pressure4095-noopt";
 	};
 
 	aliases {
@@ -765,7 +765,7 @@ touchscreen@0 {
 		ti,y-max = /bits/ 16 <4050>;
 		ti,x-plate-ohms = /bits/ 16 <400>;
 
-		ti,pressure-min = /bits/ 16 <80>; 
+		//ti,pressure-min = /bits/ 16 <80>; 
 		ti,pressure-max = /bits/ 16 <4095>; 
 
 		// touchscreen-average-samples = <4>

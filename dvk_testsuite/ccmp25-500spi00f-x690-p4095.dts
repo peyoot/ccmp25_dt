@@ -31,7 +31,7 @@
     	compatible = "CCMP25,system-info";
 		product-id = "CCMP25-DVK";
     	pcb-revision = "Rev 1.0";
-    	firmware-version = "20260204-DEY5.0r3-ccmp25-dvk-2mspi01h-x690(100-4095)-keepvrefon-p_4095-sd300";
+    	firmware-version = "20260204-DEY5.0r3-ccmp25-dvk-500spi00f-x690(100-4095)-keepvrefon-p_4095-sd300";
 	};
 
 	aliases {
@@ -752,8 +752,8 @@ touchscreen@0 {
         
 		/* 中断配置 */
 		interrupt-parent = <&gpiog>;
-		interrupts = <3 IRQ_TYPE_LEVEL_HIGH>;
-		pendown-gpio = <&gpiog 3 GPIO_ACTIVE_HIGH>;
+		interrupts = <3 IRQ_TYPE_EDGE_FALLING>;
+		pendown-gpio = <&gpiog 3 GPIO_ACTIVE_LOW>;
 
 		/* 关键校准属性 */
 		touchscreen-size-x = <1024>; // 映射到显示屏的水平像素数
@@ -769,14 +769,14 @@ touchscreen@0 {
 		ti,y-max = /bits/ 16 <4050>;
 		ti,x-plate-ohms = /bits/ 16 <690>;
 
-		ti,pressure-min = /bits/ 16 <80>; 
+		//ti,pressure-min = /bits/ 16 <80>; 
 		ti,pressure-max = /bits/ 16 <4095>; 
 
 		// touchscreen-average-samples = <4>
 		//ti,debounce-max = /bits/ 16 <2>;
-        ti,debounce-tol = <50>;
-		ti,debounce-rep = <1>;
-		ti,settle-delay-usec = <300>;
+        //ti,debounce-tol = <50>;
+		//ti,debounce-rep = <1>;
+		//ti,settle-delay-usec = <300>;
 
         ti,keep-vref-on = <1>;
 	    /* 电源管理 */
