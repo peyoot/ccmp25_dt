@@ -789,7 +789,6 @@ TSC2046（或其变体如 TSC2046E）确实有一个独立的 IIO（Industrial I
             oversampling-ratio = <1>;
         };
 
-        status = "okay";
     };
 };
 
