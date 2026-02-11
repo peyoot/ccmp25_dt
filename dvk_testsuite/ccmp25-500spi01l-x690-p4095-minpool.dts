@@ -778,7 +778,7 @@ touchscreen@0 {
 		//ti,debounce-rep = <1>;
 		//ti,settle-delay-usec = <200>;
 		vref_delay_usecs = <0>;
-		penirq_recheck_delay_usecs = <100>
+		penirq_recheck_delay_usecs = <100>;
 		ti,keep-vref-on = <0>;
 		ti,debounce-max = /bits/ 16 <5>;
 
