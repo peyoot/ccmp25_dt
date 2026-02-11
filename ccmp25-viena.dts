@@ -34,7 +34,7 @@
     	compatible = "Viena,system-info";
 		product-id = "Viena-CCMP25";
     	pcb-revision = "Rev 1.0";
-    	firmware-version = "DEY5.0r3-20260209-2mspi01h-x690-tol50-rep1-sd200-p4095";
+    	firmware-version = "DEY5.0r3-20260211-2mspi0-pen-a1ih-x690-p4095-noopt";
 	};
 
 	aliases {
@@ -290,13 +290,8 @@
 		interrupts = <5 IRQ_TYPE_LEVEL_HIGH>;
 		pendown-gpio = <&gpiod 5 GPIO_ACTIVE_HIGH>;
 
-		/* 关键校准属性 */
-		touchscreen-size-x = <1024>; // 映射到显示屏的水平像素数
-		touchscreen-size-y = <600>;  // 映射到显示屏的垂直像素数
-		
-		/* 可选但建议：声明触摸屏的物理尺寸，有助于系统进行更精确的校准 */
-		// touchscreen-physical-width = <22532>; // 单位通常是0.01mm，即225.32mm
-    	// touchscreen-physical-height = <12788>; // 127.88mm
+		//touchscreen-size-x = <1024>; // 映射到显示屏的水平像素数
+		//touchscreen-size-y = <600>;  // 映射到显示屏的垂直像素数
         
 		ti,x-min = /bits/ 16 <200>;
 		ti,x-max = /bits/ 16 <4050>;
@@ -309,13 +304,13 @@
 
 		// touchscreen-average-samples = <4>
 		//ti,debounce-max = /bits/ 16 <2>;
-        ti,debounce-tol = <50>;
-		ti,debounce-rep = <1>;
-		ti,settle-delay-usec = <200>;
+        //ti,debounce-tol = <50>;
+		//ti,debounce-rep = <1>;
+		//ti,settle-delay-usec = <200>;
 
-        ti,keep-vref-on = <1>;
+        //ti,keep-vref-on = <1>;
 	    /* 电源管理 */
-		wakeup-source;
+		//wakeup-source;
 		status = "okay";
 
     };
