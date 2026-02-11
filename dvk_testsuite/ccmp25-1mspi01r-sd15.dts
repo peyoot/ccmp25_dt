@@ -770,7 +770,7 @@ touchscreen@0 {
 
 		// touchscreen-average-samples = <4>
 		ti,settle-delay-usec = <15>;
-		ti,swap-xy = <1>;
+		//ti,swap-xy = <1>;
 		ti,debounce-tol = <100>; 		
 		ti,debounce-rep = <1>; 
 		ti,debounce-max = <2>;
