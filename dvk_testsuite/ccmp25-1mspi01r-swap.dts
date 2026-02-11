@@ -31,7 +31,7 @@
     	compatible = "CCMP25,system-info";
 		product-id = "CCMP25-DVK";
     	pcb-revision = "Rev 1.0";
-    	firmware-version = "20260211-DEY5.0r3-ccmp25-dvk-1mspi01r-x690(100-4095)-tol100-rep1-dm2-vd0-prd100-kv0-minpool1";
+    	firmware-version = "20260211-DEY5.0r3-ccmp25-dvk-1mspi01r-x690(100-4095)-tol100-rep1-dm2-vd0-prd100-kv0-xyswap";
 	};
 
 	aliases {
@@ -777,6 +777,7 @@ touchscreen@0 {
         //ti,debounce-tol = <50>;
 		//ti,debounce-rep = <1>;
 		//ti,settle-delay-usec = <200>;
+		ti,swap-xy = <1>;
 		ti,debounce-tol = <100>; 		
 		ti,debounce-rep = <1>; 
 		ti,debounce-max = <2>;
