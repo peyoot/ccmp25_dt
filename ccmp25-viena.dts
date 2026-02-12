@@ -34,7 +34,7 @@
     	compatible = "Viena,system-info";
 		product-id = "Viena-CCMP25";
     	pcb-revision = "Rev 1.0";
-    	firmware-version = "DEY5.0r3-20260211-2mspi0-pen-a1ih-x690-p4095-noopt";
+    	firmware-version = "DEY5.0r3-20260211-2mspi01f-x690";
 	};
 
 	aliases {
@@ -285,15 +285,11 @@
 		spi-cpha = <0>;
 		vcc-supply = <&reg_3v3_board>;
         
-		/* 中断配置 */
 		interrupt-parent = <&gpiod>;
-		interrupts = <5 IRQ_TYPE_LEVEL_HIGH>;
+		interrupts = <5 IRQ_TYPE_LEVEL_FALLING>;
 		pendown-gpio = <&gpiod 5 GPIO_ACTIVE_HIGH>;
 
-		//touchscreen-size-x = <1024>; // 映射到显示屏的水平像素数
-		//touchscreen-size-y = <600>;  // 映射到显示屏的垂直像素数
-        
-		ti,x-min = /bits/ 16 <200>;
+ 		ti,x-min = /bits/ 16 <200>;
 		ti,x-max = /bits/ 16 <4050>;
 		ti,y-min = /bits/ 16 <160>;
 		ti,y-max = /bits/ 16 <4050>;
@@ -303,13 +299,15 @@
 		ti,pressure-max = /bits/ 16 <4095>; 
 
 		// touchscreen-average-samples = <4>
-		//ti,debounce-max = /bits/ 16 <2>;
-        //ti,debounce-tol = <50>;
-		//ti,debounce-rep = <1>;
-		//ti,settle-delay-usec = <200>;
+		ti,settle-delay-usec = <15>;
+		//ti,swap-xy = <1>;
+		ti,debounce-tol = <100>; 		
+		ti,debounce-rep = <1>; 
+		//ti,debounce-max = <5>;
+		vref_delay_usecs = <0>;
+		//penirq_recheck_delay_usecs = <100>;
+		ti,keep-vref-on = <0>;
 
-        //ti,keep-vref-on = <1>;
-	    /* 电源管理 */
 		//wakeup-source;
 		status = "okay";
 
