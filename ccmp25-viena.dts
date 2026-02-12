@@ -286,7 +286,7 @@
 		vcc-supply = <&reg_3v3_board>;
         
 		interrupt-parent = <&gpiod>;
-		interrupts = <5 IRQ_TYPE_LEVEL_FALLING>;
+		interrupts = <5 IRQ_TYPE_EDGE_FALLING>;
 		pendown-gpio = <&gpiod 5 GPIO_ACTIVE_HIGH>;
 
  		ti,x-min = /bits/ 16 <200>;
