@@ -31,7 +31,7 @@
     	compatible = "CCMP25,system-info";
 		product-id = "CCMP25-DVK";
     	pcb-revision = "Rev 1.0";
-    	firmware-version = "20260204-DEY5.0r3-ccmp25-dvk-500spi11l00-x690(100-4095)-nokv-p_4095";
+    	firmware-version = "20260204-DEY5.0r3-ccmp25-dvk-500spi11l00-x690(100-4095)-kvon25-p_4095";
 	};
 
 	aliases {
@@ -777,8 +777,9 @@ touchscreen@0 {
         ti,debounce-tol = <100>;
 		ti,debounce-rep = <1>;
 		ti,settle-delay-usec = <100>;
+		ti,keep-vref-on;
+		ti,vref-mv = <2500>;
 
-        //ti,keep-vref-on = <1>;
 	    /* 电源管理 */
 		//wakeup-source;
 		status = "okay";

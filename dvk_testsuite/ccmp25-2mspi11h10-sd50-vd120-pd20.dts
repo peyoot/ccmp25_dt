@@ -776,7 +776,8 @@ touchscreen@0 {
 		ti,debounce-max = <5>;
 		vref_delay_usecs = <120>;
 		penirq_recheck_delay_usecs = <20>;
-		ti,keep-vref-on = <0>;
+		ti,keep-vref-on;
+		ti,vref-mv = <2500>;
 
 	    /* 电源管理 */
 		//wakeup-source;
