@@ -34,7 +34,7 @@
     	compatible = "Viena,system-info";
 		product-id = "Viena-CCMP25";
     	pcb-revision = "Rev 1.0";
-    	firmware-version = "DEY5.0r3-20260211-2mspi01f-x690";
+    	firmware-version = "DEY5.0r3-20260211-2mspi00r-x690";
 	};
 
 	aliases {
@@ -286,10 +286,10 @@
 		vcc-supply = <&reg_3v3_board>;
         
 		interrupt-parent = <&gpiod>;
-		interrupts = <5 IRQ_TYPE_EDGE_FALLING>;
-		pendown-gpio = <&gpiod 5 GPIO_ACTIVE_HIGH>;
+		interrupts = <5 IRQ_TYPE_EDGE_RISING>;
+		pendown-gpio = <&gpiod 5 GPIO_ACTIVE_LOW>;
 
- 		ti,x-min = /bits/ 16 <200>;
+ 		ti,x-min = /bits/ 16 <400>;
 		ti,x-max = /bits/ 16 <4050>;
 		ti,y-min = /bits/ 16 <160>;
 		ti,y-max = /bits/ 16 <4050>;
@@ -299,14 +299,14 @@
 		ti,pressure-max = /bits/ 16 <4095>; 
 
 		// touchscreen-average-samples = <4>
-		ti,settle-delay-usec = <15>;
-		//ti,swap-xy = <1>;
-		ti,debounce-tol = <100>; 		
-		ti,debounce-rep = <1>; 
-		//ti,debounce-max = <5>;
-		vref_delay_usecs = <0>;
-		//penirq_recheck_delay_usecs = <100>;
-		ti,keep-vref-on = <0>;
+		ti,debounce-max = <5>;
+        ti,debounce-tol = <50>;
+		ti,debounce-rep = <1>;
+		ti,settle-delay-usec = <30>;
+		vref_delay_usecs = <100>;
+		penirq_recheck_delay_usecs = <15>;
+		ti,keep-vref-on;
+		ti,vref-mv = <2500>;
 
 		//wakeup-source;
 		status = "okay";
