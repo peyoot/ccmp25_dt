@@ -31,7 +31,7 @@
     	compatible = "CCMP25,system-info";
 		product-id = "CCMP25-DVK";
     	pcb-revision = "Rev 1.0";
-    	firmware-version = "20260211-DEY5.0r3-ccmp25-dvk-2mspi01l-x690(100-4095)-nokv-p4095";
+    	firmware-version = "20260213-DEY5.0r3-ccmp25-dvk-2mspi00l00-sd30-vd100-pd15-nokv-p4095";
 	};
 
 	aliases {
@@ -739,7 +739,7 @@
 	pinctrl-names = "default", "sleep";
 	pinctrl-0 = <&spi3_pins_a>;
 	pinctrl-1 = <&spi3_sleep_pins_a>;
-	cs-gpios = <&gpiob 1 0>; /* SPI3_SS */
+	cs-gpios = <&gpiob 1 GPIO_ACTIVE_LOW>; /* SPI3_SS */
 	status = "okay";
 
 touchscreen@0 {
@@ -753,7 +753,7 @@ touchscreen@0 {
 		/* 中断配置 */
 		interrupt-parent = <&gpiog>;
 		interrupts = <3 IRQ_TYPE_LEVEL_LOW>;
-		pendown-gpio = <&gpiog 3 GPIO_ACTIVE_HIGH>;
+		pendown-gpio = <&gpiog 3 GPIO_ACTIVE_LOW>;
 
 		/* 关键校准属性 */
 		//touchscreen-size-x = <1024>; // 映射到显示屏的水平像素数
@@ -763,7 +763,7 @@ touchscreen@0 {
 		// touchscreen-physical-width = <22532>; // 单位通常是0.01mm，即225.32mm
     	// touchscreen-physical-height = <12788>; // 127.88mm
         
-		ti,x-min = /bits/ 16 <200>;
+		ti,x-min = /bits/ 16 <400>;
 		ti,x-max = /bits/ 16 <4050>;
 		ti,y-min = /bits/ 16 <160>;
 		ti,y-max = /bits/ 16 <4050>;
@@ -773,11 +773,12 @@ touchscreen@0 {
 		ti,pressure-max = /bits/ 16 <4095>; 
 
 		// touchscreen-average-samples = <4>
-		//ti,debounce-max = /bits/ 16 <2>;
-        //ti,debounce-tol = <50>;
-		//ti,debounce-rep = <1>;
-		//ti,settle-delay-usec = <200>;
-
+		ti,debounce-max = /bits/ 16 <5>;
+        ti,debounce-tol = <100>;
+		ti,debounce-rep = <1>;
+		ti,settle-delay-usec = <30>;
+		vref_delay_usecs = <100>;
+		penirq_recheck_delay_usecs = <15>;
         //ti,keep-vref-on = <1>;
 	    /* 电源管理 */
 		//wakeup-source;

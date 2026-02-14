@@ -31,7 +31,7 @@
     	compatible = "CCMP25,system-info";
 		product-id = "CCMP25-DVK";
     	pcb-revision = "Rev 1.0";
-    	firmware-version = "20260212-DEY5.0r3-ccmp25-dvk-500spi01r-x690(100-4095)-sd50-tol100-rep1-dm5-vd0-kv0-irq-recheck";
+    	firmware-version = "20260213-DEY5.0r3-1mspi01h00-tol100-rep1-dm5-sd30-vd100-ri15-kv0";
 	};
 
 	aliases {
@@ -739,13 +739,13 @@
 	pinctrl-names = "default", "sleep";
 	pinctrl-0 = <&spi3_pins_a>;
 	pinctrl-1 = <&spi3_sleep_pins_a>;
-	cs-gpios = <&gpiob 1 1>; /* SPI3_SS */
+	cs-gpios = <&gpiob 1 GPIO_ACTIVE_LOW>; /* SPI3_SS */
 	status = "okay";
 
 touchscreen@0 {
 		compatible = "ti,tsc2046";       /* tsc2046 */
 		reg = <0>;                        /* SPI片选0 */
-		spi-max-frequency = <500000>;
+		spi-max-frequency = <1000000>;
 		spi-cpol = <0>;
 		spi-cpha = <0>;
 		vcc-supply = <&reg_3v3_board>;
@@ -756,9 +756,9 @@ touchscreen@0 {
 		pendown-gpio = <&gpiog 3 GPIO_ACTIVE_HIGH>;
 
 		/* 关键校准属性 */
-		//touchscreen-size-x = <1024>; // 映射到显示屏的水平像素数
-		//touchscreen-size-y = <600>;  // 映射到显示屏的垂直像素数
-		
+		// touchscreen-size-x = <1024>; // 映射到显示屏的水平像素数
+		// touchscreen-size-y = <600>;  // 映射到显示屏的垂直像素数
+		      
 		ti,x-min = /bits/ 16 <200>;
 		ti,x-max = /bits/ 16 <4050>;
 		ti,y-min = /bits/ 16 <160>;
@@ -768,14 +768,12 @@ touchscreen@0 {
 		//ti,pressure-min = /bits/ 16 <80>; 
 		ti,pressure-max = /bits/ 16 <4095>; 
 
-		// touchscreen-average-samples = <4>
-		ti,settle-delay-usec = <50>;
-		//ti,swap-xy = <1>;
+		ti,settle-delay-usec = <30>;
 		ti,debounce-tol = <100>; 		
 		ti,debounce-rep = <1>; 
 		ti,debounce-max = <5>;
-		vref_delay_usecs = <0>;
-		penirq_recheck_delay_usecs = <100>;
+		vref_delay_usecs = <100>;
+		penirq_recheck_delay_usecs = <15>;
 		ti,keep-vref-on = <0>;
 
 	    /* 电源管理 */
