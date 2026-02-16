@@ -34,7 +34,7 @@
     	compatible = "CCMP25,system-info";
 		product-id = "CCMP25-DVK";
     	pcb-revision = "Rev 1.0";
-    	firmware-version = "DEY5.0r3-20260209-2mspi00r00";
+    	firmware-version = "DEY5.0r3-20260216-2mspi01r00-pen-bias-disabled";
 	};
 
 	aliases {
@@ -739,7 +739,7 @@
 
 &spi3 {
 	pinctrl-names = "default", "sleep";
-	pinctrl-0 = <&spi3_pins_a>;
+	pinctrl-0 = <&spi3_pins_a &ccmp25_penirq_pins>;
 	pinctrl-1 = <&spi3_sleep_pins_a>;
 	cs-gpios = <&gpiob 1 0>; /* SPI3_SS */
 	status = "okay";
@@ -755,7 +755,7 @@ touchscreen@0 {
 		/* 中断配置 */
 		interrupt-parent = <&gpiog>;
 		interrupts = <3 IRQ_TYPE_EDGE_RISING>;
-		pendown-gpio = <&gpiog 3 GPIO_ACTIVE_LOW>;
+		pendown-gpio = <&gpiog 3 GPIO_ACTIVE_HIGH>;
 
 		/* 关键校准属性 */
 		// touchscreen-size-x = <1024>; // 映射到显示屏的水平像素数
@@ -908,6 +908,14 @@ touchscreen@0 {
 };
 
 &pinctrl {
+    ccmp25_penirq_pins: ccmp25-penirq-pins {
+        pins = {
+			pinmux = <STM32_PINMUX('G', 3, GPIO)>;
+			bias-disable;
+		};
+    };
+
+
 	ccmp25_adc_pins: ccmp25-adc-pins-0 {
 		pins {
 			pinmux = <STM32_PINMUX('G', 1, ANALOG)>;
