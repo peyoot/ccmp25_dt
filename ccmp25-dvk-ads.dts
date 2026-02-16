@@ -908,13 +908,12 @@ touchscreen@0 {
 };
 
 &pinctrl {
-    ccmp25_penirq_pins: ccmp25-penirq-pins {
-        pins = {
+	ccmp25_penirq_pins: ccmp25-penirq-pins {
+		pins = {
 			pinmux = <STM32_PINMUX('G', 3, GPIO)>;
 			bias-disable;
 		};
     };
-
 
 	ccmp25_adc_pins: ccmp25-adc-pins-0 {
 		pins {
