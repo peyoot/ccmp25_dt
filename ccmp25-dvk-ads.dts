@@ -757,9 +757,8 @@ touchscreen@0 {
 		interrupts = <3 IRQ_TYPE_EDGE_RISING>;
 		pendown-gpio = <&gpiog 3 GPIO_ACTIVE_HIGH>;
 
-		/* 关键校准属性 */
-		// touchscreen-size-x = <1024>; // 映射到显示屏的水平像素数
-		// touchscreen-size-y = <600>;  // 映射到显示屏的垂直像素数
+		pinctrl-names = "default";
+        pinctrl-0 = <&ccmp25_penirq_pins>;
 		      
 		ti,x-min = /bits/ 16 <400>;
 		ti,x-max = /bits/ 16 <4050>;
@@ -906,6 +905,7 @@ touchscreen@0 {
 		role-switch-default-mode = "peripheral";
 	};
 };
+
 
 &pinctrl {
 
