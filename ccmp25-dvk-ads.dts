@@ -915,7 +915,7 @@ touchscreen@0 {
 			bias-disable;
 			slew-rate = <0>;
 		};
-	}
+	};
 
 	ccmp25_adc_pins: ccmp25-adc-pins-0 {
 		pins {
