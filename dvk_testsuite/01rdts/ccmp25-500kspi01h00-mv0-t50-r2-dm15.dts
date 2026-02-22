@@ -31,7 +31,7 @@
     	compatible = "CCMP25,system-info";
 		product-id = "CCMP25-DVK";
     	pcb-revision = "Rev 1.0";
-    	firmware-version = "20260216-DEY5.0r3-dvk-1mspi01r-x690(400-4095)-no-opt-kvon25";
+    	firmware-version = "20260222-DEY5.0r3-dvk-500kspi01h-x690(400-4095)-mv0-t50-r2-dm50-sd150";
 	};
 
 	aliases {
@@ -745,18 +745,18 @@
 touchscreen@0 {
 		compatible = "ti,tsc2046";       /* tsc2046 */
 		reg = <0>;                        /* SPI片选0 */
-		spi-max-frequency = <1000000>;
+		spi-max-frequency = <500000>;
 		spi-cpol = <0>;
 		spi-cpha = <0>;
 		vcc-supply = <&reg_3v3_board>;
         
 		/* 中断配置 */
 		interrupt-parent = <&gpiog>;
-		interrupts = <3 IRQ_TYPE_EDGE_RISING>;
+		interrupts = <3 IRQ_TYPE_LEVEL_HIGH>;
 		pendown-gpio = <&gpiog 3 GPIO_ACTIVE_HIGH>;
 
-		//touchscreen-size-x = <1024>; 
-		//touchscreen-size-y = <600>;
+		touchscreen-size-x = <1024>; 
+		touchscreen-size-y = <600>;
 		
 		ti,x-min = /bits/ 16 <400>;
 		ti,x-max = /bits/ 16 <4050>;
@@ -768,15 +768,15 @@ touchscreen@0 {
 		ti,pressure-max = /bits/ 16 <4095>; 
 
 		// touchscreen-average-samples = <4>
-		//ti,settle-delay-usec = <30>;
+		ti,settle-delay-usec = <150>;
 		//ti,swap-xy = <1>;
-		//ti,debounce-tol = <100>; 		
-		//ti,debounce-rep = <1>; 
-		//ti,debounce-max = <5>;
+		ti,debounce-tol = <50>; 		
+		ti,debounce-rep = <2>; 
+		ti,debounce-max = <50>;
 		//vref_delay_usecs = <80>;
-		//penirq_recheck_delay_usecs = <15>;
+		penirq_recheck_delay_usecs = <15>;
 		ti,keep-vref-on;
-		ti,vref-mv = <2500>;
+		ti,vref-mv = <0>;
 
 
 	    /* 电源管理 */
