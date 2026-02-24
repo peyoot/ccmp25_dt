@@ -34,7 +34,7 @@
     	compatible = "Viena,system-info";
 		product-id = "Viena-CCMP25";
     	pcb-revision = "Rev 1.0";
-    	firmware-version = "DEY5.0r3-20260224-2mspi00f-x690";
+    	firmware-version = "DEY5.0r3-20260224-2mspi01f-x690-sd60-settle-samples";
 	};
 
 	aliases {
@@ -300,12 +300,12 @@
 		ti,debounce-max = <50>;
         ti,debounce-tol = <10>;
 		ti,debounce-rep = <3>;
-		ti,settle-delay-usec = <50>;
+		ti,settle-delay-usec = <60>;
 		ti,settle-samples; 
 		//vref_delay_usecs = <100>;
-		//penirq_recheck_delay_usecs = <15>;
+		penirq_recheck_delay_usecs = <15>;
 		ti,keep-vref-on;
-		ti,vref-mv = <0>;
+		//ti,vref-mv = <0>;
 
 		//wakeup-source;
 		status = "okay";
