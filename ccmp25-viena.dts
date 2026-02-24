@@ -284,7 +284,7 @@
 		vcc-supply = <&reg_3v3_board>;
         
 		interrupt-parent = <&gpiod>;
-		interrupts = <5 IRQ_TYPE_EDGE_RISING>;
+		interrupts = <5 IRQ_TYPE_EDGE_FALLING>;
 		pendown-gpio = <&gpiod 5 GPIO_ACTIVE_LOW>;
 
  		ti,x-min = /bits/ 16 <400>;
@@ -297,14 +297,15 @@
 		ti,pressure-max = /bits/ 16 <4095>; 
 
 		// touchscreen-average-samples = <4>
-		ti,debounce-max = <5>;
-        ti,debounce-tol = <50>;
-		ti,debounce-rep = <1>;
-		ti,settle-delay-usec = <30>;
-		vref_delay_usecs = <100>;
-		penirq_recheck_delay_usecs = <15>;
+		ti,debounce-max = <50>;
+        ti,debounce-tol = <10>;
+		ti,debounce-rep = <3>;
+		ti,settle-delay-usec = <50>;
+		ti,settle-samples; 
+		//vref_delay_usecs = <100>;
+		//penirq_recheck_delay_usecs = <15>;
 		ti,keep-vref-on;
-		ti,vref-mv = <2500>;
+		ti,vref-mv = <0>;
 
 		//wakeup-source;
 		status = "okay";
