@@ -34,7 +34,7 @@
     	compatible = "CCMP25,system-info";
 		product-id = "CCMP25-DVK";
     	pcb-revision = "Rev 1.0";
-    	firmware-version = "DEY5.0r3-20260226-1mspi01f00-pen-bias-disabled-t10-r3-dm50-sd50";
+    	firmware-version = "DEY5.0r3-20260226-1mspi01r00-pen-bias-disabled-t10-r3-dm50-sd50";
 	};
 
 	aliases {
@@ -761,7 +761,7 @@ touchscreen@0 {
         
 		/* 中断配置 */
 		interrupt-parent = <&gpiog>;
-		interrupts = <3 IRQ_TYPE_EDGE_FALLING>;
+		interrupts = <3 IRQ_TYPE_EDGE_RISING>;
 		pendown-gpio = <&gpiog 3 GPIO_ACTIVE_HIGH>;
  
 		ti,x-min = /bits/ 16 <400>;
