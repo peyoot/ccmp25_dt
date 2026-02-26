@@ -303,7 +303,7 @@
 		ti,settle-delay-usec = <60>;
 		ti,settle-samples; 
 		//vref_delay_usecs = <100>;
-		penirq_recheck_delay_usecs = <15>;
+		//penirq_recheck_delay_usecs = <15>;
 		ti,keep-vref-on;
 		//ti,vref-mv = <0>;
 

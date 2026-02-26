@@ -34,7 +34,7 @@
     	compatible = "Viena,system-info";
 		product-id = "Viena-CCMP25";
     	pcb-revision = "Rev 1.0";
-    	firmware-version = "DEY5.0r3-20260213-500spi00f00-x690-sd30-vd80-dm5";
+    	firmware-version = "DEY5.0r3-20260226-1mspi01f00-sd30-t10-r3-dm50-vd100-ri15-x690";
 	};
 
 	aliases {
@@ -281,14 +281,14 @@
 	touchscreen@0 {
 		compatible = "ti,tsc2046"; 
 		reg = <0>; 
-		spi-max-frequency = <500000>;
+		spi-max-frequency = <1000000>;
 		spi-cpol = <0>;
 		spi-cpha = <0>;
 		vcc-supply = <&reg_3v3_board>;
         
 		interrupt-parent = <&gpiod>;
 		interrupts = <5 IRQ_TYPE_EDGE_FALLING>;
-		pendown-gpio = <&gpiod 5 GPIO_ACTIVE_LOW>;
+		pendown-gpio = <&gpiod 5 GPIO_ACTIVE_HIGH>;
 
  		ti,x-min = /bits/ 16 <400>;
 		ti,x-max = /bits/ 16 <4050>;
@@ -300,14 +300,15 @@
 		ti,pressure-max = /bits/ 16 <4095>; 
 
 		// touchscreen-average-samples = <4>
+		ti,settle-samples;
 		ti,settle-delay-usec = <30>;
 		//ti,swap-xy = <1>;
-		ti,debounce-tol = <100>; 		
-		ti,debounce-rep = <1>; 
-		//ti,debounce-max = <5>;
-		vref_delay_usecs = <80>;
-		penirq_recheck_delay_usecs = <100>;
-		ti,keep-vref-on = <0>;
+		ti,debounce-tol = <15>; 		
+		ti,debounce-rep = <3>; 
+		ti,debounce-max = <50>;
+		vref_delay_usecs = <100>;
+		//penirq_recheck_delay_usecs = <15>;
+		ti,keep-vref-on;
 
 		//wakeup-source;
 		status = "okay";
