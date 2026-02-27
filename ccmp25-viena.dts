@@ -226,25 +226,6 @@
     pinctrl-1 = <&ccmp25_sai1b_sleep_pins>;
     status = "okay";
 
-    // SAI 子块 A (接收/录音)，如果你的板子没有用到录音功能，删除
-    // sai4a: audio-controller@40340004 {
-    //    st,sync = <&sai4b 1>;
-    //    dmas = <&hpdma 79 0x43 0x12 0>;
-    //    dma-names = "rx";
-    //    status = "disabled";
-
-     //   sai4a_port: port {
-     //       sai4a_endpoint: endpoint {
-     //           remote-endpoint = <&max98357_in_endpoint>;
-     //           format = "i2s";
-     //           mclk-fs = <256>;
-     //           dai-tdm-slot-num = <2>;
-     //           dai-tdm-slot-width = <32>;
-     //       };
-     //   };
-    //};
-
-    // SAI 子块 B (发送/播放)，这是你连接 MAX98357 的地方
 	&sai1b {
 		#clock-cells = <0>;
         clocks = <&rcc CK_KER_SAI1>;
@@ -257,7 +238,7 @@
         sai1b_port: port {
             sai1b_endpoint: endpoint {
                 remote-endpoint = <&max98357_out_endpoint>;
-                format = "i2s"; // MAX98357 通常工作在 I2S 模式
+                format = "i2s";
                 dai-tdm-slot-num = <2>;
                 dai-tdm-slot-width = <32>;
             };
