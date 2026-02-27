@@ -97,7 +97,7 @@
 	panel_hx3248c_backlight: panel-lvds-pwm-backlight {
 		compatible = "pwm-backlight";
 		/* node TIM16_CH1 period (ns) */
-		pwms = <&pwm_lvds_bckl 0 20000 PWM_POLARITY_NORMAL>;
+		pwms = <&pwm_lvds_bckl 0 20000 0>;
 		enable-gpios = <&gpiof 11 GPIO_ACTIVE_LOW>;
     	brightness-levels = <0 1 2 3 4 6 8 10 14 18 22 30 40 55 75 102 138 188 255>;    
     	/* 默认亮度：索引 13 →  → 值 55（约 21% 占空比）*/
