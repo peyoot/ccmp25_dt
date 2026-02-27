@@ -192,10 +192,11 @@
     max98357: max98357@0 {
         #sound-dai-cells = <0>;
         compatible = "maxim,max98357a";
-        reg = <0>;
+        //reg = <0>;
         status = "okay";
 
         maxim,gain = <2>; 
+		sdmode-gpios = <&gpioz 4 GPIO_ACTIVE_HIGH>;
 
         // 如果 SD/MODE 引脚由硬件固定，不需要软件控制，可以不写以下属性
         // maxim,mode = "i2s"; 
@@ -222,25 +223,24 @@
 
 &sai1 {
     pinctrl-names = "default", "sleep";
-    pinctrl-0 = <&ccmp25_sai1_pins>;
-    pinctrl-1 = <&ccmp25_sai1_sleep_pins>;
+    pinctrl-0 = <&ccmp25_sai1a_pins>;
+    pinctrl-1 = <&ccmp25_sai1a_sleep_pins>;
+    status = "okay";
+};
+
+&sai1a {
     status = "okay";
 
-    &sai1a {
-        dmas = <&hpdma 73 0x43 0x21>;
-        dma-names = "tx";
-        status = "okay";
-
-        sai1a_port: port {
-            sai1a_endpoint: endpoint {
-                // remote-endpoint = <&max98357_out_endpoint>;
-                format = "i2s";
-                dai-tdm-slot-num = <2>;
-                dai-tdm-slot-width = <32>;
-            };
+    sai1a_port: port {
+        sai1a_endpoint: endpoint {
+            remote-endpoint = <&max98357_out_dai>; 
+            format = "i2s";
+            dai-tdm-slot-num = <2>;
+            dai-tdm-slot-width = <32>;
         };
     };
 };
+
 
 &eth1 {
 
@@ -708,7 +708,7 @@
 
 
 &pinctrl {
-	ccmp25_sai1_pins: ccmp25-sai1 {
+	ccmp25_sai1a_pins: ccmp25-sai1a {
         pins {
             pinmux = <STM32_PINMUX('D',  9,  AF3)>, /* SAI1_SD_A */
                      <STM32_PINMUX('D',  8,  AF3)>, /* SAI1_FS_A */
@@ -719,7 +719,7 @@
         };
     };
 
-    ccmp25_sai1_sleep_pins: ccmp25-sai1-sleep {
+    ccmp25_sai1a_sleep_pins: ccmp25-sai1a-sleep {
         pins {
             pinmux = <STM32_PINMUX('D',  9, ANALOG)>, /* SAI1_SD_A */
                      <STM32_PINMUX('D',  8, ANALOG)>, /* SAI1_FS_A */
