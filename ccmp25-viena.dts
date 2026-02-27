@@ -218,7 +218,6 @@
 		pinctrl-0 = <&ccmp25_gpio_pins &ccmp25_gpio_z_pins>;
 		pinctrl-1 = <&ccmp25_gpio_sleep_pins &ccmp25_gpio_z_sleep_pins>;
 	};
-
 };
 
 &sai1 {
@@ -227,11 +226,10 @@
     pinctrl-1 = <&ccmp25_sai1a_sleep_pins>;
     status = "okay";
 
-	&sai1a {
-	
-    dmas = <&hpdma 73 0x43 0x21>;
-    dma-names = "tx";
-    status = "okay";
+    &sai1a {
+        dmas = <&hpdma 73 0x43 0x21>;
+        dma-names = "tx";
+        status = "okay";
 
         sai1a_port: port {
             sai1a_endpoint: endpoint {
