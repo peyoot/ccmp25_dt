@@ -222,8 +222,8 @@
 
 &sai1 {
     pinctrl-names = "default", "sleep";
-    pinctrl-0 = <&ccmp25_sai1a_pins>;
-    pinctrl-1 = <&ccmp25_sai1a_sleep_pins>;
+    pinctrl-0 = <&ccmp25_sai1_pins>;
+    pinctrl-1 = <&ccmp25_sai1_sleep_pins>;
     status = "okay";
 
     &sai1a {
