@@ -97,13 +97,19 @@
 	panel_hx3248c_backlight: panel-lvds-pwm-backlight {
 		compatible = "pwm-backlight";
 		/* node TIM16_CH1 period (ns) */
-		pwms = <&pwm_lvds_bckl 0 1000000 PWM_POLARITY_INVERTED>;
-		/* enable-gpios = <&gpiof 11 GPIO_ACTIVE_HIGH>; */
-		brightness-levels = <0 16 22 30 40 55 75 102 138 188 255>;
-		default-brightness-level = <7>;
+		pwms = <&pwm_lvds_bckl 0 20000 PWM_POLARITY_NORMAL>;
+		enable-gpios = <&gpiof 11 GPIO_ACTIVE_LOW>;
+    brightness-levels = <0 
+                         1 2 3 4 6 8 10 14 18  // 暗部细腻 (索引 1-9)
+                         22 30 40 55 75 102    // 中等亮度 (索引 10-15)
+                         138 188 255>;         // 高亮 (索引 16-18)
+    
+    /* 默认亮度：索引 10 → 值 22（约 8.6% 占空比，较暗但可见）*/
+    /* 或索引 13 → 值 55（约 21% 占空比）*/
+    default-brightness-level = <13>;
 		power-supply = <&reg_5v_board>;
-	/*	power-on-delay-ms = <20>; */
-    /*    power-off-delay-ms = <50>; */
+	/*	power-on-delay-ms = <5>; */
+    /*  power-off-delay-ms = <5>; */
 		status = "okay";
 	};
 
@@ -184,7 +190,7 @@
         compatible = "audio-graph-card";
         label = "ccmp25-Viena-board";
         status = "okay";
-        dais = <&sai1b_port &max98357_out_dai>;
+        dais = <&sai1a_port &max98357_out_dai>;
     };
 
     // MAX98357 Codec 设备节点
@@ -205,7 +211,7 @@
         port@0 {
             reg = <0>;
             max98357_out_dai: endpoint {
-                remote-endpoint = <&sai1b_endpoint>;
+                remote-endpoint = <&sai1a_endpoint>;
             };
         };
     };
@@ -222,22 +228,19 @@
 
 &sai1 {
     pinctrl-names = "default", "sleep";
-    pinctrl-0 = <&ccmp25_sai1b_pins>;
-    pinctrl-1 = <&ccmp25_sai1b_sleep_pins>;
+    pinctrl-0 = <&ccmp25_sai1a_pins>;
+    pinctrl-1 = <&ccmp25_sai1a_sleep_pins>;
     status = "okay";
 
-	&sai1b {
-		#clock-cells = <0>;
-        clocks = <&rcc CK_KER_SAI1>;
-        clock-names = "sai_ck";
-        
-        dmas = <&hpdma 80 0x63 0x21 0>;
-        dma-names = "tx";
-        status = "okay";
+	&sai1a {
+	
+    dmas = <&hpdma 73 0x43 0x21>;
+    dma-names = "tx";
+    status = "okay";
 
-        sai1b_port: port {
-            sai1b_endpoint: endpoint {
-                remote-endpoint = <&max98357_out_endpoint>;
+        sai1a_port: port {
+            sai1a_endpoint: endpoint {
+                // remote-endpoint = <&max98357_out_endpoint>;
                 format = "i2s";
                 dai-tdm-slot-num = <2>;
                 dai-tdm-slot-width = <32>;
