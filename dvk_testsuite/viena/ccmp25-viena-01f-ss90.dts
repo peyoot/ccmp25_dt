@@ -34,7 +34,7 @@
     	compatible = "Viena,system-info";
 		product-id = "Viena-CCMP25";
     	pcb-revision = "Rev 1.0";
-    	firmware-version = "DEY5.0r3-20260226-1mspi01f00-sd30-t10-r3-dm50-vd100-ri15-x690";
+    	firmware-version = "DEY5.0r3-20260228-1mspi01f-x690-ss90-fix-backlight-gpio-polarity-settle-sample";
 	};
 
 	aliases {
@@ -96,14 +96,15 @@
 
 	panel_hx3248c_backlight: panel-lvds-pwm-backlight {
 		compatible = "pwm-backlight";
-		/* node TIM16_CH1 period (ns) */
-		pwms = <&pwm_lvds_bckl 0 1000000 PWM_POLARITY_INVERTED>;
-		/* enable-gpios = <&gpiof 11 GPIO_ACTIVE_HIGH>; */
-		brightness-levels = <0 16 22 30 40 55 75 102 138 188 255>;
-		default-brightness-level = <7>;
+		/* node TIM16_CH1 period (ns)  20kHz = 50000 */
+		pwms = <&pwm_lvds_bckl 0 50000 0>;
+		enable-gpios = <&gpiof 11 GPIO_ACTIVE_HIGH>;
+    	brightness-levels = <0 5 15 30 50 75 100 130 165 205 255>;    
+    	/* 默认亮度：索引 7 → 值 130 ，约50%占空比 */
+    	default-brightness-level = <7>;
 		power-supply = <&reg_5v_board>;
-	/*	power-on-delay-ms = <20>; */
-    /*    power-off-delay-ms = <50>; */
+		/*	power-on-delay-ms = <5>; */
+    	/*  power-off-delay-ms = <5>; */
 		status = "okay";
 	};
 
@@ -177,9 +178,40 @@
 			enable-active-high;
 			status = "okay";
 		};
-
-
 	};
+
+	/* AUDIO */
+    sound_max98357: sound-max98357 {
+        compatible = "audio-graph-card";
+        label = "ccmp25-Viena-board";
+        status = "okay";
+        dais = <&sai1a_port &max98357_out_dai>;
+    };
+
+    // MAX98357 Codec 设备节点
+    max98357: max98357@0 {
+        #sound-dai-cells = <0>;
+        compatible = "maxim,max98357a";
+        //reg = <0>;
+        status = "okay";
+
+        maxim,gain = <2>; 
+		sdmode-gpios = <&gpioz 4 GPIO_ACTIVE_HIGH>;
+
+        // 如果 SD/MODE 引脚由硬件固定，不需要软件控制，可以不写以下属性
+        // maxim,mode = "i2s"; 
+
+        // 定义端口和端点
+        #address-cells = <1>;
+        #size-cells = <0>;
+        port@0 {
+            reg = <0>;
+            max98357_out_dai: endpoint {
+                remote-endpoint = <&sai1a_endpoint>;
+            };
+        };
+    };
+
 
 	digital-io {
 		status = "okay";
@@ -187,8 +219,28 @@
 		pinctrl-0 = <&ccmp25_gpio_pins &ccmp25_gpio_z_pins>;
 		pinctrl-1 = <&ccmp25_gpio_sleep_pins &ccmp25_gpio_z_sleep_pins>;
 	};
-
 };
+
+&sai1 {
+    pinctrl-names = "default", "sleep";
+    pinctrl-0 = <&ccmp25_sai1a_pins>;
+    pinctrl-1 = <&ccmp25_sai1a_sleep_pins>;
+    status = "okay";
+};
+
+&sai1a {
+    status = "okay";
+
+    sai1a_port: port {
+        sai1a_endpoint: endpoint {
+            remote-endpoint = <&max98357_out_dai>; 
+            format = "i2s";
+            dai-tdm-slot-num = <2>;
+            dai-tdm-slot-width = <32>;
+        };
+    };
+};
+
 
 &eth1 {
 
@@ -269,7 +321,6 @@
 	};
 };
 
-
 &spi3 {
 	pinctrl-names = "default", "sleep";
 	pinctrl-0 = <&ccmp25_spi3_pins>;
@@ -279,8 +330,8 @@
 	status = "okay";
     
 	touchscreen@0 {
-		compatible = "ti,tsc2046"; 
-		reg = <0>; 
+		compatible = "ti,tsc2046";       /* tsc2046 */
+		reg = <0>;                        /* SPI片选0 */
 		spi-max-frequency = <1000000>;
 		spi-cpol = <0>;
 		spi-cpha = <0>;
@@ -290,9 +341,9 @@
 		interrupts = <5 IRQ_TYPE_EDGE_FALLING>;
 		pendown-gpio = <&gpiod 5 GPIO_ACTIVE_HIGH>;
 
- 		ti,x-min = /bits/ 16 <400>;
+ 		ti,x-min = /bits/ 16 <300>;
 		ti,x-max = /bits/ 16 <4050>;
-		ti,y-min = /bits/ 16 <150>;
+		ti,y-min = /bits/ 16 <160>;
 		ti,y-max = /bits/ 16 <4050>;
 		ti,x-plate-ohms = /bits/ 16 <690>;
 
@@ -300,15 +351,15 @@
 		ti,pressure-max = /bits/ 16 <4095>; 
 
 		// touchscreen-average-samples = <4>
-		ti,settle-samples;
-		ti,settle-delay-usec = <30>;
-		//ti,swap-xy = <1>;
-		ti,debounce-tol = <15>; 		
-		ti,debounce-rep = <3>; 
 		ti,debounce-max = <50>;
-		vref_delay_usecs = <100>;
+        ti,debounce-tol = <10>;
+		ti,debounce-rep = <3>;
+		ti,settle-delay-usec = <90>;
+		ti,settle-samples; 
+		//vref_delay_usecs = <100>;
 		//penirq_recheck_delay_usecs = <15>;
 		ti,keep-vref-on;
+		//ti,vref-mv = <0>;
 
 		//wakeup-source;
 		status = "okay";
@@ -657,6 +708,25 @@
 
 
 &pinctrl {
+	ccmp25_sai1a_pins: ccmp25-sai1a {
+        pins {
+            pinmux = <STM32_PINMUX('D',  9,  AF3)>, /* SAI1_SD_A */
+                     <STM32_PINMUX('D',  8,  AF3)>, /* SAI1_FS_A */
+                     <STM32_PINMUX('D', 10,  AF3)>; /* SAI1_SCK_A */
+            drive-push-pull;
+            bias-disable;
+            slew-rate = <0>;
+        };
+    };
+
+    ccmp25_sai1a_sleep_pins: ccmp25-sai1a-sleep {
+        pins {
+            pinmux = <STM32_PINMUX('D',  9, ANALOG)>, /* SAI1_SD_A */
+                     <STM32_PINMUX('D',  8, ANALOG)>, /* SAI1_FS_A */
+                     <STM32_PINMUX('D', 10, ANALOG)>; /* SAI1_SCK_A */
+        };
+    };
+
 	ccmp25_can1_pins: ccmp25-can1 {
 		pins1 {
 			pinmux = <STM32_PINMUX('G', 11,  AF7)>; /* FDCAN1_TX */
@@ -923,7 +993,7 @@
             pinmux = <STM32_PINMUX('B',  0,  AF8)>; /* TIM16_CH1_PWM */
             drive-push-pull;
             bias-disable;
-            slew-rate = <0>;
+            slew-rate = <1>;
         };
     };
 

@@ -34,7 +34,7 @@
     	compatible = "Viena,system-info";
 		product-id = "Viena-CCMP25";
     	pcb-revision = "Rev 1.0";
-    	firmware-version = "DEY5.0r3-20260227-2mspi01f-x690-sd60-settle-samples-audio";
+    	firmware-version = "DEY5.0r3-20260228-2mspi01f-x690-sd60-fix-backlight-gpio-polarity-settle-sample";
 	};
 
 	aliases {
@@ -339,7 +339,7 @@
         
 		interrupt-parent = <&gpiod>;
 		interrupts = <5 IRQ_TYPE_EDGE_FALLING>;
-		pendown-gpio = <&gpiod 5 GPIO_ACTIVE_LOW>;
+		pendown-gpio = <&gpiod 5 GPIO_ACTIVE_HIGH>;
 
  		ti,x-min = /bits/ 16 <300>;
 		ti,x-max = /bits/ 16 <4050>;
@@ -355,7 +355,7 @@
         ti,debounce-tol = <10>;
 		ti,debounce-rep = <3>;
 		ti,settle-delay-usec = <60>;
-		// ti,settle-samples; 
+		ti,settle-samples; 
 		//vref_delay_usecs = <100>;
 		//penirq_recheck_delay_usecs = <15>;
 		ti,keep-vref-on;
