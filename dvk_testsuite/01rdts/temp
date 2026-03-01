@@ -1,8 +1,0 @@
-                        ccmp25-1mspi01r00-mv0-sd100-t50-r3-dm15.dtb \
-                        ccmp25-500kspi01h00-mv0-t50-r2-dm15.dtb \
-                        ccmp25-1mspi01r00-nosd-t30-r2-dm50.dtb \
-                        ccmp25-500kspi01r00-kvon25-t50-r2-dm10-sd15-pd15.dtb \
-                        ccmp25-1mspi01r00-sd30-t30-r2-dm30.dtb \
-                        ccmp25-500kspi11r10-t50-t2-dm10-sd30-pd15.dtb \
-                        ccmp25-1mspi11r10-t50-r2-dm50-sd30-ts.dtb \
-                        ccmp25-2mspi01r00-mv25-t50-r3-dm30-sd300-pd30.dtb \

@@ -2,13 +2,16 @@
 /*
  * Copyright (C) 2024,2025, Digi International Inc.
  *
- *  file name explain:  
- *  [speed]spi[XYZ], speed is spi spped， X means SPI CS， Y means TSC pendown pad, Z means interrupt method
- *  due to cases like GPIO polarity inversion in linux gpio subsytem. Need to test both polarity.
- *  for example: 2mspi01r，means 2m speed, cs active_low， pendown active_high, irq edge_rising。
- *  x-400 means use ti,x-plate-ohms =400
- *  CS  PB1 , PENDOWN PG3 （mikrobus int)
- *
+ * Permission to use, copy, modify, and/or distribute this software for any
+ * purpose with or without fee is hereby granted, provided that the above
+ * copyright notice and this permission notice appear in all copies.
+ * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
+ * WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
+ * MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR
+ * ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
+ * WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
+ * ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
+ * OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
 /dts-v1/;
@@ -31,7 +34,7 @@
     	compatible = "CCMP25,system-info";
 		product-id = "CCMP25-DVK";
     	pcb-revision = "Rev 1.0";
-    	firmware-version = "20260222-DEY5.0r3-dvk-1mspi01r-x690(400-4095)-t30-r2-dm50";
+    	firmware-version = "DEY5.0r3-20260226-2mspi01f00-pen-bias-disabled-t10-r3-dm50-sd65-ss";
 	};
 
 	aliases {
@@ -220,6 +223,13 @@
 		label = "ccmp25-dvk";
 		dais = <&sai4b_port &sai4a_port>;
 		status = "okay";
+	};
+	
+	pen-irq {
+		status = "okay";
+		pinctrl-names = "default", "sleep";
+		pinctrl-0 = <&ccmp25_penirq_pins>;
+
 	};
 };
 
@@ -734,7 +744,6 @@
 	status = "okay";
 };
 
-/* MikroBus SPI */
 &spi3 {
 	pinctrl-names = "default", "sleep";
 	pinctrl-0 = <&spi3_pins_a>;
@@ -745,19 +754,16 @@
 touchscreen@0 {
 		compatible = "ti,tsc2046";       /* tsc2046 */
 		reg = <0>;                        /* SPI片选0 */
-		spi-max-frequency = <1000000>;
+		spi-max-frequency = <2000000>;
 		spi-cpol = <0>;
 		spi-cpha = <0>;
 		vcc-supply = <&reg_3v3_board>;
         
 		/* 中断配置 */
 		interrupt-parent = <&gpiog>;
-		interrupts = <3 IRQ_TYPE_EDGE_RISING>;
+		interrupts = <3 IRQ_TYPE_EDGE_FALLING>;
 		pendown-gpio = <&gpiog 3 GPIO_ACTIVE_HIGH>;
-
-		//touchscreen-size-x = <1024>; 
-		//touchscreen-size-y = <600>;
-		
+ 
 		ti,x-min = /bits/ 16 <400>;
 		ti,x-max = /bits/ 16 <4050>;
 		ti,y-min = /bits/ 16 <160>;
@@ -768,16 +774,15 @@ touchscreen@0 {
 		ti,pressure-max = /bits/ 16 <4095>; 
 
 		// touchscreen-average-samples = <4>
-		//ti,settle-delay-usec = <150>;
-		//ti,swap-xy = <1>;
-		ti,debounce-tol = <30>; 		
-		ti,debounce-rep = <2>; 
 		ti,debounce-max = <50>;
-		//vref_delay_usecs = <80>;
+        ti,debounce-tol = <10>;
+		ti,debounce-rep = <3>;
+		ti,settle-samples;
+		ti,settle-delay-usec = <65>;
+		//vref_delay_usecs = <100>;
 		//penirq_recheck_delay_usecs = <15>;
 		ti,keep-vref-on;
-		//ti,vref-mv = <2500>;
-
+		//ti,vref-mv = <0>;
 
 	    /* 电源管理 */
 		//wakeup-source;
@@ -906,7 +911,17 @@ touchscreen@0 {
 	};
 };
 
+
 &pinctrl {
+
+	ccmp25_penirq_pins: ccmp25-penirq-pins {
+		pins {
+			pinmux = <STM32_PINMUX('G', 3, GPIO)>; 
+			bias-disable;
+			slew-rate = <0>;
+		};
+	};
+
 	ccmp25_adc_pins: ccmp25-adc-pins-0 {
 		pins {
 			pinmux = <STM32_PINMUX('G', 1, ANALOG)>;
