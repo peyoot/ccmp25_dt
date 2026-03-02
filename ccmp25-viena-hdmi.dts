@@ -923,7 +923,7 @@
 
     ccmp25_timers16_ch1_pwm_pins: ccmp25-timers16-ch1-pwm {
         pins {
-            pinmux = <STM32_PINMUX('B',  0,  AF8)>; /* TIM16_CH1_PWM */
+            pinmux = <STM32_PINMUX('B',  0,  AF7)>; /* TIM16_CH1_PWM */
             drive-push-pull;
             bias-disable;
             slew-rate = <0>;
