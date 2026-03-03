@@ -99,7 +99,7 @@
 		/* node TIM16_CH1 period (ns)  20kHz = 50000 */
 		pwms = <&pwm_lvds_bckl 0 50000 0>;
 		enable-gpios = <&gpiof 11 GPIO_ACTIVE_HIGH>;
-    	brightness-levels = <0 5 15 30 50 75 100 130 165 205 255>;
+    	// brightness-levels = <0 5 15 30 50 75 100 130 165 205 255>;
 		brightness-levels = <255 250 240 225 200 170 140 110 75 40 5 0>;    
     	/* 默认亮度：索引 7 → 值 110 ，约50%占空比 */
     	default-brightness-level = <7>;
