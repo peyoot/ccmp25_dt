@@ -1,0 +1,8 @@
+                        ccmp25-viena-1mspi00f-ss600-disable-bckl.dtb \
+                        ccmp25-viena-1mspi01f-ss300.dtb \
+                        ccmp25-viena-1mspi00f-ss80-disable-bckl.dtb \
+                        ccmp25-viena-2mspi00f-ss160.dtb \
+                        ccmp25-dvk-1mspi00f00-t10-r3-dm50-nomv-sd160-ss.dtb \
+                        ccmp25-dvk-2mspi00f00-t10-r3-dm50-nomv-sd60-ss.dtb \
+                        ccmp25-dvk-1mspi00f00-t10-r3-dm50-nomv-sd600-ss.dtb \
+                        ccmp25-dvk-2mspi01f00-t10-r3-dm50-nomv-sd65-ss.dtb \
