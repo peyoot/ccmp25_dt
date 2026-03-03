@@ -353,7 +353,7 @@
 
 		// touchscreen-average-samples = <4>
 		ti,debounce-max = <50>;
-        ti,debounce-tol = <20>;
+        ti,debounce-tol = <25>;
 		ti,debounce-rep = <3>;
 		ti,settle-delay-usec = <160>;
 		ti,settle-samples; 

@@ -34,7 +34,7 @@
     	compatible = "Viena,system-info";
 		product-id = "Viena-CCMP25";
     	pcb-revision = "Rev 1.0";
-    	firmware-version = "DEY5.0r3-20260302-1mspi00f-x690-sd120-disable-backlight-settle-sample";
+    	firmware-version = "DEY5.0r3-20260303-1mspi00f-x=y250-sd120-swapxy";
 	};
 
 	aliases {
@@ -342,11 +342,12 @@
 		interrupts = <5 IRQ_TYPE_EDGE_FALLING>;
 		pendown-gpio = <&gpiod 5 GPIO_ACTIVE_LOW>;
 
- 		ti,x-min = /bits/ 16 <50>;
+ 		ti,x-min = /bits/ 16 <100>;
 		ti,x-max = /bits/ 16 <4050>;
-		ti,y-min = /bits/ 16 <110>;
+		ti,y-min = /bits/ 16 <50>;
 		ti,y-max = /bits/ 16 <4050>;
-		ti,x-plate-ohms = /bits/ 16 <690>;
+		ti,x-plate-ohms = /bits/ 16 <250>;
+		ti,swap-xy;
 
 		//ti,pressure-min = /bits/ 16 <80>; 
 		ti,pressure-max = /bits/ 16 <4095>; 
