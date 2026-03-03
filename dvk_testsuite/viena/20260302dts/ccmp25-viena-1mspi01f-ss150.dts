@@ -34,7 +34,7 @@
     	compatible = "Viena,system-info";
 		product-id = "Viena-CCMP25";
     	pcb-revision = "Rev 1.0";
-    	firmware-version = "DEY5.0r3-20260302-1mspi00f-x690-sd600-disable-backlight-settle-sample";
+    	firmware-version = "DEY5.0r3-20260303-1mspi01f-x690-sd150-fix-backlight-gpio-polarity-settle-sample";
 	};
 
 	aliases {
@@ -339,11 +339,11 @@
         
 		interrupt-parent = <&gpiod>;
 		interrupts = <5 IRQ_TYPE_EDGE_FALLING>;
-		pendown-gpio = <&gpiod 5 GPIO_ACTIVE_LOW>;
+		pendown-gpio = <&gpiod 5 GPIO_ACTIVE_HIGH>;
 
- 		ti,x-min = /bits/ 16 <350>;
+ 		ti,x-min = /bits/ 16 <50>;
 		ti,x-max = /bits/ 16 <4050>;
-		ti,y-min = /bits/ 16 <160>;
+		ti,y-min = /bits/ 16 <110>;
 		ti,y-max = /bits/ 16 <4050>;
 		ti,x-plate-ohms = /bits/ 16 <690>;
 
@@ -352,9 +352,9 @@
 
 		// touchscreen-average-samples = <4>
 		ti,debounce-max = <50>;
-        ti,debounce-tol = <10>;
+        ti,debounce-tol = <20>;
 		ti,debounce-rep = <3>;
-		ti,settle-delay-usec = <600>;
+		ti,settle-delay-usec = <150>;
 		ti,settle-samples; 
 		//vref_delay_usecs = <100>;
 		//penirq_recheck_delay_usecs = <15>;

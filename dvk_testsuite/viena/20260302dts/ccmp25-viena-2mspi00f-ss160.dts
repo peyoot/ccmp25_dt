@@ -99,12 +99,13 @@
 		/* node TIM16_CH1 period (ns)  20kHz = 50000 */
 		pwms = <&pwm_lvds_bckl 0 50000 0>;
 		enable-gpios = <&gpiof 11 GPIO_ACTIVE_HIGH>;
-    	brightness-levels = <0 5 15 30 50 75 100 130 165 205 255>;    
+    	/* brightness-levels = <0 5 15 30 50 75 100 130 165 205 255>; */
+		brightness-levels = <255 250 240 225 200 170 140 110 75 40 5 0>;   
     	/* 默认亮度：索引 7 → 值 130 ，约50%占空比 */
     	default-brightness-level = <7>;
 		power-supply = <&reg_5v_board>;
-		/*	power-on-delay-ms = <5>; */
-    	/*  power-off-delay-ms = <5>; */
+		power-on-delay-ms = <5>;
+    	power-off-delay-ms = <5>;
 		status = "okay";
 	};
 
@@ -341,9 +342,9 @@
 		interrupts = <5 IRQ_TYPE_EDGE_FALLING>;
 		pendown-gpio = <&gpiod 5 GPIO_ACTIVE_LOW>;
 
- 		ti,x-min = /bits/ 16 <350>;
+ 		ti,x-min = /bits/ 16 <50>;
 		ti,x-max = /bits/ 16 <4050>;
-		ti,y-min = /bits/ 16 <160>;
+		ti,y-min = /bits/ 16 <120>;
 		ti,y-max = /bits/ 16 <4050>;
 		ti,x-plate-ohms = /bits/ 16 <690>;
 
@@ -352,7 +353,7 @@
 
 		// touchscreen-average-samples = <4>
 		ti,debounce-max = <50>;
-        ti,debounce-tol = <10>;
+        ti,debounce-tol = <20>;
 		ti,debounce-rep = <3>;
 		ti,settle-delay-usec = <160>;
 		ti,settle-samples; 

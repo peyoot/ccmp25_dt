@@ -104,8 +104,8 @@
     	/* 默认亮度：索引 7 → 值 110 ，约50%占空比 */
     	default-brightness-level = <7>;
 		power-supply = <&reg_5v_board>;
-		/*	power-on-delay-ms = <5>; */
-    	/*  power-off-delay-ms = <5>; */
+		power-on-delay-ms = <5>;
+    	power-off-delay-ms = <5>;
 		status = "okay";
 	};
 
