@@ -780,8 +780,8 @@ touchscreen@0 {
 		ti,debounce-rep = <3>;
 		ti,settle-samples;
 		ti,settle-delay-usec = <150>;
-		// ti,vref_delay_usecs = <100>;
-		//penirq_recheck_delay_usecs = <15>;
+		ti,vref-delay-usecs = <100>;
+		//penirq-recheck-delay-usecs = <15>;
 		ti,keep-vref-on;
 		//ti,vref-mv = <0>;
 
