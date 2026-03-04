@@ -764,9 +764,9 @@ touchscreen@0 {
 		interrupts = <3 IRQ_TYPE_EDGE_FALLING>;
 		pendown-gpio = <&gpiog 3 GPIO_ACTIVE_HIGH>;
  
-		ti,x-min = /bits/ 16 <110>;
+		ti,x-min = /bits/ 16 <60>;
 		ti,x-max = /bits/ 16 <4050>;
-		ti,y-min = /bits/ 16 <40>;
+		ti,y-min = /bits/ 16 <60>;
 		ti,y-max = /bits/ 16 <4050>;
 		ti,x-plate-ohms = /bits/ 16 <250>;
 		ti,swap-xy;
@@ -780,7 +780,7 @@ touchscreen@0 {
 		ti,debounce-rep = <3>;
 		ti,settle-samples;
 		ti,settle-delay-usec = <150>;
-		// vref_delay_usecs = <100>;
+		// ti,vref_delay_usecs = <100>;
 		//penirq_recheck_delay_usecs = <15>;
 		ti,keep-vref-on;
 		//ti,vref-mv = <0>;

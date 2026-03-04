@@ -342,9 +342,9 @@
 		interrupts = <5 IRQ_TYPE_EDGE_FALLING>;
 		pendown-gpio = <&gpiod 5 GPIO_ACTIVE_LOW>;
 
- 		ti,x-min = /bits/ 16 <40>;
+ 		ti,x-min = /bits/ 16 <60>;
 		ti,x-max = /bits/ 16 <4050>;
-		ti,y-min = /bits/ 16 <110>;
+		ti,y-min = /bits/ 16 <60>;
 		ti,y-max = /bits/ 16 <4050>;
 		ti,x-plate-ohms = /bits/ 16 <690>;
 
@@ -357,7 +357,7 @@
 		ti,debounce-rep = <3>;
 		ti,settle-delay-usec = <90>;
 		ti,settle-samples; 
-		vref_delay_usecs = <100>;
+		ti,vref-delay-usecs = <100>;
 		//penirq_recheck_delay_usecs = <15>;
 		ti,keep-vref-on;
 		//ti,vref-mv = <0>;

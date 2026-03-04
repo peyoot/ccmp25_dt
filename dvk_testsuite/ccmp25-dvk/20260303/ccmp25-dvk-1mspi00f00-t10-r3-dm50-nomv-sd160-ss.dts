@@ -766,7 +766,7 @@ touchscreen@0 {
  
 		ti,x-min = /bits/ 16 <40>;
 		ti,x-max = /bits/ 16 <4050>;
-		ti,y-min = /bits/ 16 <120>;
+		ti,y-min = /bits/ 16 <40>;
 		ti,y-max = /bits/ 16 <4050>;
 		ti,x-plate-ohms = /bits/ 16 <690>;
 
@@ -778,8 +778,8 @@ touchscreen@0 {
         ti,debounce-tol = <25>;
 		ti,debounce-rep = <3>;
 		ti,settle-samples;
-		ti,settle-delay-usec = <160>;
-		//vref_delay_usecs = <100>;
+		ti,settle-delay-usec = <150>;
+		ti,vref_delay_usecs = <100>;
 		//penirq_recheck_delay_usecs = <15>;
 		ti,keep-vref-on;
 		//ti,vref-mv = <0>;
