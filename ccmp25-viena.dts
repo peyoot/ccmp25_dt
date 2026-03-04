@@ -34,7 +34,7 @@
     	compatible = "Viena,system-info";
 		product-id = "Viena-CCMP25";
     	pcb-revision = "Rev 1.0";
-    	firmware-version = "DEY5.0r3-20260303-2mspi01f-x690-ss160-bckl-reverse-level";
+    	firmware-version = "DEY5.0r3-20260303-2mspi00f-x690-ss150-vd100-wakeupsource-bckl-reverse-level";
 	};
 
 	aliases {
@@ -100,8 +100,8 @@
 		pwms = <&pwm_lvds_bckl 0 50000 0>;
 		enable-gpios = <&gpiof 11 GPIO_ACTIVE_HIGH>;
     	// brightness-levels = <0 5 15 30 50 75 100 130 165 205 255>;
-		brightness-levels = <255 250 240 225 200 170 140 110 75 40 5 0>;    
-    	/* 默认亮度：索引 7 → 值 110 ，约50%占空比 */
+		brightness-levels = <255 200 170 140 110 80 50 30 15 5 0>;     
+    	/* 反相关系，默认亮度：索引 7 → 值 30 ，约50%占空比 */
     	default-brightness-level = <7>;
 		power-supply = <&reg_5v_board>;
 		power-on-delay-ms = <5>;
@@ -340,7 +340,7 @@
         
 		interrupt-parent = <&gpiod>;
 		interrupts = <5 IRQ_TYPE_EDGE_FALLING>;
-		pendown-gpio = <&gpiod 5 GPIO_ACTIVE_HIGH>;
+		pendown-gpio = <&gpiod 5 GPIO_ACTIVE_LOW>;
 
  		ti,x-min = /bits/ 16 <50>;
 		ti,x-max = /bits/ 16 <4050>;
@@ -353,16 +353,16 @@
 
 		// touchscreen-average-samples = <4>
 		ti,debounce-max = <50>;
-        ti,debounce-tol = <10>;
+        ti,debounce-tol = <15>;
 		ti,debounce-rep = <3>;
-		ti,settle-delay-usec = <160>;
+		ti,settle-delay-usec = <150>;
 		ti,settle-samples; 
-		//vref_delay_usecs = <100>;
+		vref_delay_usecs = <100>;
 		//penirq_recheck_delay_usecs = <15>;
 		ti,keep-vref-on;
 		//ti,vref-mv = <0>;
 
-		//wakeup-source;
+		wakeup-source;
 		status = "okay";
 
     };
