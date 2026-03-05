@@ -363,7 +363,7 @@
 		//ti,vref-mv = <0>;
 
 		wakeup-source;
-		status = "disabled";
+		status = "okay";
 
     };
 };

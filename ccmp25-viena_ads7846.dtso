@@ -1,0 +1,21 @@
+/dts-v1/;
+/plugin/;
+
+#include <dt-bindings/pinctrl/stm32-pinfunc.h>
+
+/ {
+
+    fragment@0 {
+        target-path = "/";
+        __overlay__ {
+            overlay-description = "ccmp25viena: tsc2046 Overlay";
+        };
+    };
+
+    fragment@1 {
+        target = <&touchscreen>;
+        __overlay__ {
+            status = "okay"; 
+        };
+    };
+};
