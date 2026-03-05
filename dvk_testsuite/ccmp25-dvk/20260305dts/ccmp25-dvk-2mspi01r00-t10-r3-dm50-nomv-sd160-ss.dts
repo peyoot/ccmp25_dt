@@ -751,6 +751,12 @@
 	cs-gpios = <&gpiob 1 GPIO_ACTIVE_LOW>; /* SPI3_SS */
 	status = "okay";
 
+	spidev@0 {
+    	compatible = "rohm,dh2228fv";
+    	reg = <0>;
+    	spi-max-frequency = <2000000>;
+	};
+
 	touchscreen: touchscreen@0 {
 		compatible = "ti,tsc2046";       /* tsc2046 */
 		reg = <0>;                        /* SPI片选0 */
