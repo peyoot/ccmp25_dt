@@ -110,7 +110,7 @@
 
 		port {
 			lvds_panel_in: endpoint {
-				remote-endpoint = <&lvds_out>;
+				remote-endpoint = <&lvds_out0>;
 			};
 		};
 	};
