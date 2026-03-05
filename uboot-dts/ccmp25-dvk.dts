@@ -82,30 +82,35 @@
 	};
 
 	panel_lvds: panel-lvds {
-		compatible = "auo,g101evn010", "panel-lvds";
+		compatible = "panel-lvds";
 		power-supply = <&reg_3v3_board>;
 		backlight = <&panel_lvds_gpio_backlight>;
+		/* backlight = <&panel_hx3248c_backlight>; */
 		status = "okay";
 
-		width-mm = <216>;
-		height-mm = <135>;
-		data-mapping = "jeida-24";
+		width-mm = <235>;
+		height-mm = <143>;
+		data-mapping = "vesa-24";
 
 		panel-timing {
-			clock-frequency = <54000000>;
-			hactive = <1280>;
-			vactive = <800>;
-			hfront-porch = <82>;
-			hback-porch = <84>;
-			hsync-len = <2>;
-			vfront-porch = <8>;
-			vback-porch = <6>;
-			vsync-len = <2>;
+			clock-frequency = <51200000>;
+			hactive = <1024>;
+        	vactive = <600>;
+	        hfront-porch = <160>;
+    	    hback-porch = <160>;
+        	hsync-len = <10>;
+	        vfront-porch = <12>;
+    	    vback-porch = <23>;
+        	vsync-len = <3>;
+			hsync-active = <0>;
+			vsync-active = <0>;
+			de-active = <1>;
+			pixelclk-active = <0>;
 		};
 
 		port {
 			lvds_panel_in: endpoint {
-				remote-endpoint = <&lvds_out0>;
+				remote-endpoint = <&lvds_out>;
 			};
 		};
 	};
@@ -113,9 +118,7 @@
 	panel_lvds_gpio_backlight: panel-lvds-gpio-backlight {
 		compatible = "gpio-backlight";
 		power-supply = <&reg_5v_board>;
-		gpios = <&gpiob 0 GPIO_ACTIVE_HIGH>; /* LVDS_BCKL_PWM */
-		default-on;
-		default-brightness-level = <0>;
+		gpios = <&gpiof 11 GPIO_ACTIVE_HIGH>; /* LVDS_BCKL_EN */
 		status = "okay";
 	};
 };
