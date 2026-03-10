@@ -363,7 +363,7 @@
     	//touchscreen-physical-height = <12788>;
 
 		// touchscreen-average-samples = <4>
-		ti/,debounce-max = <50>;
+		ti,debounce-max = <50>;
         ti,debounce-tol = <15>;
 		ti,debounce-rep = <3>;
 		ti,settle-delay-usec = <150>;
