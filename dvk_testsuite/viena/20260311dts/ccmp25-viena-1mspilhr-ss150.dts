@@ -34,7 +34,7 @@
     	compatible = "Viena,system-info";
 		product-id = "Viena-CCMP25";
     	pcb-revision = "Rev 1.0";
-    	firmware-version = "DEY5.0r3-20260303-2mspi00f-x690-ss150-vd100-wakeupsource-bckl-reverse-level";
+    	firmware-version = "DEY5.0r3-20260311-1mspi0lf-x690-ss150-vd100-ts-wakeupsource";
 	};
 
 	aliases {
@@ -99,8 +99,8 @@
 		/* node TIM16_CH1 period (ns)  20kHz = 50000 */
 		pwms = <&pwm_lvds_bckl 0 50000 0>;
 		enable-gpios = <&gpiof 11 GPIO_ACTIVE_HIGH>;
-    	// brightness-levels = <0 5 15 30 50 75 100 130 165 205 255>;
-		brightness-levels = <255 180 170 150 130 100 70 45 25 10 0>;     
+    	/* brightness-levels = <0 5 15 30 50 75 100 130 165 205 255>; */
+		brightness-levels = <255 185 170 150 130 100 70 45 25 10 0>;     
     	/* 反相关系，默认亮度：索引 7 → 值 45 ，约50%占空比 */
     	default-brightness-level = <7>;
 		power-supply = <&reg_5v_board>;
@@ -138,7 +138,7 @@
 
 		port {
 			lvds_panel_in: endpoint {
-				remote-endpoint = <&lvds_out0>;
+				remote-endpoint = <&lvds_out>;
 			};
 		};
 	};
@@ -333,18 +333,19 @@
 	spidev@0 {
     	compatible = "rohm,dh2228fv";
     	reg = <0>;
-    	spi-max-frequency = <2000000>;
+    	spi-max-frequency = <1000000>;
 	};
     
-	touchscreen: touchscreen@0 {
+    
+	touchscreen@0 {
 		compatible = "ti,tsc2046";       /* tsc2046 */
 		reg = <0>;                        /* SPI片选0 */
-		spi-max-frequency = <2000000>;
+		spi-max-frequency = <1000000>;
 		vcc-supply = <&reg_3v3_board>;
         
 		interrupt-parent = <&gpiod>;
-		interrupts = <5 IRQ_TYPE_EDGE_FALLING>;
-		pendown-gpio = <&gpiod 5 GPIO_ACTIVE_LOW>;
+		interrupts = <5 IRQ_TYPE_EDGE_RISING>;
+		pendown-gpio = <&gpiod 5 GPIO_ACTIVE_HIGH>;
 
  		ti,x-min = /bits/ 16 <50>;
 		ti,x-max = /bits/ 16 <4050>;
@@ -355,8 +356,14 @@
 		//ti,pressure-min = /bits/ 16 <80>; 
 		ti,pressure-max = /bits/ 16 <4095>; 
 
+		touchscreen-size-x = <1024>;
+		touchscreen-size-y = <600>;
+		
+		//touchscreen-physical-width = <22532>;
+    	//touchscreen-physical-height = <12788>;
+
 		// touchscreen-average-samples = <4>
-		ti,debounce-max = <50>;
+		ti/,debounce-max = <50>;
         ti,debounce-tol = <15>;
 		ti,debounce-rep = <3>;
 		ti,settle-delay-usec = <150>;
@@ -529,7 +536,7 @@
 
 		port@1 {
 			reg = <1>;
-			lvds_out0: endpoint {
+			lvds_out: endpoint {
 				remote-endpoint = <&lvds_panel_in>;
 			};
 		};

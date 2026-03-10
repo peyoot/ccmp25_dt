@@ -1,11 +1,13 @@
-                        ccmp25-viena-1mspi00f-ss120-swap.dtb \
-                        ccmp25-viena-2mspi00f-ss160.dtb \
-                        ccmp25-viena-1mspi01f-ss150.dtb \
-                        ccmp25-viena-500kspi00f-ss90-vd100.dtb \
-                                                ccmp25-dvk-1mspi00f00-t10-r3-dm50-nomv-sd160-ss.dtb \
-                                                ccmp25-dvk-2mspi00f00-t10-r3-dm50-nomv-sd160-ss.dtb \
-                                                ccmp25-dvk-1mspi01f00-t10-r3-dm50-nomv-ss150-swap.dtb \
+                        ccmp25-dvk-1mspihhr-ss160.dtb \
+                        ccmp25-dvk-1mspilhr-ss150.dtb \
+                        ccmp25-dvk-2mspihlf-ss160.dtb \
+                        ccmp25-dvk-1mspilhf-ss130.dtb \
+                        ccmp25-dvk-1mspillf-ss150.dtb \
+                        ccmp25-dvk-500kspilhf-sd100.dtb \
+                        ccmp25-viena-1mspihhr-ss150.dtb \
+                        ccmp25-viena-1mspilhr-ss150.dtb \
+                        ccmp25-viena-2mspillf-ss160.dtb \
+                        ccmp25-viena-1mspihlf-ss120-swap.dtb \
+                        ccmp25-viena-2mspihlf-sd160.dtb \
+                        ccmp25-viena-500kspihhf-ss100.dtb \
 
-                        ccmp25-dvk-2mspi00f00-t10-r3-dm50-nomv-sd160-ss.dtb \
-                        ccmp25-dvk-2mspi11r10-t10-r3-dm50-nomv-sd160-ss.dtb \
-                        ccmp25-dvk-2mspi01r00-t10-r3-dm50-nomv-sd160-ss.dtb \
