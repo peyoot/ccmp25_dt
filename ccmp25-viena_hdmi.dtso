@@ -1,0 +1,59 @@
+/dts-v1/;
+/plugin/;
+
+#include <dt-bindings/gpio/gpio.h>
+#include <dt-bindings/interrupt-controller/irq.h>
+#include <dt-bindings/input/input.h>
+
+/ {
+
+    fragment@0 {
+        target-path = "/";
+        __overlay__ {
+            overlay-description = "ccmp25viena: HDMI Overlay";
+        };
+    };
+
+    fragment@1 {
+        target = <&hdmi-connector>;
+        __overlay__ {
+            status = "disabled";
+        };
+    };
+
+    fragment@2 {
+        target = <&panel-lvds-pwm-backlight>;
+        __overlay__ {
+            status = "disabled"; 
+        };
+    };
+
+    fragment@3 {
+        target = <&panel-lvds>;
+        __overlay__ {
+            status = "disabled"; 
+        };
+    };
+
+    fragment@4 {
+        target = <&dsi>;
+        __overlay__ {
+            status = "okay"; 
+        };
+    };
+
+    fragment@3 {
+        target = <&lt_bridge>;
+        __overlay__ {
+            status = "okay"; 
+        };
+    };
+
+    fragment@3 {
+        target = <&lvds>;
+        __overlay__ {
+            status = "disabled"; 
+        };
+    };
+
+};

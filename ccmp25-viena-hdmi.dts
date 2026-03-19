@@ -34,7 +34,7 @@
     	compatible = "Viena,system-info";
 		product-id = "Viena-CCMP25";
     	pcb-revision = "Rev 1.0";
-    	firmware-version = "DEY5.0r3-20260115-hdmi-version";
+    	firmware-version = "DEY5.0r3-20260319-hdmi-version";
 	};
 
 	aliases {
@@ -96,14 +96,16 @@
 
 	panel_hx3248c_backlight: panel-lvds-pwm-backlight {
 		compatible = "pwm-backlight";
-		/* node TIM16_CH1 period (ns) */
-		pwms = <&pwm_lvds_bckl 0 1000000 PWM_POLARITY_INVERTED>;
-		/* enable-gpios = <&gpiof 11 GPIO_ACTIVE_HIGH>; */
-		brightness-levels = <0 16 22 30 40 55 75 102 138 188 255>;
-		default-brightness-level = <7>;
+		/* node TIM16_CH1 period (ns)  20kHz = 50000 */
+		pwms = <&pwm_lvds_bckl 0 50000 0>;
+		enable-gpios = <&gpiof 11 GPIO_ACTIVE_HIGH>;
+    	// brightness-levels = <0 5 15 30 50 75 100 130 165 205 255>;
+		brightness-levels = <255 180 170 150 130 100 70 45 25 10 0>;     
+    	/* 反相关系，默认亮度：索引 7 → 值 45 ，约50%占空比 */
+    	default-brightness-level = <7>;
 		power-supply = <&reg_5v_board>;
-	/*	power-on-delay-ms = <20>; */
-    /*    power-off-delay-ms = <50>; */
+		power-on-delay-ms = <5>;
+    	power-off-delay-ms = <5>;
 		status = "disabled";
 	};
 
@@ -136,7 +138,7 @@
 
 		port {
 			lvds_panel_in: endpoint {
-				remote-endpoint = <&lvds_out>;
+				remote-endpoint = <&lvds_out0>;
 			};
 		};
 	};
@@ -156,30 +158,61 @@
 		#address-cells = <1>;
 		#size-cells = <0>;
 
-		reg_5v_board: regulator-board@1 {
+		reg_3v3_board: regulator-board@1 {
 			compatible = "regulator-fixed";
 			reg = <1>;
-			regulator-name = "5v_board";
-			regulator-min-microvolt = <5000000>;
-			regulator-max-microvolt = <5000000>;
-			/* regulator-enable-ramp-delay = <8000>; */
-			/* gpio = <&gpiog 7 GPIO_ACTIVE_HIGH>; 5V_BOARD_EN */
-			/* enable-active-high; */
-			regulator-always-on;
-			status = "okay";
-		};
-
-		// 3.3V由LDO提供，同样不需要GPIO控制使能
-		reg_3v3_board: regulator-board@2 {
-			compatible = "regulator-fixed";
-			reg = <2>;
 			regulator-name = "3v3_board";
 			regulator-min-microvolt = <3300000>;
 			regulator-max-microvolt = <3300000>;
 			regulator-always-on;
 			status = "okay";
 		};
+
+		reg_5v_board: regulator-board@2 {
+			compatible = "regulator-fixed";
+			reg = <2>;
+			regulator-name = "5v_board";
+			regulator-min-microvolt = <5000000>;
+			regulator-max-microvolt = <5000000>;
+			regulator-enable-ramp-delay = <8000>;
+			gpio = <&gpiog 7 GPIO_ACTIVE_HIGH>; /* 5V_BOARD_EN */
+			enable-active-high;
+			status = "okay";
+		};
 	};
+
+	/* AUDIO */
+    sound_max98357: sound-max98357 {
+        compatible = "audio-graph-card";
+        label = "ccmp25-Viena-board";
+        status = "okay";
+        dais = <&sai1a_port &max98357_out_dai>;
+    };
+
+    // MAX98357 Codec 设备节点
+    max98357: max98357@0 {
+        #sound-dai-cells = <0>;
+        compatible = "maxim,max98357a";
+        //reg = <0>;
+        status = "okay";
+
+        maxim,gain = <2>; 
+		sdmode-gpios = <&gpioz 4 GPIO_ACTIVE_HIGH>;
+
+        // 如果 SD/MODE 引脚由硬件固定，不需要软件控制，可以不写以下属性
+        // maxim,mode = "i2s"; 
+
+        // 定义端口和端点
+        #address-cells = <1>;
+        #size-cells = <0>;
+        port@0 {
+            reg = <0>;
+            max98357_out_dai: endpoint {
+                remote-endpoint = <&sai1a_endpoint>;
+            };
+        };
+    };
+
 
 	digital-io {
 		status = "okay";
@@ -187,8 +220,28 @@
 		pinctrl-0 = <&ccmp25_gpio_pins &ccmp25_gpio_z_pins>;
 		pinctrl-1 = <&ccmp25_gpio_sleep_pins &ccmp25_gpio_z_sleep_pins>;
 	};
-
 };
+
+&sai1 {
+    pinctrl-names = "default", "sleep";
+    pinctrl-0 = <&ccmp25_sai1a_pins>;
+    pinctrl-1 = <&ccmp25_sai1a_sleep_pins>;
+    status = "okay";
+};
+
+&sai1a {
+    status = "okay";
+
+    sai1a_port: port {
+        sai1a_endpoint: endpoint {
+            remote-endpoint = <&max98357_out_dai>; 
+            format = "i2s";
+            dai-tdm-slot-num = <2>;
+            dai-tdm-slot-width = <32>;
+        };
+    };
+};
+
 
 &eth1 {
 
@@ -273,44 +326,46 @@
 	pinctrl-names = "default", "sleep";
 	pinctrl-0 = <&ccmp25_spi3_pins>;
 	pinctrl-1 = <&ccmp25_spi3_sleep_pins>;
-	cs-gpios = <&gpiob 1 GPIO_ACTIVE_HIGH>;
+	cs-gpios = <&gpiob 1 GPIO_ACTIVE_LOW>;
 
 	status = "okay";
+
+	spidev@0 {
+    	compatible = "rohm,dh2228fv";
+    	reg = <0>;
+    	spi-max-frequency = <2000000>;
+	};
     
-	touchscreen@0 {
-		compatible = "ti,ads7846";       /* tsc2046 */
+	touchscreen: touchscreen@0 {
+		compatible = "ti,tsc2046";       /* tsc2046 */
 		reg = <0>;                        /* SPI片选0 */
-		spi-max-frequency = <1000000>;
-		spi-cpol = <0>;
-		spi-cpha = <0>;
+		spi-max-frequency = <2000000>;
 		vcc-supply = <&reg_3v3_board>;
         
-		/* 中断配置 */
 		interrupt-parent = <&gpiod>;
 		interrupts = <5 IRQ_TYPE_EDGE_FALLING>;
 		pendown-gpio = <&gpiod 5 GPIO_ACTIVE_LOW>;
-        
-		ti,x-min = /bits/ 16 <360>;
-		ti,x-max = /bits/ 16 <3850>;
-		ti,y-min = /bits/ 16 <180>;
+
+ 		ti,x-min = /bits/ 16 <50>;
+		ti,x-max = /bits/ 16 <4050>;
+		ti,y-min = /bits/ 16 <50>;
 		ti,y-max = /bits/ 16 <4050>;
-		ti,pressure-max = /bits/ 16 <1024>; 
+		ti,x-plate-ohms = /bits/ 16 <690>;
 
-		/*        ti,debounce-tcs = /bits/ 16 <3>;      去抖动次数 */
-        
-        // 最少优化参数（解决 ref/settling/IRQ 问题）
-        // ti,vref-delay-usecs = <100>;  // 内部 ref 稳定（必须，VREF 悬空易不稳）
-        // ti,settle-delay-usecs = <150>;  // 触摸线 settling time
-        // ti,penirq-recheck-delay-usecs = <100>;  // 滤 IRQ 噪声（可能解决中断增 2）
-        // ti,debounce-max = /bits/ 16 <3>;  // 噪声过滤样本
+		//ti,pressure-min = /bits/ 16 <80>; 
+		ti,pressure-max = /bits/ 16 <4095>; 
 
+		// touchscreen-average-samples = <4>
+		ti,debounce-max = <50>;
+        ti,debounce-tol = <15>;
+		ti,debounce-rep = <3>;
+		ti,settle-delay-usec = <150>;
+		ti,settle-samples; 
+		ti,vref-delay-usecs = <100>;
+		//penirq-recheck-delay-usecs = <15>;
 		ti,keep-vref-on;
-        ti,vref-mv = <2500>;
-        
-		/* 电阻参数 - 工程图已明确 */
-		ti,x-plate-ohms = /bits/ 16 <400>;   /* 面板电阻400Ω，不是回路电阻 */
+		//ti,vref-mv = <0>;
 
-	    /* 电源管理 */
 		wakeup-source;
 		status = "disabled";
 
@@ -474,7 +529,7 @@
 
 		port@1 {
 			reg = <1>;
-			lvds_out: endpoint {
+			lvds_out0: endpoint {
 				remote-endpoint = <&lvds_panel_in>;
 			};
 		};
@@ -658,6 +713,25 @@
 
 
 &pinctrl {
+	ccmp25_sai1a_pins: ccmp25-sai1a {
+        pins {
+            pinmux = <STM32_PINMUX('D',  9,  AF3)>, /* SAI1_SD_A */
+                     <STM32_PINMUX('D',  8,  AF3)>, /* SAI1_FS_A */
+                     <STM32_PINMUX('D', 10,  AF3)>; /* SAI1_SCK_A */
+            drive-push-pull;
+            bias-disable;
+            slew-rate = <0>;
+        };
+    };
+
+    ccmp25_sai1a_sleep_pins: ccmp25-sai1a-sleep {
+        pins {
+            pinmux = <STM32_PINMUX('D',  9, ANALOG)>, /* SAI1_SD_A */
+                     <STM32_PINMUX('D',  8, ANALOG)>, /* SAI1_FS_A */
+                     <STM32_PINMUX('D', 10, ANALOG)>; /* SAI1_SCK_A */
+        };
+    };
+
 	ccmp25_can1_pins: ccmp25-can1 {
 		pins1 {
 			pinmux = <STM32_PINMUX('G', 11,  AF7)>; /* FDCAN1_TX */
@@ -688,7 +762,7 @@
         };
         pins2 {
             pinmux = <STM32_PINMUX('B', 10,  AF1)>; /* SPI3_MISO */
-            bias-disable;
+            bias-pull-up;
         };
     };
     
@@ -703,8 +777,7 @@
 	ccmp25_gpio_pins: ccmp25-gpio {
 
 		pins1 {
-			pinmux = <STM32_PINMUX('F',  11, GPIO)>,  /* PF11_GPIO */
-					 <STM32_PINMUX('G',  7, GPIO)>; /* PG7_GPIO */
+			pinmux = <STM32_PINMUX('F',  11, GPIO)>;  /* PF11_GPIO */
 			drive-push-pull;
 			bias-disable;
 			slew-rate = <0>;
@@ -743,7 +816,6 @@
 	ccmp25_gpio_sleep_pins: ccmp25-gpio-sleep {
 		pins {
 			pinmux = <STM32_PINMUX('F', 10, ANALOG)>, /* PF10_GPIO */
-					 <STM32_PINMUX('G',  7, ANALOG)>, /* PG7_GPIO */
 					 <STM32_PINMUX('I',  0, ANALOG)>, /* SAI4_MCLK_B_GPIO */
 					 <STM32_PINMUX('G',  3, ANALOG)>, /* PG3_GPIO */
 					 <STM32_PINMUX('G',  8, ANALOG)>,  /* PG8_GPIO_DIN */
@@ -926,7 +998,7 @@
             pinmux = <STM32_PINMUX('B',  0,  AF7)>; /* TIM16_CH1_PWM */
             drive-push-pull;
             bias-disable;
-            slew-rate = <0>;
+            slew-rate = <1>;
         };
     };
 
