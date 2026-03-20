@@ -118,7 +118,7 @@
 	panel_lvds_gpio_backlight: panel-lvds-gpio-backlight {
 		compatible = "gpio-backlight";
 		power-supply = <&reg_5v_board>;
-		gpios = <&gpiof 11 GPIO_ACTIVE_HIGH>; /* LVDS_BCKL_EN */
+		gpios = <&gpiof 11 GPIO_ACTIVE_LOW>; /* LVDS_BCKL_EN */
 		status = "okay";
 	};
 };
