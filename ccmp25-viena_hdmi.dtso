@@ -39,14 +39,14 @@
         };
     };
 
-    fragment@3 {
+    fragment@5 {
         target = <&lt_bridge>;
         __overlay__ {
             status = "okay"; 
         };
     };
 
-    fragment@3 {
+    fragment@6 {
         target = <&lvds>;
         __overlay__ {
             status = "disabled"; 
