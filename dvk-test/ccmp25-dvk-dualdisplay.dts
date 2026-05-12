@@ -477,11 +477,11 @@
 		};
 
 		display-timings {
-			native-mode = <&timing0>;
+			native-mode = <&timing2>;
 
 			/* High Definition */
 			timing0: timing0 {
-				clock-frequency = <7/4250000>;
+				clock-frequency = <74250000>;
 				hactive = <1280>;
 				vactive = <720>;
 				hfront-porch = <110>;
