@@ -171,8 +171,7 @@
 			regulator-name = "3v3_board";
 			regulator-min-microvolt = <3300000>;
 			regulator-max-microvolt = <3300000>;
-			gpio = <&gpioa 12 GPIO_ACTIVE_HIGH>; /* 3V3_BOARD_EN */
-			enable-active-high;
+			regulator-always-on;
 			status = "okay";
 		};
 
@@ -183,31 +182,10 @@
 			regulator-min-microvolt = <5000000>;
 			regulator-max-microvolt = <5000000>;
 			regulator-enable-ramp-delay = <8000>;
-			gpio = <&gpiob 3 GPIO_ACTIVE_HIGH>; /* 5V_BOARD_EN */
-			enable-active-high;
+			regulator-always-on;
 			status = "okay";
 		};
 
-		reg_5v_usb_pwr_sw: regulator-board@3 {
-			compatible = "regulator-fixed";
-			reg = <3>;
-			regulator-name = "5v_usb_pwr_sw";
-			regulator-min-microvolt = <3300000>;
-			regulator-max-microvolt = <3300000>;
-			gpio = <&gpiog 4 GPIO_ACTIVE_HIGH>; /* NX5P3290_EN */
-			enable-active-high;
-			vin-supply = <&reg_5v_board>;
-			status = "okay";
-		};
-
-		external_vref: regulator-board@4 {
-			reg = <4>;
-			compatible = "regulator-fixed";
-			regulator-name = "external-vref";
-			regulator-min-microvolt = <1500000>;
-			regulator-max-microvolt = <1500000>;
-			status = "okay";
-		};
 	};
 
 	/* AUDIO */
