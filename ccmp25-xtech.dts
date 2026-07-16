@@ -186,6 +186,15 @@
 			status = "okay";
 		};
 
+		external_vref: regulator-board@4 {
+			reg = <4>;
+			compatible = "regulator-fixed";
+			regulator-name = "external-vref";
+			regulator-min-microvolt = <1500000>;
+			regulator-max-microvolt = <1500000>;
+			status = "okay";
+		};
+
 	};
 
 	/* AUDIO */
