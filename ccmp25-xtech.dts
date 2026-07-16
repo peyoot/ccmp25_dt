@@ -80,7 +80,7 @@
 		hdmi-pwr-supply = <&reg_5v_board>;
 		lv-pwr-supply = <&scmi_ldo7>; /* 1V8_HDMI */
 		hpd-gpios = <&gpiod 2 GPIO_ACTIVE_HIGH>;
-		status = "okay";
+		status = "disabled";
 
 		port {
 			hdmi_connector_in: endpoint {
@@ -193,7 +193,7 @@
 		compatible = "audio-graph-card";
 		label = "ccmp25-dvk";
 		dais = <&sai4b_port &sai4a_port>;
-		status = "okay";
+		status = "disabled";
 	};
 };
 
@@ -205,10 +205,10 @@
 	vdda-supply = <&scmi_vdda18adc>;
 	pinctrl-names = "default";
 	pinctrl-0 = <&ccmp25_adc_pins>;
-	status = "okay";
+	status = "disabled";
 
 	adc1: adc@0 {
-		status = "okay";
+		status = "disabled";
 
 		channel@0 {
 			reg = <0>;
@@ -240,7 +240,7 @@
 &csi {
 	vdd-supply =  <&scmi_vddcore>;
 	vdda18-supply = <&scmi_v1v8>;
-	status = "okay";
+	status = "disabled";
 	ports {
 		#address-cells = <1>;
 		#size-cells = <0>;
@@ -262,7 +262,7 @@
 };
 
 &dcmipp {
-	status = "okay";
+	status = "disabled";
 	port {
 		dcmipp_0: endpoint {
 			remote-endpoint = <&csi_source>;
@@ -274,7 +274,7 @@
 &dsi {
 	vdd-supply =  <&scmi_vddcore>;
 	vdda18-supply = <&scmi_v1v8>;
-	status = "okay";
+	status = "disabled";
 
 	ports {
 		#address-cells = <1>;
@@ -371,7 +371,7 @@
 		clocks = <&clk_ext_camera>;
 		reset-gpios = <&gpiog 7 (GPIO_ACTIVE_LOW | GPIO_PUSH_PULL)>;
 		powerdown-gpios = <&gpiof 3 (GPIO_ACTIVE_HIGH | GPIO_PUSH_PULL)>;
-		status = "okay";
+		status = "disabled";
 
 		port {
 			imx335_ep: endpoint {
@@ -399,7 +399,7 @@
 	i2c-scl-rising-time-ns = <100>;
 	i2c-scl-falling-time-ns = <13>;
 	clock-frequency = <400000>;
-	status = "okay";
+	status = "disabled";
 	/* spare dmas for other usage */
 	/delete-property/dmas;
 	/delete-property/dma-names;
@@ -409,7 +409,7 @@
 		reg = <0x48>;
 		reset-gpios = <&gpiod 4 GPIO_ACTIVE_LOW>;
 		vdd-supply = <&scmi_ldo7>; /* 1V8_HDMI */
-		status = "okay";
+		status = "disabled";
 
 		ports {
 			#address-cells = <1>;
@@ -478,7 +478,7 @@
 		#sound-dai-cells = <0>;
 		#address-cells = <1>;
 		#size-cells = <0>;
-		status = "okay";
+		status = "disabled";
 
 		max98089_port: port@0{
 			reg = <0>;
@@ -524,7 +524,7 @@
 
 &ltdc {
 	rotation-memory = <&ltdc_sec_rotation>;
-	status = "okay";
+	status = "disabled";
 
 	port {
 		#address-cells = <1>;
@@ -580,7 +580,7 @@
 	pinctrl-names = "default", "sleep";
 	pinctrl-0 = <&ccmp25_m_can2_pins>;
 	pinctrl-1 = <&ccmp25_m_can2_sleep_pins>;
-	status = "okay";
+	status = "disabled";
 };
 
 &ommanager {
@@ -604,30 +604,13 @@
 };
 
 /* PCIe conflicts with USB 3.0 */
-&pcie_ep {
-	reset-gpios = <&gpioh 5 GPIO_ACTIVE_LOW>;
-	/*wake-gpios = <&gpioa 1 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>;*/
-	/* Not supported by driver */
-	/*disable-gpio = <&gpioh 4 GPIO_ACTIVE_LOW>;*/
-	status = "disabled";
-};
 
-&pcie_rc {
-	reset-gpios = <&gpioh 5 GPIO_ACTIVE_LOW>;
-	wakeup-source;
-	wake-gpios = <&gpioa 1 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>;
-	vdd3v3-supply = <&reg_3v3_board>;
-	vdd1v5-supply = <&scmi_ldo6>;
-	/* Not supported by driver */
-	/*disable-gpio = <&gpioh 4 GPIO_ACTIVE_LOW>;*/
-	status = "okay";
-};
 
 &sai4 {
 	pinctrl-names = "default", "sleep";
 	pinctrl-0 = <&ccmp25_sai4a_pins>, <&ccmp25_sai4b_pins>;
 	pinctrl-1 = <&ccmp25_sai4a_sleep_pins>, <&ccmp25_sai4b_sleep_pins>;
-	status = "okay";
+	status = "disabled";
 
 	sai4a: audio-controller@40340004 {
 		/* Sub-block A is a slave of sub-block B */
@@ -637,7 +620,7 @@
 		dma-names = "rx";
 		clocks = <&rcc CK_KER_SAI4>, <&sai4b>;
 		clock-names = "sai_ck", "mclk";
-		status = "okay";
+		status = "disabled";
 
 		sai4a_port: port {
 			sai4a_endpoint: endpoint {
@@ -655,7 +638,7 @@
 		/* Sub-block B is only playback (tx) */
 		dmas = <&hpdma 80 0x63 0x21 0>;
 		dma-names = "tx";
-		status = "okay";
+		status = "disabled";
 
 		sai4b_port: port {
 			sai4b_endpoint: endpoint {
@@ -694,7 +677,7 @@
 	bus-width = <4>;
 	vmmc-supply = <&reg_3v3_board>; /* card's VDD pin */
 	vqmmc-supply = <&scmi_vddio3>;
-	status = "okay";
+	status = "disabled";
 };
 
 /* MikroBus SPI */
@@ -785,11 +768,11 @@
 };
 
 /* Console M33 / XBEE */
-&uart5 {
+&uart9 {
 	pinctrl-names = "default", "idle", "sleep";
-	pinctrl-0 = <&ccmp25_uart5_pins &ccmp25_uart5_rtscts_pins>;
-	pinctrl-1 = <&ccmp25_uart5_idle_pins &ccmp25_uart5_rtscts_idle_pins>;
-	pinctrl-2 = <&ccmp25_uart5_sleep_pins &ccmp25_uart5_rtscts_sleep_pins>;
+	pinctrl-0 = <&ccmp25_uart9_pins &ccmp25_uart9_rtscts_pins>;
+	pinctrl-1 = <&ccmp25_uart9_idle_pins &ccmp25_uart9_rtscts_idle_pins>;
+	pinctrl-2 = <&ccmp25_uart9_sleep_pins &ccmp25_uart9_rtscts_sleep_pins>;
 	uart-has-rtscts;
 	status = "okay";
 };
@@ -1003,65 +986,65 @@
 		};
 	};
 
-	ccmp25_uart5_pins: ccmp25-uart5-0 {
+	ccmp25_uart9_pins: ccmp25-uart9-0 {
 		pins1 {
-			pinmux = <STM32_PINMUX('G', 9, AF5)>; /* UART5_TX */
+			pinmux = <STM32_PINMUX('G', 8, AF6)>; /* UART9_TX */
 			bias-disable;
 			drive-push-pull;
 			slew-rate = <0>;
 		};
 		pins2 {
-			pinmux = <STM32_PINMUX('G', 10, AF5)>; /* UART5_RX */
+			pinmux = <STM32_PINMUX('I', 5, AF6)>; /* UART9_RX */
 			bias-disable;
 		};
 	};
 
-	ccmp25_uart5_idle_pins: ccmp25-uart5-idle-0 {
+	ccmp25_uart9_idle_pins: ccmp25-uart9-idle-0 {
 		pins1 {
-			pinmux = <STM32_PINMUX('G', 9, ANALOG)>; /* UART5_TX */
+			pinmux = <STM32_PINMUX('G', 8, ANALOG)>; /* UART9_TX */
 		};
 		pins2 {
-			pinmux = <STM32_PINMUX('G', 10, AF5)>; /* UART5_RX */
+			pinmux = <STM32_PINMUX('I', 5, AF6)>; /* UART9_RX */
 			bias-disable;
 		};
 	};
 
-	ccmp25_uart5_sleep_pins: ccmp25-uart5-sleep-0 {
+	ccmp25_uart9_sleep_pins: ccmp25-uart9-sleep-0 {
 		pins {
-			pinmux = <STM32_PINMUX('G', 9, ANALOG)>, /* UART5_TX */
-				 <STM32_PINMUX('G', 10, ANALOG)>; /* UART5_RX */
+			pinmux = <STM32_PINMUX('G', 8, ANALOG)>, /* UART5_TX */
+				 <STM32_PINMUX('I', 5, ANALOG)>; /* UART5_RX */
 		};
 	};
 
-	ccmp25_uart5_rtscts_pins: ccmp25-uart5-rtscts-0 {
+	ccmp25_uart9_rtscts_pins: ccmp25-uart9-rtscts-0 {
 		pins1 {
-			pinmux = <STM32_PINMUX('G', 8, AF5)>;  /* UART5_RTS */
+			pinmux = <STM32_PINMUX('F', 12, AF6)>;  /* UART9_RTS */
 			bias-disable;
 			drive-push-pull;
 			slew-rate = <0>;
 		};
 		pins2 {
-			pinmux = <STM32_PINMUX('I', 5, AF5)>; /* UART5_CTS */
+			pinmux = <STM32_PINMUX('G', 7, AF6)>; /* UART9_CTS */
 			bias-pull-up;
 		};
 	};
 
-	ccmp25_uart5_rtscts_idle_pins: ccmp25-uart5-rtscts-idle-0 {
+	ccmp25_uart9_rtscts_idle_pins: ccmp25-uart9-rtscts-idle-0 {
 		pins1 {
-			pinmux = <STM32_PINMUX('I', 5, ANALOG)>; /* UART5_CTS */
+			pinmux = <STM32_PINMUX('G', 7, ANALOG)>; /* UART9_CTS */
 		};
 		pins2 {
-			pinmux = <STM32_PINMUX('G', 8, AF5)>; /* UART5_RTS */
+			pinmux = <STM32_PINMUX('F', 12, AF6)>; /* UART9_RTS */
 			bias-disable;
 			drive-push-pull;
 			slew-rate = <0>;
 		};
 	};
 
-	ccmp25_uart5_rtscts_sleep_pins: ccmp25-uart5-rtscts-sleep-0 {
+	ccmp25_uart9_rtscts_sleep_pins: ccmp25-uart9-rtscts-sleep-0 {
 		pins {
-			pinmux = <STM32_PINMUX('G', 8, ANALOG)>, /* UART5_RTS */
-				 <STM32_PINMUX('I', 5, ANALOG)>; /* UART5_CTS */
+			pinmux = <STM32_PINMUX('F', 12, ANALOG)>, /* UART5_RTS */
+				 <STM32_PINMUX('G', 7, ANALOG)>; /* UART5_CTS */
 		};
 	};
 
