@@ -701,6 +701,35 @@
 	};
 };
 
+&spi4 {
+    pinctrl-names = "default", "sleep";
+    pinctrl-0 = <&ccmp25_spi4_pins>;
+    pinctrl-1 = <&ccmp25_spi4_sleep_pins>;
+    status = "okay";
+    
+    /* USER CODE BEGIN spi4 */
+    //cs-gpios = <&gpiob 1 0>;
+    
+    /*
+     * Reference block.
+     * 
+     * Configure your SPI peripherals.
+     */
+    //st33htpm0: st33htpm@0{
+    //    compatible = "st,st33htpm-spi";
+    //    reg = <0>;
+    //    spi-max-frequency = <33000000>;
+    //    status = "okay";
+    //};
+    //spidev@0{
+    //    compatible = "spidev";
+    //    reg = <0>;
+    //    spi-max-frequency = <4000000>;
+    //    status = "okay";
+    //};
+    /* USER CODE END spi4 */
+};
+
 &timers2 {
 	/delete-property/dmas;
 	/delete-property/dma-names;
@@ -974,5 +1003,30 @@
 				 <STM32_PINMUX('I', 5, ANALOG)>; /* UART5_RX */
 		};
 	};
+
+
+    ccmp25_spi4_pins: ccmp25-spi4 {
+        pins1 {
+            pinmux = <STM32_PINMUX('A', 10,  AF3)>, /* SPI4_MISO */
+                     <STM32_PINMUX('A',  9,  AF3)>; /* SPI4_NSS */
+            drive-push-pull;
+            bias-disable;
+            slew-rate = <0>;
+        };
+        pins2 {
+            pinmux = <STM32_PINMUX('A',  6,  AF3)>; /* SPI4_SCK */
+            drive-push-pull;
+            bias-disable;
+            slew-rate = <1>;
+        };
+    };
+    
+    ccmp25_spi4_sleep_pins: ccmp25-spi4-sleep {
+        pins {
+            pinmux = <STM32_PINMUX('A', 10, ANALOG)>, /* SPI4_MISO */
+                     <STM32_PINMUX('A',  6, ANALOG)>, /* SPI4_SCK */
+                     <STM32_PINMUX('A',  9, ANALOG)>; /* SPI4_NSS */
+        };
+    };
 
 };
