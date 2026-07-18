@@ -920,6 +920,21 @@
 		};
 	};
 
+	ccmp25_pwm1_pins: ccmp25-pwm1-0 {
+		pins {
+			pinmux = <STM32_PINMUX('D', 9, AF8)>; /* TIM1_CH3 */
+			bias-disable;
+			drive-push-pull;
+			slew-rate = <0>;
+		};
+	};
+
+	ccmp25_pwm1_sleep_pins: ccmp25-pwm1-sleep-0 {
+		pins {
+			pinmux = <STM32_PINMUX('D', 9, ANALOG)>; /* TIM1_CH3 */
+		};
+	};
+
 	ccmp25_pwm2_pins: ccmp25-pwm2-0 {
 		pins {
 			pinmux = <STM32_PINMUX('F', 11, AF7)>; /* TIM2_CH4 */
