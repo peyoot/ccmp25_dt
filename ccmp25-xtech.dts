@@ -686,6 +686,34 @@
 	};
 };
 
+&timers16 {
+    status = "okay";
+    /* USER CODE BEGIN timers16 */
+    /delete-property/dmas;
+    /delete-property/dma-names;
+    /* USER CODE END timers16 */
+    counter {
+        pinctrl-names = "default", "sleep";
+        pinctrl-0 = <&ccmp25_timers16_ch1_in_pins>;
+        pinctrl-1 = <&ccmp25_timers16_ch1_in_sleep_pins>;
+        status = "okay";
+    };
+};
+
+&timers17 {
+    status = "okay";
+    /* USER CODE BEGIN timers17 */
+    /delete-property/dmas;
+    /delete-property/dma-names;
+    /* USER CODE END timers17 */
+    pwm41: pwm {
+        pinctrl-names = "default", "sleep";
+        pinctrl-0 = <&ccmp25_timers17_ch1_pwm_pins>;
+        pinctrl-1 = <&ccmp25_timers17_ch1_pwm_sleep_pins>;
+        status = "okay";
+    };
+};
+
 &timers1 {
 	/delete-property/dmas;
 	/delete-property/dma-names;
@@ -936,6 +964,32 @@
 			pinmux = <STM32_PINMUX('B', 0, ANALOG)>; /* TIM20_CH4N */
 		};
 	};
+
+	ccmp25_timers16_ch1_in_pins: ccmp25-timers16-ch1-in {
+        pins {
+            pinmux = <STM32_PINMUX('H', 6, AF7)>; /* TIM16_CH1 作输入捕获 */
+            bias-pull-down;   /* 视你 BNC 信号源而定,见下 */
+        };
+    };
+    ccmp25_timers16_ch1_in_sleep_pins: ccmp25-timers16-ch1-in-sleep {
+        pins {
+            pinmux = <STM32_PINMUX('H', 6, ANALOG)>;
+        };
+    };
+
+	ccmp25_timers17_ch1_pwm_pins: ccmp25-timers17-ch1-pwm {
+        pins {
+            pinmux = <STM32_PINMUX('H', 3, AF7)>; /* TIM17_CH1 —— AF 需确认 */
+            drive-push-pull;
+            bias-disable;
+            slew-rate = <0>;
+        };
+    };
+    ccmp25_timers17_ch1_pwm_sleep_pins: ccmp25-timers17-ch1-pwm-sleep {
+        pins {
+            pinmux = <STM32_PINMUX('H', 3, ANALOG)>;
+        };
+    };
 
 	ccmp25_sai4a_pins: ccmp25-sai4a-1 {
 		pins {
