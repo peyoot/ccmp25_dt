@@ -33,7 +33,7 @@
 	aliases {
 		ethernet0 = &eth1;		
 		serial2 = &uart5; /* Console M33 / XBEE */
-		serial3 = &usart6; /* Connector J11 */
+		serial3 = &usart6; /* 485 */
 		serial4 = &uart9;
 	};
 
@@ -778,17 +778,6 @@
 	status = "okay";
 };
 
-/* MikroBus UART */
-&uart7 {
-	pinctrl-names = "default", "idle", "sleep";
-	pinctrl-0 = <&ccmp25_uart7_pins>;
-	pinctrl-1 = <&ccmp25_uart7_idle_pins>;
-	pinctrl-2 = <&ccmp25_uart7_sleep_pins>;
-	/delete-property/dmas;
-	/delete-property/dma-names;
-	status = "okay";
-};
-
 /* USB 2.0 Host */
 &usb2_phy1 {
 	vdd33-supply = <&scmi_vdd3v3_usb>;
@@ -986,33 +975,4 @@
 		};
 	};
 
-	ccmp25_uart7_pins: ccmp25-uart7-0 {
-		pins1 {
-			pinmux = <STM32_PINMUX('D', 3, AF6)>; /* UART7_TX */
-			bias-disable;
-			drive-push-pull;
-			slew-rate = <0>;
-		};
-		pins2 {
-			pinmux = <STM32_PINMUX('D', 0, AF6)>; /* UART7_RX */
-			bias-disable;
-		};
-	};
-
-	ccmp25_uart7_idle_pins: ccmp25-uart7-idle-0 {
-		pins1 {
-			pinmux = <STM32_PINMUX('D', 3, ANALOG)>; /* UART7_TX */
-		};
-		pins2 {
-			pinmux = <STM32_PINMUX('D', 0, AF6)>; /* UART7_RX */
-			bias-disable;
-		};
-	};
-
-	ccmp25_uart7_sleep_pins: ccmp25-uart7-sleep-0 {
-		pins {
-			pinmux = <STM32_PINMUX('D', 3, ANALOG)>, /* UART7_TX */
-				 <STM32_PINMUX('D', 0, ANALOG)>; /* UART7_RX */
-		};
-	};
 };
