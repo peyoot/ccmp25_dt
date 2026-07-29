@@ -202,6 +202,18 @@
 		dais = <&sai4b_port &sai4a_port>;
 		status = "disabled";
 	};
+
+leds {
+    compatible = "gpio-leds";
+    wavebox {
+        label = "wavebox";
+        gpios = <&gpiod 7 GPIO_ACTIVE_HIGH>;   /* NPN 低边: 高=亮 */
+        default-state = "off";                 /* 上电灭 */
+        /* 可选: linux,default-trigger = "heartbeat"; */
+    };
+};
+
+
 };
 
 &adc_12 {
@@ -1117,4 +1129,13 @@
         };
     };
 
+    ccmp25_gpio_led_pins: ccmp25-gpio-led {
+        pins {
+            pinmux = <STM32_PINMUX('D', 7, GPIO)>;
+            drive-push-pull;
+            bias-disable;
+            output-low;
+            slew-rate = <0>;
+        };
+    };
 };
