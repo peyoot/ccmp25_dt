@@ -674,16 +674,16 @@
 	cs-gpios = <&gpiob 1 0>; /* SPI3_SS */
 	status = "okay";
 
-	spidev@0 {
-		compatible = "rohm,dh2228fv";
+	//spidev@0 {
+	//	compatible = "rohm,dh2228fv";
 		/*
 		 * spidev uses a compatible string 'rohm,fs2228fv' to have the
 		 * driver create an spi device node. This is just an example,
 		 * there is not a real device connected on the SPI bus.
 		 */
-		reg = <0>;
-		spi-max-frequency = <4000000>;
-	};
+	//	reg = <0>;
+	//	spi-max-frequency = <4000000>;
+	// };
 };
 
 &timers2 {
@@ -755,7 +755,7 @@
     status = "okay";
     
     /* USER CODE BEGIN spi4 */
-    //cs-gpios = <&gpiob 1 0>;
+    cs-gpios = <&gpioa 9 0>;
     
     /*
      * Reference block.
@@ -1095,8 +1095,8 @@
 
     ccmp25_spi4_pins: ccmp25-spi4 {
         pins1 {
-            pinmux = <STM32_PINMUX('A', 10,  AF3)>, /* SPI4_MISO */
-                     <STM32_PINMUX('A',  9,  AF3)>; /* SPI4_NSS */
+            pinmux = <STM32_PINMUX('A', 5,  AF3)>; /* SPI4_MOSI */
+                     /* <STM32_PINMUX('A',  9,  AF3)>;  SPI4_NSS */
             drive-push-pull;
             bias-disable;
             slew-rate = <0>;
@@ -1111,7 +1111,7 @@
     
     ccmp25_spi4_sleep_pins: ccmp25-spi4-sleep {
         pins {
-            pinmux = <STM32_PINMUX('A', 10, ANALOG)>, /* SPI4_MISO */
+            pinmux = <STM32_PINMUX('A', 5, ANALOG)>, /* SPI4_MOSI */
                      <STM32_PINMUX('A',  6, ANALOG)>, /* SPI4_SCK */
                      <STM32_PINMUX('A',  9, ANALOG)>; /* SPI4_NSS */
         };
