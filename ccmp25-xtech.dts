@@ -686,6 +686,25 @@
 	};
 };
 
+&timers2 {
+    status = "okay";
+
+    /* USER CODE BEGIN timers2 */
+    /delete-property/dmas;
+    /delete-property/dma-names;
+    /* USER CODE END timers2 */
+
+    /* Set the desired PWM name  BNC_IN */
+    counter {
+        pinctrl-names = "default", "sleep";
+        pinctrl-0 = <&ccmp25_timers2_ch2_pwm_pins>;
+        pinctrl-1 = <&ccmp25_timers2_ch2_pwm_sleep_pins>;
+        status = "okay";
+    };
+
+
+};
+
 &timers16 {
     status = "okay";
     /* USER CODE BEGIN timers16 */
@@ -696,7 +715,7 @@
         pinctrl-names = "default", "sleep";
         pinctrl-0 = <&ccmp25_timers16_ch1_in_pins>;
         pinctrl-1 = <&ccmp25_timers16_ch1_in_sleep_pins>;
-        status = "okay";
+        status = "disabled";
     };
 };
 
@@ -964,6 +983,21 @@
 			pinmux = <STM32_PINMUX('B', 0, ANALOG)>; /* TIM20_CH4N */
 		};
 	};
+
+	ccmp25_timers2_ch2_pwm_pins: ccmp25-timers2-ch2-pwm {
+        pins {
+            pinmux = <STM32_PINMUX('A', 10,  AF8)>; /* TIM2_CH2_PWM BNC_IN */
+            drive-push-pull;
+            bias-disable;
+            slew-rate = <0>;
+        };
+    };
+
+    ccmp25_timers2_ch2_pwm_sleep_pins: ccmp25-timers2-ch2-pwm-sleep {
+        pins {
+            pinmux = <STM32_PINMUX('A', 10, ANALOG)>; /* TIM2_CH2_PWM */
+        };
+    };
 
 	ccmp25_timers16_ch1_in_pins: ccmp25-timers16-ch1-in {
         pins {
