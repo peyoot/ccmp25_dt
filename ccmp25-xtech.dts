@@ -713,36 +713,23 @@ leds {
         pinctrl-1 = <&ccmp25_timers2_ch2_pwm_sleep_pins>;
         status = "okay";
     };
-
-
 };
 
-&timers16 {
+&timers5 {
     status = "okay";
-    /* USER CODE BEGIN timers16 */
-    /delete-property/dmas;
-    /delete-property/dma-names;
-    /* USER CODE END timers16 */
-    counter {
-        pinctrl-names = "default", "sleep";
-        pinctrl-0 = <&ccmp25_timers16_ch1_in_pins>;
-        pinctrl-1 = <&ccmp25_timers16_ch1_in_sleep_pins>;
-        status = "disabled";
-    };
-};
 
-&timers17 {
-    status = "okay";
-    /* USER CODE BEGIN timers17 */
+    /* USER CODE BEGIN timers5 */
     /delete-property/dmas;
     /delete-property/dma-names;
-    /* USER CODE END timers17 */
-    pwm41: pwm {
+    /* USER CODE END timers5 */
+
+    /* Set the desired PWM name */
+    pwm26: pwm {
         pinctrl-names = "default", "sleep";
-        pinctrl-0 = <&ccmp25_timers17_ch1_pwm_pins>;
-        pinctrl-1 = <&ccmp25_timers17_ch1_pwm_sleep_pins>;
+        pinctrl-0 = <&ccmp25_timers5_ch3_pwm_pins>;
+        pinctrl-1 = <&ccmp25_timers5_ch3_pwm_sleep_pins>;
         status = "okay";
-    };
+    };  
 };
 
 &timers1 {
@@ -999,9 +986,7 @@ leds {
 	ccmp25_timers2_ch2_pwm_pins: ccmp25-timers2-ch2-pwm {
         pins {
             pinmux = <STM32_PINMUX('A', 10,  AF8)>; /* TIM2_CH2_PWM BNC_IN */
-            drive-push-pull;
-            bias-disable;
-            slew-rate = <0>;
+            bias-pull-down; 
         };
     };
 
@@ -1011,29 +996,19 @@ leds {
         };
     };
 
-	ccmp25_timers16_ch1_in_pins: ccmp25-timers16-ch1-in {
-        pins {
-            pinmux = <STM32_PINMUX('H', 6, AF7)>; /* TIM16_CH1 作输入捕获 */
-            bias-pull-down;   /* 视你 BNC 信号源而定,见下 */
-        };
-    };
-    ccmp25_timers16_ch1_in_sleep_pins: ccmp25-timers16-ch1-in-sleep {
-        pins {
-            pinmux = <STM32_PINMUX('H', 6, ANALOG)>;
-        };
-    };
 
-	ccmp25_timers17_ch1_pwm_pins: ccmp25-timers17-ch1-pwm {
+    ccmp25_timers5_ch3_pwm_pins: ccmp25-timers5-ch3-pwm {
         pins {
-            pinmux = <STM32_PINMUX('H', 3, AF7)>; /* TIM17_CH1 —— AF 需确认 */
+            pinmux = <STM32_PINMUX('H',  3,  AF9)>; /* TIM5_CH3_PWM BNC_OUT*/
             drive-push-pull;
             bias-disable;
             slew-rate = <0>;
         };
     };
-    ccmp25_timers17_ch1_pwm_sleep_pins: ccmp25-timers17-ch1-pwm-sleep {
+
+    ccmp25_timers5_ch3_pwm_sleep_pins: ccmp25-timers5-ch3-pwm-sleep {
         pins {
-            pinmux = <STM32_PINMUX('H', 3, ANALOG)>;
+            pinmux = <STM32_PINMUX('H',  3, ANALOG)>; /* TIM5_CH3_PWM BNC_OUT */
         };
     };
 
