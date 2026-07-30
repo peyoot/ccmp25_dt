@@ -733,6 +733,19 @@
     /delete-property/dma-names;
     /* USER CODE END timers2 */
 
+	pwm_mikrobus: pwm {
+		pinctrl-0 = <&ccmp25_pwm2_pins>;
+		pinctrl-1 = <&ccmp25_pwm2_sleep_pins>;
+		pinctrl-names = "default", "sleep";
+		status = "disabled";
+	};
+	timer@1 {
+		pinctrl-names = "default", "sleep";
+        pinctrl-0 = <&ccmp25_timers2_ch2_pwm_pins>;
+        pinctrl-1 = <&ccmp25_timers2_ch2_pwm_sleep_pins>;
+		status = "okay";
+	};
+
     /* Set the desired PWM name  BNC_IN */
 
     //counter {
@@ -799,6 +812,11 @@
     pinctrl-0 = <&ccmp25_spi4_pins>;
     pinctrl-1 = <&ccmp25_spi4_sleep_pins>;
     status = "okay";
+	spi-slave;
+    slave {
+        compatible = "wavebox,spi-rx-slave";
+        status = "okay";
+    };
     
     /* USER CODE BEGIN spi4 */
     cs-gpios = <&gpioa 9 0>;
@@ -821,21 +839,6 @@
     //    status = "okay";
     //};
     /* USER CODE END spi4 */
-};
-
-&timers2 {
-	/delete-property/dmas;
-	/delete-property/dma-names;
-	status = "disabled";
-	pwm_mikrobus: pwm {
-		pinctrl-0 = <&ccmp25_pwm2_pins>;
-		pinctrl-1 = <&ccmp25_pwm2_sleep_pins>;
-		pinctrl-names = "default", "sleep";
-		status = "disabled";
-	};
-	timer@1 {
-		status = "disabled";
-	};
 };
 
 &timers20 {
