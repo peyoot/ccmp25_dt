@@ -740,20 +740,12 @@
 		status = "disabled";
 	};
 	timer@1 {
-		pinctrl-names = "default", "sleep";
-        pinctrl-0 = <&ccmp25_timers2_ch2_pwm_pins>;
-        pinctrl-1 = <&ccmp25_timers2_ch2_pwm_sleep_pins>;
-		status = "okay";
+		status = "disabled";
 	};
 
-    /* Set the desired PWM name  BNC_IN */
-
-    //counter {
-    //    pinctrl-names = "default", "sleep";
-    //    pinctrl-0 = <&ccmp25_timers2_ch2_pwm_pins>;
-    //    pinctrl-1 = <&ccmp25_timers2_ch2_pwm_sleep_pins>;
-    //    status = "disabled";
-    //};
+    counter {
+        status = "disabled";
+    };
 
 	    /* 如果你的自定义驱动要挂在这里 */
     wavebox_tim2_cc2_probe: bnc-capture {
