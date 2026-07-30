@@ -811,7 +811,7 @@
     };
     
     /* USER CODE BEGIN spi4 */
-    cs-gpios = <&gpioa 9 0>;
+    //cs-gpios = <&gpioa 9 0>;
     
     /*
      * Reference block.
