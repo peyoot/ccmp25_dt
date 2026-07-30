@@ -24,6 +24,7 @@
 #include <dt-bindings/leds/common.h>
 #include <dt-bindings/regulator/st,stm32mp25-regulator.h>
 #include "dt-bindings/pwm/pwm.h"
+#include <dt-bindings/input/linux-event-codes.h>
 
 / {
 	model = "Digi International ConnectCore MP25 Development Kit";
@@ -203,17 +204,43 @@
 		status = "disabled";
 	};
 
-leds {
-    compatible = "gpio-leds";
-    wavebox {
-        label = "wavebox";
-        gpios = <&gpiod 7 GPIO_ACTIVE_HIGH>;   /* NPN 低边: 高=亮 */
-        default-state = "off";                 /* 上电灭 */
-        /* 可选: linux,default-trigger = "heartbeat"; */
+	leds {
+    	compatible = "gpio-leds";
+    	wavebox-led {
+        	label = "wavebox-led";
+        	gpios = <&gpiod 7 GPIO_ACTIVE_HIGH>;   /* NPN 低边: 高=亮 */
+        	default-state = "off";                 /* 上电灭 */
+        	/* 可选: linux,default-trigger = "heartbeat"; */
+    	};
+	};
+
+	wavebox_keys: wavebox-keys {
+        compatible = "gpio-keys";
+        pinctrl-names = "default";
+        pinctrl-0 = <&ccmp25_gpio_wavebox_key_pins>;   /* 引用刚才定义的引脚组 */
+        status = "okay";
+        /* ... 子节点保持不变 ... */
+		run-key {
+            label = "wavebox-run";
+            gpios = <&gpioz 9 GPIO_ACTIVE_LOW>;
+            linux,code = <148>;   /* KEY_PROG1 */
+            debounce-interval = <20>;
+        };
+
+        stop-key {
+            label = "wavebox-stop";
+            gpios = <&gpioz 8 GPIO_ACTIVE_LOW>;
+            linux,code = <128>;   /* KEY_STOP */
+            debounce-interval = <20>;
+        };
+
+        reset-key {
+            label = "wavebox-reset";
+            gpios = <&gpioz 1 GPIO_ACTIVE_LOW>;
+            linux,code = <0x198>; /* KEY_WPS */
+            debounce-interval = <20>;
+        };
     };
-};
-
-
 };
 
 &adc_12 {
@@ -1008,7 +1035,7 @@ leds {
 
     ccmp25_timers5_ch3_pwm_sleep_pins: ccmp25-timers5-ch3-pwm-sleep {
         pins {
-            pinmux = <STM32_PINMUX('H',  3, ANALOG)>; /* TIM5_CH3_PWM BNC_OUT */
+            pinmux = <STM32_PINMUX('H',  3, ANALOG)>; /* TIM5_CH3_PWM */
         };
     };
 
@@ -1111,6 +1138,19 @@ leds {
             bias-disable;
             output-low;
             slew-rate = <0>;
+        };
+    };
+};
+
+&pinctrl_z {
+
+    ccmp25_gpio_wavebox_key_pins: ccmp25-gpio-wavebox-key {
+		pins {
+            pinmux = <STM32_PINMUX('Z', 1, 0)>,   /* PZ1 - RESET */
+                     <STM32_PINMUX('Z', 8, 0)>,   /* PZ8 - STOP  */
+                     <STM32_PINMUX('Z', 9, 0)>;   /* PZ9 - RUN   */
+            bias-pull-up;          /* 按键低电平触发，内部上拉 */
+            slew-rate = <0>;       /* 低速，抗干扰 */
         };
     };
 };
