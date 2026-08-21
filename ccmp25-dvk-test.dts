@@ -24,7 +24,6 @@
 #include <dt-bindings/leds/common.h>
 #include <dt-bindings/regulator/st,stm32mp25-regulator.h>
 #include "dt-bindings/pwm/pwm.h"
-#include <dt-bindings/input/linux-event-codes.h>
 
 / {
 	model = "Digi International ConnectCore MP25 Development Kit";
@@ -32,10 +31,12 @@
 	digi,machine,name = "ccmp255-dvk";
 
 	aliases {
-		ethernet0 = &eth1;		
+		ethernet0 = &eth1;
+		ethernet1 = &eth2;
 		serial2 = &uart5; /* Console M33 / XBEE */
-		serial3 = &usart6; /* 485 */
-		serial4 = &uart9;
+		serial3 = &usart6; /* Connector J11 */
+		serial4 = &uart7; /* MikroBus UART */
+		serial5 = &lpuart1; /* Cortex-M0+ UART */
 	};
 
 	chosen {
@@ -79,7 +80,7 @@
 		hdmi-pwr-supply = <&reg_5v_board>;
 		lv-pwr-supply = <&scmi_ldo7>; /* 1V8_HDMI */
 		hpd-gpios = <&gpiod 2 GPIO_ACTIVE_HIGH>;
-		status = "disabled";
+		status = "okay";
 
 		port {
 			hdmi_connector_in: endpoint {
@@ -170,7 +171,8 @@
 			regulator-name = "3v3_board";
 			regulator-min-microvolt = <3300000>;
 			regulator-max-microvolt = <3300000>;
-			regulator-always-on;
+			gpio = <&gpioa 12 GPIO_ACTIVE_HIGH>; /* 3V3_BOARD_EN */
+			enable-active-high;
 			status = "okay";
 		};
 
@@ -181,7 +183,20 @@
 			regulator-min-microvolt = <5000000>;
 			regulator-max-microvolt = <5000000>;
 			regulator-enable-ramp-delay = <8000>;
-			regulator-always-on;
+			gpio = <&gpiob 3 GPIO_ACTIVE_HIGH>; /* 5V_BOARD_EN */
+			enable-active-high;
+			status = "okay";
+		};
+
+		reg_5v_usb_pwr_sw: regulator-board@3 {
+			compatible = "regulator-fixed";
+			reg = <3>;
+			regulator-name = "5v_usb_pwr_sw";
+			regulator-min-microvolt = <3300000>;
+			regulator-max-microvolt = <3300000>;
+			gpio = <&gpiog 4 GPIO_ACTIVE_HIGH>; /* NX5P3290_EN */
+			enable-active-high;
+			vin-supply = <&reg_5v_board>;
 			status = "okay";
 		};
 
@@ -193,7 +208,6 @@
 			regulator-max-microvolt = <1500000>;
 			status = "okay";
 		};
-
 	};
 
 	/* AUDIO */
@@ -201,46 +215,8 @@
 		compatible = "audio-graph-card";
 		label = "ccmp25-dvk";
 		dais = <&sai4b_port &sai4a_port>;
-		status = "disabled";
+		status = "okay";
 	};
-
-	leds {
-    	compatible = "gpio-leds";
-    	wavebox-led {
-        	label = "wavebox-led";
-        	gpios = <&gpiod 7 GPIO_ACTIVE_HIGH>;   /* NPN 低边: 高=亮 */
-        	default-state = "off";                 /* 上电灭 */
-        	/* 可选: linux,default-trigger = "heartbeat"; */
-    	};
-	};
-
-	wavebox_keys: wavebox-keys {
-        compatible = "gpio-keys";
-        pinctrl-names = "default";
-        pinctrl-0 = <&ccmp25_gpio_wavebox_key_pins>;   /* 引用刚才定义的引脚组 */
-        status = "okay";
-        /* ... 子节点保持不变 ... */
-		run-key {
-            label = "wavebox-run";
-            gpios = <&gpioz 9 GPIO_ACTIVE_LOW>;
-            linux,code = <148>;   /* KEY_PROG1 */
-            debounce-interval = <20>;
-        };
-
-        stop-key {
-            label = "wavebox-stop";
-            gpios = <&gpioz 8 GPIO_ACTIVE_LOW>;
-            linux,code = <128>;   /* KEY_STOP */
-            debounce-interval = <20>;
-        };
-
-        reset-key {
-            label = "wavebox-reset";
-            gpios = <&gpioz 1 GPIO_ACTIVE_LOW>;
-            linux,code = <0x198>; /* KEY_WPS */
-            debounce-interval = <20>;
-        };
-    };
 };
 
 &adc_12 {
@@ -251,10 +227,10 @@
 	vdda-supply = <&scmi_vdda18adc>;
 	pinctrl-names = "default";
 	pinctrl-0 = <&ccmp25_adc_pins>;
-	status = "disabled";
+	status = "okay";
 
 	adc1: adc@0 {
-		status = "disabled";
+		status = "okay";
 
 		channel@0 {
 			reg = <0>;
@@ -286,7 +262,7 @@
 &csi {
 	vdd-supply =  <&scmi_vddcore>;
 	vdda18-supply = <&scmi_v1v8>;
-	status = "disabled";
+	status = "okay";
 	ports {
 		#address-cells = <1>;
 		#size-cells = <0>;
@@ -308,7 +284,7 @@
 };
 
 &dcmipp {
-	status = "disabled";
+	status = "okay";
 	port {
 		dcmipp_0: endpoint {
 			remote-endpoint = <&csi_source>;
@@ -320,7 +296,7 @@
 &dsi {
 	vdd-supply =  <&scmi_vddcore>;
 	vdda18-supply = <&scmi_v1v8>;
-	status = "disabled";
+	status = "okay";
 
 	ports {
 		#address-cells = <1>;
@@ -343,7 +319,6 @@
 };
 
 &eth1 {
-
 	status = "okay";
 	pinctrl-0 = <&eth1_rgmii_pins_a &eth1_mdio_pins_a>;
 	pinctrl-1 = <&eth1_rgmii_sleep_pins_a &eth1_mdio_sleep_pins_a>;
@@ -351,24 +326,48 @@
 	phy-mode = "rgmii-id";
 	max-speed = <1000>;
 	phy-handle = <&phy1_eth1>;
-	st,eth-clk-sel;
 	snps,ext-systime;
 
+	/* ETH1 connected to the mdio bus ETH1_MDIO */
 	mdio1 {
 		#address-cells = <1>;
 		#size-cells = <0>;
 		compatible = "snps,dwmac-mdio";
-		phy1_eth1: ethernet-phy@4 {
-			compatible = "ethernet-phy-id001c.c916";
-			reset-gpios =  <&gpiob 2 GPIO_ACTIVE_LOW>;
-			reset-assert-us = <10000>;
-			reset-deassert-us = <80000>;
-			realtek,eee-disable;
-			reg = <4>;
+
+		phy1_eth1: ethernet-phy@0 {
+			compatible = "ethernet-phy-id0141.0dd0"; /* PHY ID for Marvell 88E1512 */
+			reset-gpios =  <&gpiob 2 GPIO_ACTIVE_LOW>; /* ETH1_RST */
+			reset-assert-us = <1000>;
+			reset-deassert-us = <2000>;
+			reg = <0>;
 		};
 	};
 };
 
+&eth2 {
+	status = "okay";
+	pinctrl-0 = <&eth2_rgmii_pins_a>;
+	pinctrl-1 = <&eth2_rgmii_sleep_pins_a>;
+	pinctrl-names = "default", "sleep";
+	phy-mode = "rgmii-id";
+	max-speed = <1000>;
+	phy-handle = <&phy1_eth2>;
+	st,eth-ptp-from-rcc;
+
+	/* ETH2 connected to mdio bus ETH2_MDIO */
+	mdio1 {
+		#address-cells = <1>;
+		#size-cells = <0>;
+		compatible = "snps,dwmac-mdio";
+		phy1_eth2: ethernet-phy@1 {
+			compatible = "ethernet-phy-id0141.0dd0"; /* PHY ID for Marvell 88E1512 */
+			reset-gpios =  <&gpiog 6 GPIO_ACTIVE_LOW>; /* ETH2_RST */
+			reset-assert-us = <1000>;
+			reset-deassert-us = <2000>;
+			reg = <1>;
+		};
+	};
+};
 
 /* Peripheral I2C bus (J18 Connector) */
 &i2c1 {
@@ -417,7 +416,7 @@
 		clocks = <&clk_ext_camera>;
 		reset-gpios = <&gpiog 7 (GPIO_ACTIVE_LOW | GPIO_PUSH_PULL)>;
 		powerdown-gpios = <&gpiof 3 (GPIO_ACTIVE_HIGH | GPIO_PUSH_PULL)>;
-		status = "disabled";
+		status = "okay";
 
 		port {
 			imx335_ep: endpoint {
@@ -445,7 +444,7 @@
 	i2c-scl-rising-time-ns = <100>;
 	i2c-scl-falling-time-ns = <13>;
 	clock-frequency = <400000>;
-	status = "disabled";
+	status = "okay";
 	/* spare dmas for other usage */
 	/delete-property/dmas;
 	/delete-property/dma-names;
@@ -455,7 +454,7 @@
 		reg = <0x48>;
 		reset-gpios = <&gpiod 4 GPIO_ACTIVE_LOW>;
 		vdd-supply = <&scmi_ldo7>; /* 1V8_HDMI */
-		status = "disabled";
+		status = "okay";
 
 		ports {
 			#address-cells = <1>;
@@ -524,7 +523,7 @@
 		#sound-dai-cells = <0>;
 		#address-cells = <1>;
 		#size-cells = <0>;
-		status = "disabled";
+		status = "okay";
 
 		max98089_port: port@0{
 			reg = <0>;
@@ -544,6 +543,19 @@
 	};
 };
 
+&i2c8 {
+	pinctrl-names = "default", "sleep";
+	pinctrl-0 = <&i2c8_pins_a>;
+	pinctrl-1 = <&i2c8_sleep_pins_a>;
+	i2c-scl-rising-time-ns = <57>;
+	i2c-scl-falling-time-ns = <7>;
+	clock-frequency = <400000>;
+	status = "disabled";
+	/* spare dmas for other usage */
+	/delete-property/dmas;
+	/delete-property/dma-names;
+};
+
 &lpuart1 {
 	pinctrl-names = "default", "idle", "sleep";
 	pinctrl-0 = <&ccmp25_lpuart1_pins>;
@@ -557,7 +569,7 @@
 
 &ltdc {
 	rotation-memory = <&ltdc_sec_rotation>;
-	status = "disabled";
+	status = "okay";
 
 	port {
 		#address-cells = <1>;
@@ -608,6 +620,14 @@
 	status = "okay";
 };
 
+/* FDCAN2 */
+&m_can2 {
+	pinctrl-names = "default", "sleep";
+	pinctrl-0 = <&ccmp25_m_can2_pins>;
+	pinctrl-1 = <&ccmp25_m_can2_sleep_pins>;
+	status = "okay";
+};
+
 &ommanager {
 	memory-region = <&mm_ospi1>;
 	memory-region-names = "mm_ospi1";
@@ -629,13 +649,30 @@
 };
 
 /* PCIe conflicts with USB 3.0 */
+&pcie_ep {
+	reset-gpios = <&gpioh 5 GPIO_ACTIVE_LOW>;
+	/*wake-gpios = <&gpioa 1 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>;*/
+	/* Not supported by driver */
+	/*disable-gpio = <&gpioh 4 GPIO_ACTIVE_LOW>;*/
+	status = "disabled";
+};
 
+&pcie_rc {
+	reset-gpios = <&gpioh 5 GPIO_ACTIVE_LOW>;
+	wakeup-source;
+	wake-gpios = <&gpioa 1 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>;
+	vdd3v3-supply = <&reg_3v3_board>;
+	vdd1v5-supply = <&scmi_ldo6>;
+	/* Not supported by driver */
+	/*disable-gpio = <&gpioh 4 GPIO_ACTIVE_LOW>;*/
+	status = "okay";
+};
 
 &sai4 {
 	pinctrl-names = "default", "sleep";
 	pinctrl-0 = <&ccmp25_sai4a_pins>, <&ccmp25_sai4b_pins>;
 	pinctrl-1 = <&ccmp25_sai4a_sleep_pins>, <&ccmp25_sai4b_sleep_pins>;
-	status = "disabled";
+	status = "okay";
 
 	sai4a: audio-controller@40340004 {
 		/* Sub-block A is a slave of sub-block B */
@@ -645,7 +682,7 @@
 		dma-names = "rx";
 		clocks = <&rcc CK_KER_SAI4>, <&sai4b>;
 		clock-names = "sai_ck", "mclk";
-		status = "disabled";
+		status = "okay";
 
 		sai4a_port: port {
 			sai4a_endpoint: endpoint {
@@ -663,7 +700,7 @@
 		/* Sub-block B is only playback (tx) */
 		dmas = <&hpdma 80 0x63 0x21 0>;
 		dma-names = "tx";
-		status = "disabled";
+		status = "okay";
 
 		sai4b_port: port {
 			sai4b_endpoint: endpoint {
@@ -702,7 +739,7 @@
 	bus-width = <4>;
 	vmmc-supply = <&reg_3v3_board>; /* card's VDD pin */
 	vqmmc-supply = <&scmi_vddio3>;
-	status = "disabled";
+	status = "okay";
 };
 
 /* MikroBus SPI */
@@ -713,56 +750,22 @@
 	cs-gpios = <&gpiob 1 0>; /* SPI3_SS */
 	status = "okay";
 
-	//spidev@0 {
-	//	compatible = "rohm,dh2228fv";
+	spidev@0 {
+		compatible = "rohm,dh2228fv";
 		/*
 		 * spidev uses a compatible string 'rohm,fs2228fv' to have the
 		 * driver create an spi device node. This is just an example,
 		 * there is not a real device connected on the SPI bus.
 		 */
-	//	reg = <0>;
-	//	spi-max-frequency = <4000000>;
-	// };
-};
-
-&timers2 {
-    status = "okay";
-
-    /* USER CODE BEGIN timers2 */
-    /delete-property/dmas;
-    /delete-property/dma-names;
-    /* USER CODE END timers2 */
-
-    /* Set the desired PWM name  BNC_IN */
-    counter {
-        pinctrl-names = "default", "sleep";
-        pinctrl-0 = <&ccmp25_timers2_ch2_pwm_pins>;
-        pinctrl-1 = <&ccmp25_timers2_ch2_pwm_sleep_pins>;
-        status = "okay";
-    };
-};
-
-&timers5 {
-    status = "okay";
-
-    /* USER CODE BEGIN timers5 */
-    /delete-property/dmas;
-    /delete-property/dma-names;
-    /* USER CODE END timers5 */
-
-    /* Set the desired PWM name */
-    pwm26: pwm {
-        pinctrl-names = "default", "sleep";
-        pinctrl-0 = <&ccmp25_timers5_ch3_pwm_pins>;
-        pinctrl-1 = <&ccmp25_timers5_ch3_pwm_sleep_pins>;
-        status = "okay";
-    };  
+		reg = <0>;
+		spi-max-frequency = <4000000>;
+	};
 };
 
 &timers1 {
 	/delete-property/dmas;
 	/delete-property/dma-names;
-	status = "disabled";
+	status = "okay";
 	pwm_mipi_bckl: pwm {
 		pinctrl-0 = <&ccmp25_pwm1_pins>;
 		pinctrl-1 = <&ccmp25_pwm1_sleep_pins>;
@@ -770,66 +773,37 @@
 		status = "okay";
 	};
 	timer@0 {
-		status = "disabled";
+		status = "okay";
 	};
-};
-
-&spi4 {
-    pinctrl-names = "default", "sleep";
-    pinctrl-0 = <&ccmp25_spi4_pins>;
-    pinctrl-1 = <&ccmp25_spi4_sleep_pins>;
-    status = "okay";
-    
-    /* USER CODE BEGIN spi4 */
-    cs-gpios = <&gpioa 9 0>;
-    
-    /*
-     * Reference block.
-     * 
-     * Configure your SPI peripherals.
-     */
-    //st33htpm0: st33htpm@0{
-    //    compatible = "st,st33htpm-spi";
-    //    reg = <0>;
-    //    spi-max-frequency = <33000000>;
-    //    status = "okay";
-    //};
-    //spidev@0{
-    //    compatible = "spidev";
-    //    reg = <0>;
-    //    spi-max-frequency = <4000000>;
-    //    status = "okay";
-    //};
-    /* USER CODE END spi4 */
 };
 
 &timers2 {
 	/delete-property/dmas;
 	/delete-property/dma-names;
-	status = "disabled";
+	status = "okay";
 	pwm_mikrobus: pwm {
 		pinctrl-0 = <&ccmp25_pwm2_pins>;
 		pinctrl-1 = <&ccmp25_pwm2_sleep_pins>;
 		pinctrl-names = "default", "sleep";
-		status = "disabled";
+		status = "okay";
 	};
 	timer@1 {
-		status = "disabled";
+		status = "okay";
 	};
 };
 
 &timers20 {
 	/delete-property/dmas;
 	/delete-property/dma-names;
-	status = "disabled";
+	status = "okay";
 	pwm_lvds_bckl: pwm {
 		pinctrl-0 = <&ccmp25_pwm20_pins>;
 		pinctrl-1 = <&ccmp25_pwm20_sleep_pins>;
 		pinctrl-names = "default", "sleep";
-		status = "disabled";
+		status = "okay";
 	};
 	timer@19 {
-		status = "disabled";
+		status = "okay";
 	};
 };
 
@@ -855,21 +829,17 @@
 	};
 };
 
-/*  XBEE */
-&uart9 {
-    pinctrl-names = "default", "idle", "sleep";
-    pinctrl-0 = <&ccmp25_uart9_pins>;
-	pinctrl-1 = <&ccmp25_uart9_idle_pins>;
-    pinctrl-1 = <&ccmp25_uart9_sleep_pins>;
-    status = "okay";
-
-    /* USER CODE BEGIN uart9 */
-    /delete-property/dmas;
-    /delete-property/dma-names;
-    /* USER CODE END uart9 */
+/* Console M33 / XBEE */
+&uart5 {
+	pinctrl-names = "default", "idle", "sleep";
+	pinctrl-0 = <&ccmp25_uart5_pins &ccmp25_uart5_rtscts_pins>;
+	pinctrl-1 = <&ccmp25_uart5_idle_pins &ccmp25_uart5_rtscts_idle_pins>;
+	pinctrl-2 = <&ccmp25_uart5_sleep_pins &ccmp25_uart5_rtscts_sleep_pins>;
+	uart-has-rtscts;
+	status = "okay";
 };
 
-/* RS485 */
+/* Connector J11 */
 &usart6 {
 	pinctrl-names = "default", "idle", "sleep";
 	pinctrl-0 = <&usart6_pins_a>;
@@ -877,6 +847,17 @@
 	pinctrl-2 = <&usart6_sleep_pins_a>;
 	linux,rs485-enabled-at-boot-time;
 	uart-has-rtscts;
+	status = "okay";
+};
+
+/* MikroBus UART */
+&uart7 {
+	pinctrl-names = "default", "idle", "sleep";
+	pinctrl-0 = <&ccmp25_uart7_pins>;
+	pinctrl-1 = <&ccmp25_uart7_idle_pins>;
+	pinctrl-2 = <&ccmp25_uart7_sleep_pins>;
+	/delete-property/dmas;
+	/delete-property/dma-names;
 	status = "okay";
 };
 
@@ -965,6 +946,26 @@
 		};
 	};
 
+	ccmp25_m_can2_pins: ccmp25-m-can2-0 {
+		pins1 {
+			pinmux = <STM32_PINMUX('I', 9, AF4)>; /* FDCAN2_TX */
+			slew-rate = <1>;
+			drive-push-pull;
+			bias-disable;
+		};
+		pins2 {
+			pinmux = <STM32_PINMUX('I', 10, AF4)>; /* FDCAN2_RX */
+			bias-disable;
+		};
+	};
+
+	ccmp25_m_can2_sleep_pins: ccmp25-m-can2-sleep-0 {
+		pins {
+			pinmux = <STM32_PINMUX('I', 9, ANALOG)>, /* FDCAN2_TX */
+				 <STM32_PINMUX('I', 10, ANALOG)>; /* FDCAN2_RX */
+		};
+	};
+
 	ccmp25_pwm1_pins: ccmp25-pwm1-0 {
 		pins {
 			pinmux = <STM32_PINMUX('D', 9, AF8)>; /* TIM1_CH3 */
@@ -1010,35 +1011,6 @@
 		};
 	};
 
-	ccmp25_timers2_ch2_pwm_pins: ccmp25-timers2-ch2-pwm {
-        pins {
-            pinmux = <STM32_PINMUX('A', 10,  AF8)>; /* TIM2_CH2_PWM BNC_IN */
-            bias-pull-down; 
-        };
-    };
-
-    ccmp25_timers2_ch2_pwm_sleep_pins: ccmp25-timers2-ch2-pwm-sleep {
-        pins {
-            pinmux = <STM32_PINMUX('A', 10, ANALOG)>; /* TIM2_CH2_PWM */
-        };
-    };
-
-
-    ccmp25_timers5_ch3_pwm_pins: ccmp25-timers5-ch3-pwm {
-        pins {
-            pinmux = <STM32_PINMUX('H',  3,  AF9)>; /* TIM5_CH3_PWM BNC_OUT*/
-            drive-push-pull;
-            bias-disable;
-            slew-rate = <0>;
-        };
-    };
-
-    ccmp25_timers5_ch3_pwm_sleep_pins: ccmp25-timers5-ch3-pwm-sleep {
-        pins {
-            pinmux = <STM32_PINMUX('H',  3, ANALOG)>; /* TIM5_CH3_PWM */
-        };
-    };
-
 	ccmp25_sai4a_pins: ccmp25-sai4a-1 {
 		pins {
 			pinmux = <STM32_PINMUX('D', 1, AF5)>; /* SAI4_SD_A */
@@ -1076,81 +1048,95 @@
 		};
 	};
 
-	ccmp25_uart9_pins: ccmp25-uart9-0 {
+	ccmp25_uart5_pins: ccmp25-uart5-0 {
 		pins1 {
-			pinmux = <STM32_PINMUX('G', 8, AF6)>; /* UART9_TX */
+			pinmux = <STM32_PINMUX('G', 9, AF5)>; /* UART5_TX */
 			bias-disable;
 			drive-push-pull;
 			slew-rate = <0>;
 		};
 		pins2 {
-			pinmux = <STM32_PINMUX('I', 5, AF6)>; /* UART9_RX */
+			pinmux = <STM32_PINMUX('G', 10, AF5)>; /* UART5_RX */
 			bias-disable;
 		};
 	};
 
-	ccmp25_uart9_idle_pins: ccmp25-uart9-idle-0 {
+	ccmp25_uart5_idle_pins: ccmp25-uart5-idle-0 {
 		pins1 {
-			pinmux = <STM32_PINMUX('G', 8, ANALOG)>; /* UART9_TX */
+			pinmux = <STM32_PINMUX('G', 9, ANALOG)>; /* UART5_TX */
 		};
 		pins2 {
-			pinmux = <STM32_PINMUX('I', 5, AF6)>; /* UART9_RX */
+			pinmux = <STM32_PINMUX('G', 10, AF5)>; /* UART5_RX */
 			bias-disable;
 		};
 	};
 
-	ccmp25_uart9_sleep_pins: ccmp25-uart9-sleep-0 {
+	ccmp25_uart5_sleep_pins: ccmp25-uart5-sleep-0 {
 		pins {
-			pinmux = <STM32_PINMUX('G', 8, ANALOG)>, /* UART5_TX */
-				 <STM32_PINMUX('I', 5, ANALOG)>; /* UART5_RX */
+			pinmux = <STM32_PINMUX('G', 9, ANALOG)>, /* UART5_TX */
+				 <STM32_PINMUX('G', 10, ANALOG)>; /* UART5_RX */
 		};
 	};
 
+	ccmp25_uart5_rtscts_pins: ccmp25-uart5-rtscts-0 {
+		pins1 {
+			pinmux = <STM32_PINMUX('G', 8, AF5)>;  /* UART5_RTS */
+			bias-disable;
+			drive-push-pull;
+			slew-rate = <0>;
+		};
+		pins2 {
+			pinmux = <STM32_PINMUX('I', 5, AF5)>; /* UART5_CTS */
+			bias-pull-up;
+		};
+	};
 
-    ccmp25_spi4_pins: ccmp25-spi4 {
-        pins1 {
-            pinmux = <STM32_PINMUX('A', 5,  AF3)>; /* SPI4_MOSI */
-                     /* <STM32_PINMUX('A',  9,  AF3)>;  SPI4_NSS */
-            drive-push-pull;
-            bias-disable;
-            slew-rate = <0>;
-        };
-        pins2 {
-            pinmux = <STM32_PINMUX('A',  6,  AF3)>; /* SPI4_SCK */
-            drive-push-pull;
-            bias-disable;
-            slew-rate = <1>;
-        };
-    };
-    
-    ccmp25_spi4_sleep_pins: ccmp25-spi4-sleep {
-        pins {
-            pinmux = <STM32_PINMUX('A', 5, ANALOG)>, /* SPI4_MOSI */
-                     <STM32_PINMUX('A',  6, ANALOG)>, /* SPI4_SCK */
-                     <STM32_PINMUX('A',  9, ANALOG)>; /* SPI4_NSS */
-        };
-    };
+	ccmp25_uart5_rtscts_idle_pins: ccmp25-uart5-rtscts-idle-0 {
+		pins1 {
+			pinmux = <STM32_PINMUX('I', 5, ANALOG)>; /* UART5_CTS */
+		};
+		pins2 {
+			pinmux = <STM32_PINMUX('G', 8, AF5)>; /* UART5_RTS */
+			bias-disable;
+			drive-push-pull;
+			slew-rate = <0>;
+		};
+	};
 
-    ccmp25_gpio_led_pins: ccmp25-gpio-led {
-        pins {
-            pinmux = <STM32_PINMUX('D', 7, GPIO)>;
-            drive-push-pull;
-            bias-disable;
-            output-low;
-            slew-rate = <0>;
-        };
-    };
-};
-
-&pinctrl_z {
-
-    ccmp25_gpio_wavebox_key_pins: ccmp25-gpio-wavebox-key {
+	ccmp25_uart5_rtscts_sleep_pins: ccmp25-uart5-rtscts-sleep-0 {
 		pins {
-            pinmux = <STM32_PINMUX('Z', 1, 0)>,   /* PZ1 - RESET */
-                     <STM32_PINMUX('Z', 8, 0)>,   /* PZ8 - STOP  */
-                     <STM32_PINMUX('Z', 9, 0)>;   /* PZ9 - RUN   */
-            bias-pull-up;          /* 按键低电平触发，内部上拉 */
-            slew-rate = <0>;       /* 低速，抗干扰 */
-        };
-    };
+			pinmux = <STM32_PINMUX('G', 8, ANALOG)>, /* UART5_RTS */
+				 <STM32_PINMUX('I', 5, ANALOG)>; /* UART5_CTS */
+		};
+	};
+
+	ccmp25_uart7_pins: ccmp25-uart7-0 {
+		pins1 {
+			pinmux = <STM32_PINMUX('D', 3, AF6)>; /* UART7_TX */
+			bias-disable;
+			drive-push-pull;
+			slew-rate = <0>;
+		};
+		pins2 {
+			pinmux = <STM32_PINMUX('D', 0, AF6)>; /* UART7_RX */
+			bias-disable;
+		};
+	};
+
+	ccmp25_uart7_idle_pins: ccmp25-uart7-idle-0 {
+		pins1 {
+			pinmux = <STM32_PINMUX('D', 3, ANALOG)>; /* UART7_TX */
+		};
+		pins2 {
+			pinmux = <STM32_PINMUX('D', 0, AF6)>; /* UART7_RX */
+			bias-disable;
+		};
+	};
+
+	ccmp25_uart7_sleep_pins: ccmp25-uart7-sleep-0 {
+		pins {
+			pinmux = <STM32_PINMUX('D', 3, ANALOG)>, /* UART7_TX */
+				 <STM32_PINMUX('D', 0, ANALOG)>; /* UART7_RX */
+		};
+	};
 };
