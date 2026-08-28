@@ -34,7 +34,7 @@
     	compatible = "Viena,system-info";
 		product-id = "Viena-CCMP25";
     	pcb-revision = "Rev 1.0";
-    	firmware-version = "DEY5.0r3-20260303-2mspi00f-x690-ss150-vd100-wakeupsource-bckl-reverse-level";
+    	firmware-version = "DEY5.0r3-202608060800";
 	};
 
 	aliases {
@@ -78,7 +78,8 @@
 		};
 	};
 
-	hdmi_connector: hdmi-connector {
+
+	hdmi-connector {
 		compatible = "hdmi-connector";
 		label = "hdmi";
 		type = "a";
@@ -96,18 +97,22 @@
 
 	panel_hx3248c_backlight: panel-lvds-pwm-backlight {
 		compatible = "pwm-backlight";
-		/* node TIM16_CH1 period (ns)  20kHz = 50000 */
-		pwms = <&pwm_lvds_bckl 0 50000 0>;
+		//20KHZ PWM 反相
+		pwms = <&pwm_lvds_bckl 0 50000  PWM_POLARITY_INVERTED>;
 		enable-gpios = <&gpiof 11 GPIO_ACTIVE_HIGH>;
-    	// brightness-levels = <0 5 15 30 50 75 100 130 165 205 255>;
-		brightness-levels = <255 180 170 150 130 100 70 45 25 10 0>;     
-    	/* 反相关系，默认亮度：索引 7 → 值 45 ，约50%占空比 */
-    	default-brightness-level = <7>;
+		/*
+		* 正常递增：
+		* brightness = 0  -> 灭
+		* brightness = 1  -> 最暗
+		* brightness = 10 -> 最亮
+		*/
+		brightness-levels = <0 165 175 185 195 205 215 225 236 246 255>;
+		default-brightness-level = <10>;
 		power-supply = <&reg_5v_board>;
-		power-on-delay-ms = <5>;
-    	power-off-delay-ms = <5>;
+		power-on-delay-ms = <50>;
+		power-off-delay-ms = <50>;
 		status = "okay";
-	};
+    };
 
 	panel_lvds: panel-lvds {
 		compatible = "panel-lvds";
@@ -271,17 +276,17 @@
 };
 
 &eth2 {
-
 	status = "okay";
-	pinctrl-0 = <&eth2_rgmii_pins_a>;
-	pinctrl-1 = <&eth2_rgmii_sleep_pins_a>;
+	pinctrl-0 = <&eth2_rgmii_pins_a>; 
+	pinctrl-1 = <&eth2_rgmii_sleep_pins_a>; 
 	pinctrl-names = "default", "sleep";
 	phy-mode = "rgmii-id";
 	max-speed = <1000>;
 	phy-handle = <&phy1_eth2>;
 	st,eth-ptp-from-rcc;
+	snps,ext-systime; 
 
-	mdio1 {
+	mdio2 {  
 		#address-cells = <1>;
 		#size-cells = <0>;
 		compatible = "snps,dwmac-mdio";
@@ -291,11 +296,11 @@
 			reset-assert-us = <10000>;
 			reset-deassert-us = <80000>;
 			realtek,eee-disable;
-			reg = <1>;
+			reg = <1>;  
 		};
 	};
-
 };
+
 
 &dsi {
 	vdd-supply =  <&scmi_vddcore>;
@@ -323,54 +328,40 @@
 };
 
 &spi3 {
-	pinctrl-names = "default", "sleep";
-	pinctrl-0 = <&ccmp25_spi3_pins>;
-	pinctrl-1 = <&ccmp25_spi3_sleep_pins>;
-	cs-gpios = <&gpiob 1 GPIO_ACTIVE_LOW>;
+    pinctrl-names = "default", "sleep";
+    pinctrl-0 = <&ccmp25_spi3_pins>;
+    pinctrl-1 = <&ccmp25_spi3_sleep_pins>;
+    cs-gpios = <&gpiob 1 GPIO_ACTIVE_LOW>;
+    status = "okay";
 
-	status = "okay";
+    touchscreen: touchscreen@0 {
+        compatible = "ti,tsc2046";
+        reg = <0>;
+        /* 1. SPI频率提升至2MHzTSC2046硬件标称支持传输时间直接减半 */
+        spi-max-frequency = <2000000>;
+        vcc-supply = <&reg_3v3_board>;
+        interrupt-parent = <&gpiod>;
+        interrupts = <5 IRQ_TYPE_EDGE_FALLING>;
+        pendown-gpio = <&gpiod 5 GPIO_ACTIVE_LOW>;
 
-	spidev@0 {
-    	compatible = "rohm,dh2228fv";
-    	reg = <0>;
-    	spi-max-frequency = <2000000>;
-	};
-    
-	touchscreen: touchscreen@0 {
-		compatible = "ti,tsc2046";       /* tsc2046 */
-		reg = <0>;                        /* SPI片选0 */
-		spi-max-frequency = <2000000>;
-		vcc-supply = <&reg_3v3_board>;
-        
-		interrupt-parent = <&gpiod>;
-		interrupts = <5 IRQ_TYPE_EDGE_FALLING>;
-		pendown-gpio = <&gpiod 5 GPIO_ACTIVE_LOW>;
+        ti,x-min = /bits/ 16 <0>;
+        ti,x-max = /bits/ 16 <4095>;
+        ti,y-min = /bits/ 16 <0>;
+        ti,y-max = /bits/ 16 <4095>;
+        ti,x-plate-ohms = /bits/ 16 <400>;
+        ti,y-plate-ohms = /bits/ 16 <300>;
+        ti,pressure-min = /bits/ 16 <0>;
+        ti,pressure-max = /bits/ 16 <8191>;
+        ti,vref-mv = /bits/ 16 <3300>;
+        ti,keep-vref-on;
 
- 		ti,x-min = /bits/ 16 <50>;
-		ti,x-max = /bits/ 16 <4050>;
-		ti,y-min = /bits/ 16 <50>;
-		ti,y-max = /bits/ 16 <4050>;
-		ti,x-plate-ohms = /bits/ 16 <690>;
-
-		//ti,pressure-min = /bits/ 16 <80>; 
-		ti,pressure-max = /bits/ 16 <4095>; 
-
-		// touchscreen-average-samples = <4>
-		ti,debounce-max = <50>;
-        ti,debounce-tol = <15>;
-		ti,debounce-rep = <3>;
-		ti,settle-delay-usec = <150>;
-		ti,settle-samples; 
-		ti,vref-delay-usecs = <100>;
-		//penirq-recheck-delay-usecs = <15>;
-		ti,keep-vref-on;
-		//ti,vref-mv = <0>;
-
-		wakeup-source;
-		status = "disabled";
-
+        /* 稳定时间从300us压缩至20us工业小尺寸电阻屏无需过长稳定时间 */
+        ti,settle-delay-usec = /bits/ 16 <20>;
+        status = "okay";
     };
 };
+
+
 
 /* Peripheral I2C bus (J18 Connector) */
 &i2c1 {
@@ -811,11 +802,13 @@
 					 <STM32_PINMUX('I',  6, ANALOG)>;  /* PI6_GPIO_DIN */					    
             bias-disable;
         };
+
 	};
 
 	ccmp25_gpio_sleep_pins: ccmp25-gpio-sleep {
 		pins {
-			pinmux = <STM32_PINMUX('F', 10, ANALOG)>, /* PF10_GPIO */
+			pinmux = <STM32_PINMUX('D',  0, ANALOG)>, /* 睡眠时 PD0 设为模拟态 */
+					 <STM32_PINMUX('F', 10, ANALOG)>, /* PF10_GPIO */
 					 <STM32_PINMUX('I',  0, ANALOG)>, /* SAI4_MCLK_B_GPIO */
 					 <STM32_PINMUX('G',  3, ANALOG)>, /* PG3_GPIO */
 					 <STM32_PINMUX('G',  8, ANALOG)>,  /* PG8_GPIO_DIN */
@@ -1050,4 +1043,9 @@
         };
     };
 
+};
+
+/* Audio */
+&sound_max98357 {
+	status = "disabled";
 };
