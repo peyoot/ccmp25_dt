@@ -12,14 +12,23 @@
     };
 };
 
-&hdmi_connector {
-    status = "okay";
+fragment@1 {
+    target = <&hdmi_connector>;
+    __overlay__ {
+        status = "okay";
+    };
 };
 
-&dsi {
-    status = "okay";
+fragment@2 {
+    target = <&dsi>;
+    __overlay__ {
+        status = "okay";
+    };
 };
 
-&lt_bridge {
-    status = "okay";
+fragment@3 {
+    target = <&lt_bridge>;
+    __overlay__ {
+        status = "okay";
+    };
 };
