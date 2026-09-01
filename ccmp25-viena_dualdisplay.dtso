@@ -7,30 +7,21 @@
     fragment@0 {
         target-path = "/";
         __overlay__ {
-            overlay-description = "ccmp25viena: dual display  LVDS + HDMI";
+            overlay-description = "ccmp25viena: dual display LVDS + HDMI";
         };
     };
-
-    fragment@1 {
-        target = "&hdmi_connector";
-        __overlay__ {
-            status = "okay";
-        };
-    };
-
-    fragment@2 {
-        target = "&dsi";
-        __overlay__ {
-            status = "okay";
-        };
-    };
-
-    fragment@3 {
-        target = "&lt_bridge";
-        __overlay__ {
-            status = "okay";
-        };
-    };
-
-    /* 无需改动 lvds 和 panel，其本身已 okay */
 };
+
+&hdmi_connector {
+    status = "okay";
+};
+
+&dsi {
+    status = "okay";
+};
+
+&lt_bridge {
+    status = "okay";
+};
+
+/* 无需改动 lvds 和 panel,其本身已 okay */
