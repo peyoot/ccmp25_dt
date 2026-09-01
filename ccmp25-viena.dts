@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: (GPL-2.0-or-later OR BSD-3-Clause)
 /*
- * Copyright (C) 2024,2025, Digi International Inc.
+ * Copyright (C) 2024,2025,2026 Digi International Inc.
  *
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -34,7 +34,7 @@
     	compatible = "Viena,system-info";
 		product-id = "Viena-CCMP25";
     	pcb-revision = "Rev 1.0";
-    	firmware-version = "DEY5.0r3-202608060800";
+    	firmware-version = "DEY5.0r4-20260901";
 	};
 
 	aliases {
@@ -78,14 +78,13 @@
 		};
 	};
 
-
-	hdmi-connector {
+	hdmi_connector: hdmi-connector  {
 		compatible = "hdmi-connector";
 		label = "hdmi";
 		type = "a";
 		hdmi-pwr-supply = <&reg_5v_board>;
 		lv-pwr-supply = <&scmi_ldo7>; /* 1V8_HDMI */
-		hpd-gpios = <&gpiod 2 GPIO_ACTIVE_HIGH>;
+		/* hpd-gpios = <&gpiod 2 GPIO_ACTIVE_HIGH>; */
 		status = "disabled";
 
 		port {
@@ -97,22 +96,19 @@
 
 	panel_hx3248c_backlight: panel-lvds-pwm-backlight {
 		compatible = "pwm-backlight";
-		//20KHZ PWM 反相
-		pwms = <&pwm_lvds_bckl 0 50000  PWM_POLARITY_INVERTED>;
+		/* node TIM16_CH1 period (ns)  20kHz = 50000 */
+		pwms = <&pwm_lvds_bckl 0 50000 0>;
 		enable-gpios = <&gpiof 11 GPIO_ACTIVE_HIGH>;
-		/*
-		* 正常递增：
-		* brightness = 0  -> 灭
-		* brightness = 1  -> 最暗
-		* brightness = 10 -> 最亮
-		*/
-		brightness-levels = <0 165 175 185 195 205 215 225 236 246 255>;
-		default-brightness-level = <10>;
+    	// brightness-levels = <0 5 15 30 50 75 100 130 165 205 255>;
+		brightness-levels = <255 180 170 150 130 100 70 45 25 10 0>;     
+    	/* 反相关系，默认亮度：索引 7 → 值 45 ，约50%占空比 */
+    	default-brightness-level = <7>;
 		power-supply = <&reg_5v_board>;
-		power-on-delay-ms = <50>;
-		power-off-delay-ms = <50>;
+		power-on-delay-ms = <5>;
+    	power-off-delay-ms = <5>;
 		status = "okay";
-    };
+	};
+
 
 	panel_lvds: panel-lvds {
 		compatible = "panel-lvds";
@@ -284,9 +280,9 @@
 	max-speed = <1000>;
 	phy-handle = <&phy1_eth2>;
 	st,eth-ptp-from-rcc;
-	snps,ext-systime; 
+	
 
-	mdio2 {  
+	mdio1 {  
 		#address-cells = <1>;
 		#size-cells = <0>;
 		compatible = "snps,dwmac-mdio";
@@ -344,15 +340,14 @@
         interrupts = <5 IRQ_TYPE_EDGE_FALLING>;
         pendown-gpio = <&gpiod 5 GPIO_ACTIVE_LOW>;
 
-        ti,x-min = /bits/ 16 <0>;
+        ti,x-min = /bits/ 16 <10>;
         ti,x-max = /bits/ 16 <4095>;
-        ti,y-min = /bits/ 16 <0>;
+        ti,y-min = /bits/ 16 <10>;
         ti,y-max = /bits/ 16 <4095>;
         ti,x-plate-ohms = /bits/ 16 <400>;
         ti,y-plate-ohms = /bits/ 16 <300>;
         ti,pressure-min = /bits/ 16 <0>;
         ti,pressure-max = /bits/ 16 <8191>;
-        ti,vref-mv = /bits/ 16 <3300>;
         ti,keep-vref-on;
 
         /* 稳定时间从300us压缩至20us工业小尺寸电阻屏无需过长稳定时间 */
@@ -390,8 +385,8 @@
 	pinctrl-names = "default", "sleep";
 	pinctrl-0 = <&ccmp25_i2c3_pins>;
 	pinctrl-1 = <&ccmp25_i2c3_sleep_pins>;
-	i2c-scl-rising-time-ns = <185>;
-	i2c-scl-falling-time-ns = <20>;
+	i2c-scl-rising-time-ns = <100>;
+	i2c-scl-falling-time-ns = <13>;
 	clock-frequency = <400000>;
 	status = "okay";
 	/* spare dmas for other usage */
@@ -534,7 +529,17 @@
 	pinctrl-1 = <&ccmp25_can1_sleep_pins>;
 	status = "okay";
 };
+/* PMIC LDO6 (PCIe 1.5V) */
+&scmi_ldo6 {
+	regulator-min-microvolt = <1500000>;
+	regulator-max-microvolt = <1500000>;
+};
 
+/* PMIC LDO7 (HDMI 1.8V) */
+&scmi_ldo7 {
+	regulator-min-microvolt = <1800000>;
+	regulator-max-microvolt = <1800000>;
+};
 
 
 /* Micro SD */
@@ -645,12 +650,24 @@
 
 /* Console A35 */
 &usart2 {
-	pinctrl-names = "default", "sleep";
-	pinctrl-0 = <&ccmp25_usart2_pins>;
-	pinctrl-1 = <&ccmp25_usart2_sleep_pins>;
+	bootph-all;
+	pinctrl-names = "default", "idle", "sleep";
+	pinctrl-0 = <&usart2_pins_a>;
+	pinctrl-1 = <&usart2_idle_pins_a>;
+	pinctrl-2 = <&usart2_sleep_pins_a>;
 	/delete-property/dmas;
 	/delete-property/dma-names;
 	status = "okay";
+};
+
+&usart2_pins_a {
+	bootph-all;
+	pins1 {
+		bootph-all;
+	};
+	pins2 {
+		bootph-all;
+	};
 };
 
 &usart6 {
@@ -903,27 +920,6 @@
 		pins {
 			pinmux = <STM32_PINMUX('G',  9, ANALOG)>, /* UART5_TX */
 					 <STM32_PINMUX('G', 10, ANALOG)>; /* UART5_RX */
-		};
-	};
-
-
-	ccmp25_usart2_pins: ccmp25-usart2 {
-		pins1 {
-			pinmux = <STM32_PINMUX('A',  8,  AF8)>; /* USART2_RX */
-			bias-disable;
-		};
-		pins2 {
-			pinmux = <STM32_PINMUX('A',  4,  AF6)>; /* USART2_TX */
-			drive-push-pull;
-			bias-disable;
-			slew-rate = <0>;
-		};
-	};
-
-	ccmp25_usart2_sleep_pins: ccmp25-usart-sleep-2 {
-		pins {
-			pinmux = <STM32_PINMUX('A',  8, ANALOG)>, /* USART2_RX */
-					 <STM32_PINMUX('A',  4, ANALOG)>; /* USART2_TX */
 		};
 	};
 

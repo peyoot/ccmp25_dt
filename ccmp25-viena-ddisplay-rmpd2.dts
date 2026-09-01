@@ -34,7 +34,7 @@
     	compatible = "Viena,system-info";
 		product-id = "Viena-CCMP25";
     	pcb-revision = "Rev 1.0";
-    	firmware-version = "DEY5.0r3-20260427-dualdisplay-version";
+    	firmware-version = "DEY5.0r4-20260901";
 	};
 
 	aliases {
@@ -77,7 +77,7 @@
 			clock-frequency = <100000000>;
 		};
 	};
-
+	
 	hdmi_connector: hdmi-connector {
 		compatible = "hdmi-connector";
 		label = "hdmi";
@@ -435,7 +435,7 @@
 		};
 
 		display-timings {
-			native-mode = <&timing2>;
+			native-mode = <&timing0>;
 
 			/* High Definition */
 			timing0: timing0 {
@@ -470,24 +470,6 @@
 				de-active = <0>;
 				pixelclk-active = <0>;
 			};
-
-			/* lvds clone */
-
-			timing2: timing2 {
-                    clock-frequency = <51200000>;
-                    hactive = <1024>;
-                    vactive = <600>;
-                    hfront-porch = <160>;
-                    hsync-len = <10>;
-                    hback-porch = <160>;
-                    vfront-porch = <12>;
-                    vsync-len = <3>;
-                    vback-porch = <23>;
-                    hsync-active = <0>;
-                    vsync-active = <0>;
-                    de-active = <1>;
-                    pixelclk-active = <0>;
-                };
 		};
 	};
 
