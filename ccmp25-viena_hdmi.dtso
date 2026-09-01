@@ -10,28 +10,46 @@
             overlay-description = "ccmp25viena: HDMI Overlay (disable lvds)";
         };
     };
-};
 
-&hdmi_connector {
-    status = "okay";
-};
+    fragment@1 {
+        target = <&hdmi_connector>;
+        __overlay__ {
+            status = "okay";
+        };
+    };
 
-&panel_hx3248c_backlight {
-    status = "disabled";
-};
+    fragment@2 {
+        target = <&panel_hx3248c_backlight>;
+        __overlay__ {
+            status = "disabled";
+        };
+    };
 
-&panel_lvds {
-    status = "disabled";
-};
+    fragment@3 {
+        target = <&panel_lvds>;
+        __overlay__ {
+            status = "disabled";
+        };
+    };
 
-&dsi {
-    status = "okay";
-};
+    fragment@4 {
+        target = <&dsi>;
+        __overlay__ {
+            status = "okay";
+        };
+    };
 
-&lt_bridge {
-    status = "okay";
-};
+    fragment@5 {
+        target = <&lt_bridge>;
+        __overlay__ {
+            status = "okay";
+        };
+    };
 
-&lvds {
-    status = "disabled";
+    fragment@6 {
+        target = <&lvds>;
+        __overlay__ {
+            status = "disabled";
+        };
+    };
 };

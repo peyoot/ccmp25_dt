@@ -23,5 +23,3 @@
 &lt_bridge {
     status = "okay";
 };
-
-/* 无需改动 lvds 和 panel,其本身已 okay */
