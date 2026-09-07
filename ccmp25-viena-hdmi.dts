@@ -34,7 +34,7 @@
     	compatible = "Viena,system-info";
 		product-id = "Viena-CCMP25";
     	pcb-revision = "Rev 1.0";
-    	firmware-version = "DEY5.0r4-20260901";
+    	firmware-version = "DEY5.0r4-20260907-enable dualdisplay switching-hdmi-only";
 	};
 
 	aliases {
