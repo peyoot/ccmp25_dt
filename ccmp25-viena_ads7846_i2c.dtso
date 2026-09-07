@@ -10,22 +10,19 @@
     fragment@0 {
         target-path = "/";
         __overlay__ {
-            overlay-description = "ccmp25viena: tsc2046 Overlay";
+            overlay-description = "ccmp25viena: tsc2046 Overlay enable I2C TP ";
         };
     };
 
     fragment@1 {
-        target = <&spi3>;
+        target = <&touchscreen>;
         __overlay__ {
-            // 禁用原有的 spidev 节点
-            spidev@0 {
-                status = "disabled";
-            };
+            status = "disabled"; 
         };
     };
 
     fragment@2 {
-        target = <&touchscreen>;
+        target = <&touchscreen_i2c>;
         __overlay__ {
             status = "okay"; 
         };

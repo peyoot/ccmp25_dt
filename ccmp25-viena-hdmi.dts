@@ -346,28 +346,19 @@
 		interrupts = <5 IRQ_TYPE_EDGE_FALLING>;
 		pendown-gpio = <&gpiod 5 GPIO_ACTIVE_LOW>;
 
- 		ti,x-min = /bits/ 16 <50>;
+ 		ti,x-min = /bits/ 16 <20>;
 		ti,x-max = /bits/ 16 <4050>;
-		ti,y-min = /bits/ 16 <50>;
+		ti,y-min = /bits/ 16 <20>;
 		ti,y-max = /bits/ 16 <4050>;
 		ti,x-plate-ohms = /bits/ 16 <690>;
 
 		//ti,pressure-min = /bits/ 16 <80>; 
-		ti,pressure-max = /bits/ 16 <4095>; 
+        ti,pressure-max = /bits/ 16 <8191>;
+        ti,keep-vref-on;
 
-		// touchscreen-average-samples = <4>
-		ti,debounce-max = <50>;
-        ti,debounce-tol = <15>;
-		ti,debounce-rep = <3>;
-		ti,settle-delay-usec = <150>;
-		ti,settle-samples; 
-		ti,vref-delay-usecs = <100>;
-		//penirq-recheck-delay-usecs = <15>;
-		ti,keep-vref-on;
-		//ti,vref-mv = <0>;
-
-		wakeup-source;
-		status = "disabled";
+        /* 稳定时间从300us压缩至20us工业小尺寸电阻屏无需过长稳定时间 */
+        ti,settle-delay-usec = /bits/ 16 <20>;
+        status = "disabled";
 
     };
 };
@@ -377,8 +368,8 @@
 	pinctrl-names = "default", "sleep";
 	pinctrl-0 = <&ccmp25_i2c1_pins>;
 	pinctrl-1 = <&ccmp25_i2c1_sleep_pins>;
-	i2c-scl-rising-time-ns = <185>;
-	i2c-scl-falling-time-ns = <20>;
+	i2c-scl-rising-time-ns = <100>;
+	i2c-scl-falling-time-ns = <13>;
 	clock-frequency = <400000>;
 	status = "okay";
 	/* spare dmas for other usage */
@@ -486,8 +477,8 @@
     /delete-property/dma-names;
 
     //clock-frequency = <400000>;
-    //i2c-scl-rising-time-ns = <185>;
-    //i2c-scl-falling-time-ns = <20>;
+    //i2c-scl-rising-time-ns = <100>;
+    //i2c-scl-falling-time-ns = <13>;
 };
 
 &ltdc {
