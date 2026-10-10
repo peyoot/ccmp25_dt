@@ -34,7 +34,7 @@
     	compatible = "Viena,system-info";
 		product-id = "Viena-CCMP25";
     	pcb-revision = "Rev 1.0";
-    	firmware-version = "DEY5.0r4-20260907-enable dualdisplay switching-main-dtb";
+    	firmware-version = "DEY5.0r4-20261010 fix usart6 issue, pinctrl tx is AF6";
 	};
 
 	aliases {
@@ -961,7 +961,7 @@
 
     ccmp25_usart6_board_pins: ccmp25-usart6 {
         pins1 {
-            pinmux = <STM32_PINMUX('F',  5,  AF3)>, /* USART6_TX */
+            pinmux = <STM32_PINMUX('F',  5,  AF6)>, /* USART6_TX */
                      <STM32_PINMUX('G',  5,  AF3)>; /* USART6_DE */
             drive-push-pull;
             bias-disable;
