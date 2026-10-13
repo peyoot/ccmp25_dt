@@ -679,7 +679,7 @@
     /* USER CODE BEGIN usart6 */
     /delete-property/dmas;
     /delete-property/dma-names;
-    //linux,rs485-enabled-at-boot-time; // Set when using RS485.
+    linux,rs485-enabled-at-boot-time; // Set when using RS485.
     uart-has-rtscts;
     /* USER CODE END usart6 */
 };
@@ -931,7 +931,7 @@
         };
         pins2 {
             pinmux = <STM32_PINMUX('F', 14,  AF3)>; /* USART6_RX */
-            bias-disable;
+            bias-pull-up;
         };
     };
 
